@@ -1,0 +1,69 @@
+<?php
+$form = $this->form;
+$poi_id=$this->poi_id;
+$poi_type=$this->poi_type;
+?>
+
+<form id="<?php echo $form->getName();?>"
+		name="<?php echo $form->getName();?>" class="overlay topLabel page"
+		enctype="multipart/form-data"
+		method="<?php echo $form->getMethod();?>"
+		action="<?php echo $form->getAction();?>">
+
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">General Info</a></li>
+        <li><a href="#tabs-2">Amenities and Facilities</a></li>
+        <li><a href="#tabs-3">Images</a></li>
+    </ul>
+    <div id="tabs-1">
+        <?php 
+        if ($poi_type=='Stay')
+        {
+            include '_poiStayinfo.phtml';
+        }
+        if ($poi_type=='Eat')
+        {
+            include '_poiEatinfo.phtml';
+        }
+        if ($poi_type=='Things')
+        {
+            include '_poiThingsinfo.phtml';
+        }
+        ?>
+    </div>
+    <div id="tabs-2">
+        <?php 
+        if ($poi_type=='Stay')
+        {
+        include '_poiStayParams.phtml';
+                    }
+        if ($poi_type=='Eat')
+        {
+            include '_poiEatParams.phtml';
+        }
+        if ($poi_type=='Things')
+        {
+            include '_poiThingsParams.phtml';
+        }
+        ?>
+    </div>
+    <div id="tabs-3">
+        <?php include '_poiImages.phtml';?>
+    </div>
+</div>
+</form>
+ <script>
+    $(function() {
+        $( "#tabs" ).tabs();
+    });
+ </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#coin-slider').coinslider({ navigation: 
+
+true, delay: 5000 });
+	});
+</script>
+ 

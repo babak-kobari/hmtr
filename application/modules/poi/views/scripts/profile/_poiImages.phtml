@@ -1,0 +1,15 @@
+
+<?php echo $form->getElement('poi_images');?>
+<?php echo $form->getElement('submit');?>
+<?php $path='/uploads/poi/'.$this->poi_id.'/';?>
+<!-- "previous slide" button -->
+<div id='coin-slider'>
+
+<?php 
+foreach ($this->images as $image)
+{?>
+    <a href="img01_url" target="_blank">
+        <img src="<?php echo $path.$image['poiimg_path'];?>">
+    </a>    
+<?php }?>
+</div>

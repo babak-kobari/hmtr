@@ -1,0 +1,46 @@
+poiprofile:
+  route: poi/Profile
+   defaults:
+    module: poi
+    controller: profile
+    action: index
+generalinfo:
+  route: poi/generalinfo/:id
+   defaults:
+    module: poi
+    controller: profile
+    action: generalinfo
+    id:0
+amenities:
+  route: poi/amenities/:id
+   defaults:
+    module: poi
+    controller: profile
+    action: amenities
+    id:0
+images:
+  route: poi/images/:id
+   defaults:
+    module: poi
+    controller: profile
+    action: images
+    id:0
+addStay:
+  route: poi/addstay
+   defaults:
+    module: poi
+    controller: profile
+    action: addstay
+addeEat:
+  route: poi/addeat
+   defaults:
+    module: poi
+    controller: profile
+    action: addeat
+addThings:
+  route: poi/addthings
+   defaults:
+    module: poi
+    controller: profile
+    action: addthings
+

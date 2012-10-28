@@ -1,0 +1,85 @@
+login:
+  type: Zend_Controller_Router_Route_Static
+  route: login
+  defaults:
+    module: users
+    controller: login
+    action: index
+logout:
+  type: Zend_Controller_Router_Route_Static
+  route: logout
+  defaults:
+    module: users
+    controller: login
+    action: logout
+
+recoverPassword:
+  type: Zend_Controller_Router_Route
+  route: recover-password/:hash
+  defaults:
+    module: users
+    controller: login
+    action: recover-password
+
+cancelPasswordRecoveryAction:
+  type: Zend_Controller_Router_Route
+  route: cancel-password-recovery/:hash
+  defaults:
+    module: users
+    controller: login
+    action: cancel-password-recovery
+    
+forgetPassword:
+  type: Zend_Controller_Router_Route_Static
+  route: forget-password
+  defaults:
+    module: users
+    controller: register
+    action: forget-password
+    
+accountinfo:
+  route: /users/profile
+  defaults:
+    module: users
+    controller: profile
+    action: index
+    
+personalinfo:
+  route: /users/profile/personal
+  defaults:
+    module: users
+    controller: profile
+    action: personal
+    
+travelpreferences:
+  route: /users/profile/travelpreferences
+  defaults:
+    module: users
+    controller: profile
+    action: travelpreferences
+    
+usersedit:
+  route: /users/management/edit/:id
+  defaults:
+    module: users
+    controller: management
+    action: edit
+    
+usersdelete:
+  route: /users/management/delete/:id
+  defaults:
+    module: users
+    controller: management
+    action: delete
+userscreate:
+  route: /users/management/create
+  defaults:
+    module: users
+    controller: management
+    action: create
+usersvalidate:
+  route: /users/management/validate/*
+  defaults:
+    module: users
+    controller: management
+    action: validate

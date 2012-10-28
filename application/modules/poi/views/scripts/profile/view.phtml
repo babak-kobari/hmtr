@@ -1,0 +1,11 @@
+<h3><?=$this->Escape($this->poi->poi_name); ?></h3>
+<p>
+    <?= $this->Escape($this->poi->poi_group_name); ?>
+</p>
+
+<div>
+	<p><?=$this->poi->poi_ranking; ?></p>
+	<p><?=$this->poi->poi_trip_advisor_ranking; ?></p>
+	<a
+		href="<?=$this->url ( array ('controller' => 'poi','action' => 'edit','poi_id' => $this->poi->poi_id ) )?>">Edit</a>
+</div>

@@ -1,0 +1,105 @@
+
+<?php
+$diningoptions = $form->getElement ( 'poi_dining_options' )->getMultiOptions ();
+$setvalues= $form->getElement ( 'poi_dining_options' )->getValue();
+if (!is_array($setvalues))
+        $setvalues=explode(' ', $setvalues);
+if (isset ( $diningoptions )) {
+	$newrow = true;
+	$colnum = 0;
+	$totalcol = 2;
+	$doit = true;
+	?>
+<h2>Dining Options</h2>
+	<table>
+		<tbody>
+<?php
+
+}
+
+foreach ( $diningoptions as $key => $value ) {
+	if ($newrow) {
+		$newrow = false;
+		?>
+		<tr><?php
+	}
+	$colnum += 1;
+	?>
+	<td><label for="poi_dining_options-<?php echo $key;?>"><?php echo $value;?></label>
+		<input type="checkbox" name="poi_dining_options[]"
+					id="poi_dining_option-<?php echo $key;?>" value=<?php echo $key?> 
+					<?php  if(in_array($key, $setvalues))
+							 echo "checked"; 
+					else echo ''; ?>></td>
+<?php
+	if ($colnum == $totalcol) {
+		$colnum = 0;
+		?>
+		</tr><?php
+		$newrow = true;
+	}
+}
+?>
+	
+</tbody>
+</table>
+
+<?php
+$cuisineoptions= $form->getElement ( 'Cuisine' )->getMultiOptions ();
+$setvalues= $form->getElement ( 'Cuisine' )->getValue();
+if (is_null($setvalues))
+        $setvalues=array();
+elseif (!is_array($setvalues))
+        $setvalues=explode(' ', $setvalues);
+
+if (isset ( $cuisineoptions)) {
+	$newrow = true;
+	$colnum = 0;
+	$totalcol = 3;
+	$doit = true;
+	?>
+<h2>Cuisine</h2>
+	<table>
+		<tbody>
+<?php
+
+}
+
+foreach ( $cuisineoptions as $key => $value ) {
+	if ($newrow) {
+		$newrow = false;
+		?>
+		<tr><?php
+	}
+	$colnum += 1;
+	?>
+	<td><label for="Cuisine-<?php echo $key;?>"><?php echo $value;?></label>
+		<input type="checkbox" name="Cuisine[]"
+					id="Cuisine-<?php echo $key;?>" value=<?php echo $key?> 
+					<?php  if(in_array($key, $setvalues))
+							 echo "checked"; 
+					else echo ''; ?>></td>
+<?php
+	if ($colnum == $totalcol) {
+		$colnum = 0;
+		?>
+		</tr><?php
+		$newrow = true;
+	}
+}
+if ($doit) {
+	?>
+	
+</tbody>
+</table>
+
+<table>
+<tr>
+<td>
+        <?php echo $form->getElement('submit');?>
+</td>
+</tr>
+</table>
+
+<?php }?>
+

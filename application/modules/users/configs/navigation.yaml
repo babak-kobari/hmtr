@@ -1,0 +1,88 @@
+dashboard:
+  usermanagment:
+    label: Users
+    uri:
+    class: user
+    order: 2
+    pages:
+      create:
+        label: Add New User
+        module: users
+        controller: management
+        action: create
+        route: default
+      edit:
+        label: All Users
+        module: users
+        controller: management
+        action: index
+        route: default
+  statistic:
+    pages:
+      users:
+        label: Users
+        module: users
+        controller: management
+        action: stats
+        route: default
+header:
+  userlogout:
+    label: Logout
+    route: logout
+    module: users
+    controller: login
+    action: logout
+    order: 100
+  userlogin:
+    label: Login
+    route: login
+    module: users
+    controller: login
+    action: index
+    order: 100
+  userProfile:
+    label: Profile
+    route: default
+    module: users
+    controller: profile
+    action: index
+    order: 100
+  registration:
+    label: Registration
+    route: default
+    module: users
+    controller: register
+    action: index
+    order: 99
+#-------------------------------
+userleftmenu1:
+  Changepassword:
+    label: Change Passowrd
+    route: default
+    module: users
+    controller: login
+    action: recover-password
+    order: 100
+  
+  Mytravelinfo:
+    label: Travel Preferences
+    route: default
+    module: users
+    controller: profile
+    action: travelpreferences
+    order: 100
+  personallinfo:
+    label: Personal Info
+    route: default
+    module: users
+    controller: profile
+    action: personal
+    order: 100
+  accountinfo:
+    label: Account Info
+    route: default
+    module: users
+    controller: profile
+    action: index
+    order: 100
+    

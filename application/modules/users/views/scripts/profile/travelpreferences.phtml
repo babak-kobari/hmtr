@@ -1,0 +1,162 @@
+
+
+<form id="usertravelinterest" name="usertravelinterest"  
+    enctype="multipart/form-data" method="post" action="travelpreferences">
+<h3>Who do you like to travel with:</h3>
+<table width="100%" border="none">
+<tbody>
+<?php 
+$i=0;
+foreach ($this->travel_with as $row)
+{
+    if (trim($row['param_category_desc'])=='Add New')
+    {?>
+        <tr>
+        <th>
+        <a href="http://hm2t/usertrvelinterest">Add New</a>
+        </th>
+        <th>
+        </th>
+        </tr>
+    <?php
+    }
+    else
+    {?>
+        <tr>
+        <th scope="row"><label ><?php echo $row['param_category_desc'];?></label></th>
+        <td>
+        <?php if (is_null($row['trvint_rate']))$row['trvint_rate']=0;?>
+        <input type="hidden" name="<?php echo 'travel_with['.$i.'][trvint_id]';?>" 
+                value="<?php echo $row['trvint_id'];?>" >
+        <input type="hidden" name="<?php echo 'travel_with['.$i.'][trvint_user_id]';?>" 
+                value="<?php echo $row['trvint_user_id'];?>" >
+        <input type="hidden" name="<?php echo 'travel_with['.$i.'][trvint_cat]';?>" 
+                value="<?php echo $row['trvint_cat'];?>" >
+        <input type="hidden" name="<?php echo 'travel_with['.$i.'][trvint_param_id]';?>" 
+                value="<?php echo $row['trvint_param_id'];?>" >
+
+        <input type="range" name="<?php echo 'travel_with['.$i.'][trvint_rate]';?>" 
+            min="1" max="10" value="<?php echo $row['trvint_rate'];?>" 
+             step="1" size = "10"/>
+	         
+        </td>
+        </tr>
+                
+<?php
+    }
+
+    $i = $i+1;
+}
+?>
+
+</tbody>
+</table>
+
+<h3>What should be included in a great trip from your point of view:</h3>
+<table width="100%" border="none">
+<tbody>
+<?php 
+$i=0;
+foreach ($this->good_for as $row)
+{
+    if (trim($row['param_category_desc'])=='Add New')
+        {?>
+
+        <tr>
+        <th>
+        <a href="http://hm2t/usertrvelinterest">Add New</a>
+        </th>
+        <th>
+        </th>
+        </tr>
+        <?php
+        }
+    else
+    {?>
+        <tr>
+        <th scope="row"><label ><?php echo $row['param_category_desc'];?></label></th>
+        <td>
+        <?php if (is_null($row['trvint_rate']))$row['trvint_rate']=0;?>
+        <input type="hidden" name="<?php echo 'good_for['.$i.'][trvint_id]';?>" 
+                value="<?php echo $row['trvint_id'];?>" >
+        <input type="hidden" name="<?php echo 'good_for['.$i.'][trvint_user_id]';?>" 
+                value="<?php echo $row['trvint_user_id'];?>" >
+        <input type="hidden" name="<?php echo 'good_for['.$i.'][trvint_cat]';?>" 
+                value="<?php echo $row['trvint_cat'];?>" >
+        <input type="hidden" name="<?php echo 'good_for['.$i.'][trvint_param_id]';?>" 
+                value="<?php echo $row['trvint_param_id'];?>" >
+        <input type="range" name="<?php echo 'good_for['.$i.'][trvint_rate]';?>" 
+            min="1" max="10" value="<?php echo $row['trvint_rate'];?>" 
+             step="1" size = "10"/>
+                        
+        </td>
+        
+        </tr>
+                
+<?php
+    }
+
+    $i = $i+1;
+}
+?>
+
+</tbody>
+</table>
+
+<h3>I Mainly travel For:</h3>
+<table width="100%" border="none">
+<tbody>
+<?php 
+$i=0;
+foreach ($this->Travel_Objective as $row)
+{
+    if ($row['param_category_desc']=='Add New')
+    {?>
+        <tr>
+        <th>
+        <a href="http://hm2t/usertrvelinterest">Add New</a>
+        </th>
+        <th>
+        </th>
+        </tr>
+<?php
+    }
+    else
+    {?>
+        <tr>
+        <th scope="row"><label ><?php echo $row['param_category_desc'];?></label></th>
+        <td>
+        <?php if (is_null($row['trvint_rate']))$row['trvint_rate']=0;?>
+        <input type="hidden" name="<?php echo 'Travel_Objective['.$i.'][trvint_id]';?>" 
+                value="<?php echo $row['trvint_id'];?>" >
+        <input type="hidden" name="<?php echo 'Travel_Objective['.$i.'][trvint_user_id]';?>" 
+                value="<?php echo $row['trvint_user_id'];?>" >
+        <input type="hidden" name="<?php echo 'Travel_Objective['.$i.'][trvint_cat]';?>" 
+                value="<?php echo $row['trvint_cat'];?>" >
+        <input type="hidden" name="<?php echo 'Travel_Objective['.$i.'][trvint_param_id]';?>" 
+                value="<?php echo $row['trvint_param_id'];?>" >
+        <input type="range" name="<?php echo 'Travel_Objective['.$i.'][trvint_rate]';?>" 
+            min="1" max="10" value="<?php echo $row['trvint_rate'];?>" 
+             step="1" size = "10"/>
+          </td>
+        </tr>
+                
+<?php
+    }
+
+    $i = $i+1;
+}
+?>
+
+</tbody>
+</table>
+
+<dt id="submit-label">&#160;</dt><dd id="submit-element">
+<input type="submit" name="submit" id="submit" value="Update" class="btn btn-primary span1"></dd>
+
+</form>
+
+<script>
+    $(":range").rangeinput();
+</script>
+

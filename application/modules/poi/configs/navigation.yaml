@@ -1,0 +1,6 @@
+header:
+  poimenu:
+    label: Point Of Interests
+    route: poiprofile
+    order: 10
+#-------------------------------

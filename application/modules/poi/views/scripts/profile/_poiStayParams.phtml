@@ -1,0 +1,55 @@
+
+<?php
+$datas = $form->getElement ( 'poi_amenities' )->getMultiOptions ();
+$setvalues= $form->getElement ( 'poi_amenities' )->getValue();
+if (is_null($setvalues))
+        $setvalues=array();
+elseif (!is_array($setvalues))
+        $setvalues=explode(' ', $setvalues);
+if (isset ( $datas )) {
+	$newrow = true;
+	$colnum = 0;
+	$totalcol = 2;
+	$doit = true;
+	?>
+	<table>
+		<tbody>
+<?php
+
+}
+
+foreach ( $datas as $key => $value ) {
+	if ($newrow) {
+		$newrow = false;
+		?>
+		<tr><?php
+	}
+	$colnum += 1;
+	?>
+	<td><label for="poi_amenities-<?php echo $key;?>"><?php echo $value;?></label>
+		<input type="checkbox" name="poi_amenities[]"
+					id="poi_amenities-<?php echo $key;?>" value=<?php echo $key?> 
+					<?php  if(in_array($key, $setvalues))
+							 echo "checked"; 
+					else echo ''; ?>></td>
+<?php
+	if ($colnum == $totalcol) {
+		$colnum = 0;
+		?>
+		</tr><?php
+		$newrow = true;
+	}
+}
+if ($doit) {
+	?>
+	
+</tbody>
+<tfoot>
+<tr>
+<td>
+        <?php echo $form->getElement('submit');?>
+</td>
+</tr>
+</tfoot>
+</table> <?php }?>
+

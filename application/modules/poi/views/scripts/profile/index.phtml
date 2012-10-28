@@ -1,0 +1,41 @@
+<h4><a href="<?= ' /poi/addstay';?>">Add a new Stay</a></h4>
+<h4><a href="<?='/poi/addeat';?>">Add a new East and Drink</a></h4> 
+<h4><a href="<?='/poi/addthings';?>">Add a new Things to do</a></h4> 
+<p></p>
+
+
+<table class="datatable">
+	<tbody>
+			<? foreach($this->pois as $poi):  ?>        
+			<tr>
+			<td>
+				<h4>
+					<a
+						href="<?= 
+'/poi/generalinfo/'.$poi->poi_id;
+						?>">
+                        <?=$this->Escape($poi->poi_name); ?></a>
+				</h4>
+			</td>
+			<td><?=$this->Escape($poi->poi_group_name);?></td>
+			<td><?=$this->Escape($poi->poi_web_site);?></td>
+			<td><?=$this->Escape($poi->poi_stay_type);?></td>
+			<td><?=$this->Escape($poi->poi_location_type);?></td>
+<!--  makes error in Debug
+			
+			<td><img alt="abc"
+				src="<?php// "/images/poi/".$poi->DefaultImage;?>"></td>
+ -->
+			<td>/ <a
+				href="<?=$this->url ( array ('controller' => 'profile','action' => 'generalinfo','poi_id' => $poi->poi_id ) )?>">Edit</a>
+			</td>
+		</tr>
+        <? endforeach; ?>
+    </tbody>
+<? if($this->pois instanceof Zend_Paginator): ?>
+<?=
+
+	$this->paginationControl ( $this->pois, 'Sliding', 'poi/_paginator.phtml' );
+	?>
+<? endif ?>
+</table>
