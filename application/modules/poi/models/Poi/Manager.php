@@ -20,6 +20,19 @@ class Poi_Model_Poi_Manager extends Core_Model_Manager
 		return $poi_table->getPoiList ( $poicriteri, $paged = null, $short = false );
 	}
 	
+	public function getrelatedPoibyType($poi_id,$poi_type)
+	{
+	    $table= new Poi_Model_relatedpoi_Table();
+	    $rows = $table->getPoibyType($poi_id, $poi_type);
+	    return $rows;
+	}
+
+	public function getPoiListbyType($poi_tpye, $paged = null, $shoert = false) 
+	{
+	    $table= new Poi_Model_Poi_Table();
+	    $rows=$table->getPoiListbyType($poi_tpye);
+	    return $rows;
+	}
 	
 	public function savePoi(Zend_Form $form,$info,$poi_id,$poi_type,$params,$images) 
 	{
@@ -57,4 +70,5 @@ class Poi_Model_Poi_Manager extends Core_Model_Manager
 	public function getimagesbyPoiId($Poi_id) {
 		return $this->getResource ( 'poimain' )->getimagesbyPoiId ( $poi_Id );
 	}
+	
 }

@@ -48,4 +48,22 @@ class Poi_Model_Poi_Table extends Core_Db_Table_Abstract
 		}
 		return $this->fetchAll ( $select );
 	}
+	
+	public function getPoiListbyType($poi_tpye, $paged = null, $shoert = false) {
+	    $select = $this->select ();
+	    $select->from ( 'hm_poi' );
+	    $select->where('poi_type = ?',$poi_tpye);
+	
+	    if (null !== $paged) {
+	        $adapter = new Zend_Paginator_Adapter_DbTableSelect ( $select );
+	        $count = clone $select;
+	        $count->reset ( Zend_Db_Select::COLUMNS );
+	        $count->reset ( Zend_Db_Select::FROM );
+	        $count->from ( 'hm_poi', new Zend_Db_Expr ( 'COUNT(*) AS `zend_paginator_row_count`' ) );
+	        $adapter->setRowCount ( $count );
+	        $paginator = new Zend_Paginator ( $adapter );
+	        $paginator->setItemCountPerPage ( 5 )->setCurrentPageNumber ( ( int ) $paged );
+	    }
+	    return $this->fetchAll ( $select );
+	}
 }

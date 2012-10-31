@@ -148,95 +148,10 @@ class Poi_ProfileController extends Core_Controller_Action
 	     
 	}
 
-	public function amenitiesAction() 
-	{
-	    unset($poimodel);
-	    unset($row);
-	    unset($form);
-	    unset($a);
-	    unset($this->view->form);
-	    $poi_id=$this->_getParam('id');
-	    $poimodel = new Poi_Model_Poi_Table();
-	    $row = $poimodel ->getPoibyId ( $poi_id );
-	    $form = new Poi_Form_Poi_Amenities(array('poi_id'=>$poi_id));
-	    if (isset($row ))
-	        $this->view->form= $form->populate($row->toarray());
-	    else
-	    $this->view->form = $form;
-	    $a=$row->getFacl()->toarray();
-	    $facl_value = array();
-	     
-	    $this->view->title = 'amenities';
-
-	    foreach ($a as $key => $value)
-	    {
-	        $facl_value=array_merge($facl_value,explode(' ',$value['poifcl_param_id']));
-	    }
-	    
-	    $form->_setfaclvalue ($facl_value);
-	    $this->view->poi_id = $poi_id;
-	    if ($this->_request->isPost())
-	    {
-	        $info= $this->_getAllParams();
-	         
-//	        $info= $form->getValues();
-	        $faclrow=new Poi_Model_poifacl_Table();
-	        $faclrow->savefaclrows ( $info ['poi_amenities'], $poi_id,$a );
-	         
-	        $this->_helper->flashMessenger('Profile Updated');
-    	    $form->_setfaclvalue ($info ['poi_amenities']);
-	        $this->render('amenities');
-	    }
-	    
-	     
-	}
 	public function relatedAction() 
 	{
-	}
-	public function imagesAction() 
-	{
-	    unset($poimodel);
-	    unset($row);
-	    unset($form);
-	    unset($a);
-	    unset($this->view->form);
 	    $poi_id=$this->_getParam('id');
-	    $poimodel = new Poi_Model_Poi_Table();
-	    $row = $poimodel ->getPoibyId ( $poi_id );
-	    $form = new Poi_Form_Poi_images(array('poi_id'=>$poi_id));
-	    if (isset($row ))
-	        $this->view->form= $form->populate($row->toarray());
-	    else
-	    $this->view->form = $form;
-	    $a=$row->getImages()->toarray();
-	    $this->view->images=$a;
-	     
-	    
-	    $this->view->title = 'Images';
-	    
-	    $this->view->poi_id = $poi_id;
-
-	    $this->view->headLink()->appendStylesheet('/css/default/slideshow.css');
-	    $this->view->headScript()->appendFile('http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js');
-	     
-	    
-	    if ($this->_request->isPost())
-	    {
-	        $form->getElement ( 'poi_images' )->receive ();
-	        $info=$form->getElement ( 'poi_images' )->getValue();
-	        
-	         
-	        //	        $info= $form->getValues();
-	        $imagerow=new Poi_Model_poiimages_Table();
-	        $imagerow->saveimagesrows( $info, $poi_id);
-	    
-	        $this->_helper->flashMessenger('Profile Updated');
-	        unset($this->view->images);
-	        $a=$row->getImages()->toarray();
-	        $this->view->images=$a;
-	        $this->render('images');
-//	        $this->_helper->redirector('images');
-	    }
-	     
+	    $poi_type=$this->_getParam('poi_type');
 	}
+
 }

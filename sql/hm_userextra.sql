@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 10, 2012 at 11:27 PM
+-- Generation Time: Oct 31, 2012 at 12:44 AM
 -- Server version: 5.1.50
 -- PHP Version: 5.3.14
 
@@ -24,8 +24,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Table structure for table `hm_userextra`
 --
-DROP TABLE IF EXISTS `hm_userextra`;
 
+DROP TABLE IF EXISTS `hm_userextra`;
 CREATE TABLE IF NOT EXISTS `hm_userextra` (
   `wp_user_id` bigint(20) NOT NULL,
   `role` varchar(100) NOT NULL DEFAULT 'customer',
@@ -36,5 +36,5 @@ CREATE TABLE IF NOT EXISTS `hm_userextra` (
   `about_me` varchar(2000) DEFAULT NULL,
   `travel_style` int(10) DEFAULT NULL,
   `travel_type` int(10) DEFAULT NULL,
-  PRIMARY KEY (`wp_users_id`)
-) 
+  PRIMARY KEY (`wp_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

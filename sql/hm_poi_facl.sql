@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 08, 2012 at 07:39 PM
+-- Generation Time: Oct 31, 2012 at 12:43 AM
 -- Server version: 5.1.50
 -- PHP Version: 5.3.14
 
@@ -30,5 +30,6 @@ CREATE TABLE IF NOT EXISTS `hm_poi_facl` (
   `poifcl_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `poifcl_poi_id` int(10) NOT NULL,
   `poifcl_param_id` int(10) NOT NULL,
+  `poifcl_param_category_id` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`poifcl_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;

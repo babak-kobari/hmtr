@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 06, 2012 at 02:15 AM
+-- Generation Time: Oct 31, 2012 at 12:44 AM
 -- Server version: 5.1.50
 -- PHP Version: 5.3.14
 
@@ -16,7 +16,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `zfcore`
+-- Database: `hmt`
 --
 
 -- --------------------------------------------------------
@@ -54,9 +54,15 @@ CREATE TABLE IF NOT EXISTS `hm_users` (
   `about_me` varchar(2000) DEFAULT NULL,
   `travel_style` int(10) DEFAULT NULL,
   `travel_type` int(10) DEFAULT NULL,
-
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_login` (`login`),
   UNIQUE KEY `unique_email` (`email`),
   UNIQUE KEY `activate` (`hashCode`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10067 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10068 ;
+
+--
+-- Dumping data for table `hm_users`
+--
+
+INSERT INTO `hm_users` (`id`, `login`, `email`, `password`, `salt`, `firstname`, `lastname`, `avatar`, `role`, `status`, `created`, `updated`, `logined`, `ip`, `count`, `hashCode`, `inform`, `facebookId`, `twitterId`, `googleId`, `birth_date`, `nationality`, `currentlocation`, `gender`, `about_me`, `travel_style`, `travel_type`) VALUES
+(10067, 'babak', 'bb@b2b2.com', '643ea1f0edbc388c25eb35722a610dd6', 'eaf1d8505e846732a3e7ba4e6e4efd01', 'babak', 'kobari', NULL, 'user', 'active', '2012-10-06 19:19:08', '2012-10-27 10:37:42', '2012-10-27 10:37:42', 2130706433, 34, '588d47615180f47d83e429b489464301', 'false', NULL, NULL, NULL, '2012-12-12', 23, 23, 1, 'sdafsdf', 260, 23);
