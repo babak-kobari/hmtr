@@ -148,10 +148,77 @@ class Poi_ProfileController extends Core_Controller_Action
 	     
 	}
 
+	
 	public function relatedAction() 
 	{
 	    $poi_id=$this->_getParam('id');
 	    $poi_type=$this->_getParam('poi_type');
+	    $staylist=$this->_poimodel->getPoiListbyType('Stay')->toArray();
+	    $eatlist=$this->_poimodel->getPoiListbyType('Eat')->toArray();
+	    $thingslist=$this->_poimodel->getPoiListbyType('Things')->toArray();
+	    $relatedlist=$this->_poimodel->getrelatedPoibyType($poi_id);
+
+	    $staylist=$this->removelist($staylist,$relatedlist);
+	    $eatlist=$this->removelist($eatlist,$relatedlist);
+	    $thingslist=$this->removelist($thingslist,$relatedlist);
+
+	    $form = new Poi_Form_Poi_RelatedPoi(array('poi_id'=>$poi_id,
+	                                              'poi_type'=>$poi_type,
+	                                              'stay_list'=>$staylist,
+	                                              'eat_list' =>$eatlist,
+	                                              'things_list'=>$thingslist,
+	                                              'related_list'=>$relatedlist));
+
+	    $this->view->headScript()->
+	        appendFile('https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places');
+	    $this->view->headScript()->appendFile('/js/googlemap.js');
+	    $this->view->headScript()->appendFile('/js/jquery-1.8.2.js');
+	    $this->view->headScript()->appendFile('/js/jquery-ui.js');
+	    $this->view->headLink()->appendStylesheet('/css/default/jquery-ui.css');
+	     
+        $this->view->form = $form;
+        $this->view->title = 'Related Point Of Interest';
+        $this->view->poi_id = $poi_id;
+        $this->view->poi_type=$poi_type;
+        $this->view->realated__type=$relatedlist;
+        $this->view->stay_list=$staylist;
+        $this->view->eat_list=$eatlist;
+        $this->view->things_list=$thingslist;
+        
+	    
+	    
+	}
+	
+	
+	
+	
+	
+	
+	private function removelist($fiestarray,$secondarray)
+	{
+	    $result=array();
+	    $i=0;
+	    foreach ($fiestarray as $row) 
+	    {
+	        if (!$this->in_array_r($row['poi_id'], $secondarray))
+	        {
+	            $result[$i++]=$row;
+	        }
+	                
+	    }
+	    return $result;
+	    
+	}
+	
+	private function in_array_r($needle, $haystack) {
+	    foreach ($haystack as $item) {
+	        if ($needle==$item['related_poi_id'])
+	        {
+	            return true;
+	        }
+	    }
+	
+	    return false;
 	}
 
 }

@@ -11,19 +11,12 @@ generalinfo:
     controller: profile
     action: generalinfo
     id:0
-amenities:
-  route: poi/amenities/:id
+related:
+  route: poi/related/:id
    defaults:
     module: poi
     controller: profile
-    action: amenities
-    id:0
-images:
-  route: poi/images/:id
-   defaults:
-    module: poi
-    controller: profile
-    action: images
+    action: related
     id:0
 addStay:
   route: poi/addstay

@@ -3,6 +3,8 @@ $form = $this->form;
 $poi_id=$this->poi_id;
 $poi_type=$this->poi_type;
 ?>
+<a
+href="<?= '/poi/related/'. $poi_id;?>">Related POI</a>
 
 <form id="<?php echo $form->getName();?>"
 		name="<?php echo $form->getName();?>" class="overlay topLabel page"
@@ -16,7 +18,7 @@ $poi_type=$this->poi_type;
         <li><a href="#tabs-1">General Info</a></li>
         <li><a href="#tabs-2">Amenities and Facilities</a></li>
         <li><a href="#tabs-3">Images</a></li>
-    </ul>
+        </ul>
     <div id="tabs-1">
         <?php 
         if ($poi_type=='Stay')
@@ -61,9 +63,7 @@ $poi_type=$this->poi_type;
  </script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#coin-slider').coinslider({ navigation: 
-
-true, delay: 5000 });
+		$('#coin-slider').coinslider({ navigation: true, delay: 5000 });
 	});
 </script>
  

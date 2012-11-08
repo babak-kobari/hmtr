@@ -2,7 +2,9 @@
       {
           var lat = document.getElementById('poi_lat').value;
           var lon = document.getElementById('poi_lon').value;
-          var mapOptions = 
+//    	  var lat = 37.4419;
+//    	  var lon = -122.1419;
+    	  var mapOptions = 
           {
         		  center: new google.maps.LatLng(lat, lon),
         		  zoom: 13,
