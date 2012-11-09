@@ -157,6 +157,7 @@ class Poi_ProfileController extends Core_Controller_Action
 	    $eatlist=$this->_poimodel->getPoiListbyType('Eat')->toArray();
 	    $thingslist=$this->_poimodel->getPoiListbyType('Things')->toArray();
 	    $relatedlist=$this->_poimodel->getrelatedPoibyType($poi_id);
+	    $thispoi = $this->_poimodel->getPoibyId($poi_id)->toArray();
 
 	    $staylist=$this->removelist($staylist,$relatedlist);
 	    $eatlist=$this->removelist($eatlist,$relatedlist);
@@ -168,13 +169,13 @@ class Poi_ProfileController extends Core_Controller_Action
 	                                              'eat_list' =>$eatlist,
 	                                              'things_list'=>$thingslist,
 	                                              'related_list'=>$relatedlist));
-
-	    $this->view->headScript()->
-	        appendFile('https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places');
-	    $this->view->headScript()->appendFile('/js/googlemap.js');
+        $mykey='AIzaSyBTdIhb3x2S7P-62U2q-5EYDU1v29IyJF0';
+	    $this->view->headScript()->appendFile('/js/poimarker.js');
 	    $this->view->headScript()->appendFile('/js/jquery-1.8.2.js');
 	    $this->view->headScript()->appendFile('/js/jquery-ui.js');
 	    $this->view->headLink()->appendStylesheet('/css/default/jquery-ui.css');
+	    $this->view->headScript()->
+	    appendFile('https://maps.googleapis.com/maps/api/js?sensor=false');
 	     
         $this->view->form = $form;
         $this->view->title = 'Related Point Of Interest';
@@ -184,6 +185,7 @@ class Poi_ProfileController extends Core_Controller_Action
         $this->view->stay_list=$staylist;
         $this->view->eat_list=$eatlist;
         $this->view->things_list=$thingslist;
+        $this->view->thispoi=$thispoi;
         
 	    
 	    
