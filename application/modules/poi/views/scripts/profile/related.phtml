@@ -17,6 +17,7 @@ loadScript();
 href="<?= '/poi/generalinfo/'. $poi_id;?>">General Information</a>
 <input id="thispoi_lat" name = "thispoi_lat" type="hidden" value="<?php echo $thispoi['poi_lat'];?>">
 <input id="thispoi_lon" name = "thispoi_lon" type="hidden" value="<?php echo  $thispoi['poi_lon'];?>">
+<input id="thispoi_id" name = "thispoi_id" type="hidden" value="<?php echo  $thispoi['poi_id'];?>">
 
 <!-- Dragable-->
 <div id='container'>
@@ -24,55 +25,66 @@ href="<?= '/poi/generalinfo/'. $poi_id;?>">General Information</a>
 <input type="text" name="eatsearch" id="eatsearch" value="" style="width: 30%;margin-left:  4%">
 <input type="text" name="thingssearch" id="thingssearch" value=""style="width: 30%;margin-left:  1%">
 
-<div >
+<div id="divstaylist">
 <ul id="staylist" class="poilist" style="display:block; width: 30%; height: 30%; overflow: auto;">
 <?php 
 $i=0;
 foreach ($stay_list as $stay)
 {?>
     <li id=<?php echo $stay['poi_id'];?> class="ui-state-default" 
-        data-lat=<?php echo $stay['poi_lat']?> data-lon = <?php echo $stay['poi_lon']?>
-        style="cursor:move;"><?php echo $stay['poi_name']?></li>
-   
+        data-lat=<?php echo $stay['poi_lat']?> data-lon = <?php echo $stay['poi_lon']?> data-poitype=<?php echo $stay['poi_type']?>
+        style="cursor:move;">
+    	<a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
+		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
+        <?php echo $stay['poi_name']?>
+	</li>
     <?php }
     
 ?>
 </ul>
 </div>
 
-<div >
+<div id="diveatlist">
 <ul id="eatlist" class="poilist"  style="display:block;float:left; width: 30%; height: 30%; overflow: auto;">
 <?php 
 foreach ($eat_list as $eat)
 {?>
     <li id=<?php echo $eat['poi_id'];?> class="ui-state-default" 
-        data-lat=<?php echo $eat['poi_lat']?> data-lon = <?php echo $eat['poi_lon']?>
-        style="cursor:move;"><?php echo $eat['poi_name']?></li>
+        data-lat=<?php echo $eat['poi_lat']?> data-lon = <?php echo $eat['poi_lon']?> data-poitype=<?php echo $eat['poi_type']?>
+        style="cursor:move;">
+    	<a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
+		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
+        <?php echo $eat['poi_name']?>
+	</li>
     
     <?php }
 ?>
 </ul>
 </div>
 
-<div>
-
+<div id="divthingslist">
 <ul id="thingslist" class="poilist" style="float:left; 30%; height: 30%; overflow: auto;">
 <?php 
 foreach ($things_list as $things)
 {?>
     <li id=<?php echo $things['poi_id'];?> class="ui-state-default" 
-        data-lat=<?php echo $things['poi_lat']?> data-lon = <?php echo $things['poi_lon']?>
-        style="cursor:move;"><?php echo $things['poi_name']?></li>
+        data-lat=<?php echo $things['poi_lat']?> data-lon = <?php echo $things['poi_lon']?> data-poitype=<?php echo $things['poi_type']?>
+        style="cursor:move;">
+    	<a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
+		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
+        <?php echo $things['poi_name']?>
+	</li>
 <?php }
 ?>
 </ul>
 </div>
+<div id="tooltip" class="tooltip"></div>
 <br style="clear: both;" />
 <p></p>
 
 <!-- dropable -->
-<div  >
-<ul id = "relatedlist" class="droptrue" style="height: 10%; overflow: auto; ">
+<div id="divrelatedlist" >
+<ul id = "relatedlist"  class="poilist" style="height: 10%; overflow: auto; ">
 <?php 
 if (!is_array($related_list))
     $related_list=array();
@@ -80,68 +92,155 @@ if (!is_array($related_list))
 <?php 
 foreach ($related_list as $related)
 {?>
-    <li class="placeholder" style="cursor:move;"><?php echo $related['poi_name']?></li>
+
+    <li id=<?php echo $related['poi_id'];?> class="ui-state-default" 
+        data-lat=<?php echo $related['poi_lat']?> data-lon = <?php echo $related['poi_lon']?> data-poitype=<?php echo $related['poi_type']?>
+        style="cursor:move;">
+    	<a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
+		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
+        <?php echo $related['poi_name']?>
+	</li>
 <?php }
 ?>
 
 </ul>
 </div>
 
-<div id ='tag_div_helper'></div>
 </div>
 <div id="map_canvas"></div>
+  <script>
+  $(document).ready(function() {
+		var $stay_list = $( "#staylist" );
+		var $related = $( "#relatedlist" );
+  
+		var dragops = {
+				connectWith: "#relatedlist",
+				revert:true,
+				};
+		var dropops = {
+				update: function(event, ui) {
+					var mapid = ui.item.attr("id");
+				    var poi_lat = ui.item.attr("data-lat");
+					var poi_lon = ui.item.attr("data-lon");
+					relateItem( ui.item );
+					addMarker(poi_lat,poi_lon,'r',mapid);
+					
+					}
+				};
+		$( "#thingslist" ).sortable(dragops);
+		$( "#eatlist" ).sortable(dragops);
+		$( "#staylist" ).sortable(dragops);
+	    $( "#relatedlist" ).sortable(dropops);
+	    
+	    $("#staysearch").keyup(function(){
+	        var text = $(this).val();
+	        $('#staylist li').each(function(){
+	             if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
+	                 $(this).hide();
+	             else
+	                $(this).show();});     
+	    });
+	    $("#eatsearch").keyup(function(){
+	        var text = $(this).val();
+	        $('#eatlist li').each(function(){
+	            if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
+	                $(this).hide();
+	             else
+	                $(this).show();});     
+	    });
+	    $("#thingssearch").keyup(function(){
+	        var text = $(this).val();
+	        $('#thingslist li').each(function(){
+	            if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
+	                $(this).hide();
+	             else
+	                $(this).show();});     
+	    });
+	    function viewItem($item) {
+			    var id = $item;
+			    var a = 'http://myapp/poi/view/'+id;
+			    $.ajax({
+			        url: a,
+			        success: function(data){
+			            var digops = {
+	            			autoOpen: false,
+	            	    	resizable : false,
+	    	        		show: true,
+	    	        		hide: true
+	    	        	    };
+			            var divtooltip = document.getElementById("tooltip");
+			            divtooltip.innerHTML = data;
+			            $( "#tooltip" ).dialog(digops );		                 
+					    $("#tooltip").dialog("open");},
+	      	});
+		};
+		// Push to related function
+		var move_up_icon = "<a href='' title='take the POI back' class='ui-icon ui-icon-arrowreturnthick-1-n'>The the POI Back</a>";
+		function relateItem( $item ) {
+		$item.fadeOut(function() {
 
-<script>
-$(function() {
-	var dragops = {
-			connectWith: "#relatedlist",
-			revert:true,
-			};
-	var dropops = {
-			update: function(event, ui) {
-				var poi_lat = ui.item.attr("data-lat");
-				var poi_lon = ui.item.attr("data-lon");
-				addMarker(poi_lat,poi_lon);
+				$item.find( "a.ui-icon-arrowreturnthick-1-s" ).remove();
+				$item.append( move_up_icon).appendTo( $related ).fadeIn(function() {});
+			});
+		}
+
+		// image recycle function
+		var move_down_icon = "<a href='' title='Relat this POI' class='ui-icon ui-icon-arrowreturnthick-1-s'>Delete image</a>";
+		function recycleItem( $item,$itemtype ) {
+		$item.fadeOut(function() {
+			if ($itemtype=='Stay'){
+			    	$item
+					.find( "a.ui-icon-arrowreturnthick-1-n" )
+						.remove()
+					.end()
+					.append( move_down_icon)
+					.appendTo( '#staylist' )
+					.fadeIn();};
+		    if ($itemtype=='Eat'){
+				    $item
+					.find( "a.ui-icon-arrowreturnthick-1-n" )
+						.remove()
+					.end()
+					.append( move_down_icon)
+					.appendTo( '#eatlist' )
+					.fadeIn();};
+				    if ($itemtype=='Things'){
+					    $item
+						.find( "a.ui-icon-arrowreturnthick-1-n" )
+							.remove()
+						.end()
+						.append( move_down_icon)
+						.appendTo( '#thingslist' )
+						.fadeIn();};
+		});
+		var mapid= $item.attr("id");
+		removeMarker(mapid);
+};
+		
+		$( "#staylist li, #eatlist li, #thingslist li,#relatedlist li" ).click(function(event ) {
+			var $item = $( this ),
+				$target = $( event.target ),
+				$itemid=$( this ).attr('id'),
+		        $itemtype=$( this ).attr('data-poitype');
 				
-				}
+			if ( $target.is( "a.ui-icon-arrowreturnthick-1-s" ) ) 
+			{
+			    var poi_lat = $( this ).attr("data-lat");
+				var poi_lon = $( this ).attr("data-lon");
+				addMarker(poi_lat,poi_lon,'r',$itemid);
+			    relateItem( $item );
+			} else if ( $target.is( "a.ui-icon-zoomin" ) ) {
+				viewItem( $itemid );
+			} else if ( $target.is( "a.ui-icon-arrowreturnthick-1-n" ) ) {
+				recycleItem( $item,$itemtype );
 			};
-			
-	$( "#thingslist" ).sortable(dragops);
-	$( "#eatlist" ).sortable(dragops);
-	$( "#staylist" ).sortable(dragops);
-    $( "#relatedlist" ).sortable(dropops);
-    
-    $("#staysearch").keyup(function(){
-        var text = $(this).val();
-        $('#staylist li').each(function(){
-             if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
-                 $(this).hide();
-             else
-                $(this).show();});     
-    });
-    $("#eatsearch").keyup(function(){
-        var text = $(this).val();
-        $('#eatlist li').each(function(){
-            if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
-                $(this).hide();
-             else
-                $(this).show();});     
-    });
-    $("#thingssearch").keyup(function(){
-        var text = $(this).val();
-        $('#thingslist li').each(function(){
-            if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
-                $(this).hide();
-             else
-                $(this).show();});     
-    });
+
+			return false;
+		});
+		
+	    
 });
-
-</script>
-<script type="text/javascript">
-<!--
-
-//-->
+	  
 </script>
 <style>
     .ui-state-default.hide { display:none; }
@@ -170,4 +269,15 @@ $(function() {
     padding: 5px; 
     font-size: 1.2em; 
     width: 120px; }
+.tooltip {
+    display:none;
+    height:163px;
+    padding:40px 30px 10px 30px;
+    width:310px;
+    font-size:11px;
+    overflow: auto;
+    color:#fff;}
+.poilist li a { float: right; }
+.poilist li a.ui-icon-zoomin { float: left; }
+    
 </style>

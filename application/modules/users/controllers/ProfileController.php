@@ -99,6 +99,7 @@ class Users_ProfileController extends Core_Controller_Action
                 'travel_with' => $travel_with,'good_for'=>$good_for,'Travel_Objective'=>$travel_objective ));
             $this->view->headLink()->appendStylesheet('/css/default/skin1.css');
             $this->view->headScript()->appendFile('http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js');
+            
         }
         if ($this->_request->isPost())
         {

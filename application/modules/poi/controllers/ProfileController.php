@@ -99,17 +99,11 @@ class Poi_ProfileController extends Core_Controller_Action
 	    if ($poi_type=='Eat' and isset($facl_value['Cuisine']))
     	    $form->_setfaclvalue ($facl_value['Cuisine'],'Cuisine');
 	     
-	    
-	     
-	    $this->view->headScript()->
-	        appendFile('https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places');
-	    $this->view->headScript()->appendFile('http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js');
+        $this->view->headScript()->appendFile('/js/coin-slider.min.js');
+	    $this->view->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places');
 	    $this->view->headScript()->appendFile('/js/googlemap.js');
-	    $this->view->headScript()->appendFile('/js/jquery-1.8.2.js');
-	    $this->view->headScript()->appendFile('/js/jquery-ui.js');
-	    $this->view->headScript()->appendFile('/js/coin-slider.min.js');
-	    $this->view->headLink()->appendStylesheet('/css/default/coin-slider-styles.css');
-	    $this->view->headLink()->appendStylesheet('/css/default/jquery-ui.css');
+        $this->view->headLink()->appendStylesheet('/css/default/coin-slider-styles.css');
+	    $this->view->headLink()->appendStylesheet('/css/default/jquery-ui-1.9.1.css');
 	     
 	    $this->view->title = 'Point Of Interest';
 	    $this->view->poi_id = $poi_id;
@@ -170,12 +164,9 @@ class Poi_ProfileController extends Core_Controller_Action
 	                                              'things_list'=>$thingslist,
 	                                              'related_list'=>$relatedlist));
         $mykey='AIzaSyBTdIhb3x2S7P-62U2q-5EYDU1v29IyJF0';
-	    $this->view->headScript()->appendFile('/js/poimarker.js');
-	    $this->view->headScript()->appendFile('/js/jquery-1.8.2.js');
-	    $this->view->headScript()->appendFile('/js/jquery-ui.js');
-	    $this->view->headLink()->appendStylesheet('/css/default/jquery-ui.css');
-	    $this->view->headScript()->
-	    appendFile('https://maps.googleapis.com/maps/api/js?sensor=false');
+        $this->view->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?sensor=false');
+        $this->view->headScript()->appendFile('/js/poimarker.js');
+        $this->view->headLink()->appendStylesheet('/css/default/jquery-ui-1.9.1.css');
 	     
         $this->view->form = $form;
         $this->view->title = 'Related Point Of Interest';
@@ -191,7 +182,55 @@ class Poi_ProfileController extends Core_Controller_Action
 	    
 	}
 	
-	
+	public function viewAction()
+	{
+	    $poi_id=$this->_getParam('id');
+	    $params=array('Amenities'=>array(),
+	            'Dining_Options'=>array(),
+	            'Cuisine'=>array());
+	    $images=array();
+	    $row = $this->_poimodel->getPoibyId ( $poi_id );
+	    $poi_type=$row['poi_type'];
+	    $images=$row->getImages()->toarray();
+	        if ($poi_type=='Stay')
+	        {
+	            $params['Amenities']=$row->getFacl('Amenities')->toarray();
+	        }
+	        if ($poi_type=='Eat')
+	        {
+	            $params['Dining_Options']=$row->getFacl('Dining_Options')->toarray();
+	            $params['Cuisine']=$row->getFacl('Cuisine')->toarray();
+	        }
+	    $facl_value = array();
+	    foreach ($params as $key => $value)
+	    {
+	        $facl_temp = array();
+	        foreach ($value as $key2 => $value2)
+	        {
+	            $facl_temp=array_merge($facl_temp,explode(' ',$value2['poifcl_param_id']));
+	        }
+	        $facl_value[$key]=$facl_temp;
+	    }
+	    
+	     
+	    $form = new Poi_Form_Poi_Generalinfo(array('poi_id'=>$poi_id,'poi_type'=>$poi_type));
+	    
+	    if (isset($row ))
+	        $this->view->form= $form->populate($row->toarray());
+
+	    if ($poi_type=='Stay' and isset($facl_value['Amenities']))
+	        $form->_setfaclvalue ($facl_value['Amenities'],'poi_amenities');
+	    if ($poi_type=='Eat' and isset($facl_value['Dining_Options']))
+	        $form->_setfaclvalue ($facl_value['Dining_Options'],'poi_dining_options');
+	    if ($poi_type=='Eat' and isset($facl_value['Cuisine']))
+	        $form->_setfaclvalue ($facl_value['Cuisine'],'Cuisine');
+	    $this->view->poi_id = $poi_id;
+	    $this->view->poi_type=$poi_type;
+	    $this->view->images=$images;
+	    $row = $row->toArray();
+	    $this->view->row=$row;
+        $this->_helper->layout->disableLayout();	
+	}
 	
 	
 	

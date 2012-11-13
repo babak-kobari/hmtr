@@ -12,7 +12,8 @@ $class[] = 'a-' . $request->getActionName();
 echo $this->headTitle();
 $this->headLink()->appendStylesheet('/css/default/layout.css');
 $this->headLink()->appendStylesheet('/css/default/text.css');
-//$this->loadSkin($this->skin);
+$this->headScript()->appendFile('/js/jquery-1.8.2.js');
+$this->headScript()->appendFile('/js/jquery-ui.js');
 echo $this->headLink();
 echo $this->headScript();
 ?>

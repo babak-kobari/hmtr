@@ -1,11 +1,19 @@
-<h3><?=$this->Escape($this->poi->poi_name); ?></h3>
-<p>
-    <?= $this->Escape($this->poi->poi_group_name); ?>
-</p>
+<?php
+$form = $this->form;
+$poi_id=$this->poi_id;
+$poi_type=$this->poi_type;
+$row=$this->row;
+?>
 
-<div>
-	<p><?=$this->poi->poi_ranking; ?></p>
-	<p><?=$this->poi->poi_trip_advisor_ranking; ?></p>
-	<a
-		href="<?=$this->url ( array ('controller' => 'poi','action' => 'edit','poi_id' => $this->poi->poi_id ) )?>">Edit</a>
-</div>
+<h2> Name      : <?php echo $row['poi_name'];?></h2>
+<h2> Group Name:<?php echo $row['poi_group_name'];?></h2>
+<?php $path='/uploads/poi/'.$this->poi_id.'/';?>
+<?php 
+foreach ($this->images as $image)
+{?>
+    <a href="img01_url" target="_blank">
+        <img width="100" height="100" src="<?php echo $path.$image['poiimg_path'];?> ">
+    </a>    
+<?php break;}?>
+
+

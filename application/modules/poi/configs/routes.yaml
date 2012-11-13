@@ -18,6 +18,13 @@ related:
     controller: profile
     action: related
     id:0
+view:
+  route: poi/view/:id
+   defaults:
+    module: poi
+    controller: profile
+    action: view
+    id:0
 addStay:
   route: poi/addstay
    defaults:

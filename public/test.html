@@ -91,3 +91,65 @@ script.src = "https://maps.googleapis.com/maps/api/js?key=" + myKey + "&sensor=f
                    var lat = document.getElementById('poi_lat').value;
         document.getElementById('poi_lat').value= latcor;
            
+////////////////////////////////////////////////////////////////////
+$(function() {
+	var dragops = {
+			connectWith: "#relatedlist",
+			revert:true,
+			};
+	var dropops = {
+			update: function(event, ui) {
+				var poi_lat = ui.item.attr("data-lat");
+				var poi_lon = ui.item.attr("data-lon");
+				addMarker(poi_lat,poi_lon);
+				
+				}
+			};
+			
+	$( "#thingslist" ).sortable(dragops);
+	$( "#eatlist" ).sortable(dragops);
+	$( "#staylist" ).sortable(dragops);
+    $( "#relatedlist" ).sortable(dropops);
+    
+    $("#staysearch").keyup(function(){
+        var text = $(this).val();
+        $('#staylist li').each(function(){
+             if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
+                 $(this).hide();
+             else
+                $(this).show();});     
+    });
+    $("#eatsearch").keyup(function(){
+        var text = $(this).val();
+        $('#eatlist li').each(function(){
+            if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
+                $(this).hide();
+             else
+                $(this).show();});     
+    });
+    $("#thingssearch").keyup(function(){
+        var text = $(this).val();
+        $('#thingslist li').each(function(){
+            if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
+                $(this).hide();
+             else
+                $(this).show();});     
+    });
+    $('#staylist li').hover(function () {
+        var id = $(this).attr('id');
+        var a = 'http://myapp/poi/generalinfo/'+id;
+        $.ajax({
+      	  url: a,
+        	success: function(data){
+//                var divtooltip = document.getElementById("tooltop");
+//                 divtooltip.innerHTML = data;
+          	},
+      	    async: false,
+      	});
+    });
+ });
+           
+           
+           
+           
+           
