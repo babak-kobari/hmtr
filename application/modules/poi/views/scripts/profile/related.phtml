@@ -1,5 +1,4 @@
 <?php
-$form = $this->form;
 $poi_id=$this->poi_id;
 $poi_type=$this->poi_type;
 $stay_list=$this->stay_list;
@@ -86,18 +85,19 @@ foreach ($things_list as $things)
 <div id="divrelatedlist" >
 <ul id = "relatedlist"  class="poilist" style="height: 10%; overflow: auto; ">
 <?php 
-if (!is_array($related_list))
-    $related_list=array();
+//if (!is_array($related_list))
+//    $related_list=array();
 ?>
 <?php 
 foreach ($related_list as $related)
+
 {?>
 
     <li id=<?php echo $related['poi_id'];?> class="ui-state-default" 
         data-lat=<?php echo $related['poi_lat']?> data-lon = <?php echo $related['poi_lon']?> data-poitype=<?php echo $related['poi_type']?>
         style="cursor:move;">
     	<a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
-		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
+		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-n">Push to Related POI</a>
         <?php echo $related['poi_name']?>
 	</li>
 <?php }
@@ -108,23 +108,27 @@ foreach ($related_list as $related)
 
 </div>
 <div id="map_canvas"></div>
-  <script>
+<script>
   $(document).ready(function() {
-		var $stay_list = $( "#staylist" );
 		var $related = $( "#relatedlist" );
-  
+		var $stay    = $( "#staylist" );
+		var $eat    = $( "#eatlist" );
+		var $things    = $( "#thingslist" );
+		
 		var dragops = {
 				connectWith: "#relatedlist",
 				revert:true,
 				};
 		var dropops = {
+				connectWith: "#staylist, #eatlist, #thingslist",
+				revert:true,
 				update: function(event, ui) {
 					var mapid = ui.item.attr("id");
-				    var poi_lat = ui.item.attr("data-lat");
-					var poi_lon = ui.item.attr("data-lon");
-					relateItem( ui.item );
-					addMarker(poi_lat,poi_lon,'r',mapid);
+				    var lat2 = ui.item.attr("data-lat");
+					var lon2 = ui.item.attr("data-lon");
 					
+					relateItem( ui.item );
+					addMarker(lat2,lon2,'r',mapid);
 					}
 				};
 		$( "#thingslist" ).sortable(dragops);
@@ -138,7 +142,8 @@ foreach ($related_list as $related)
 	             if($(this).text().toUpperCase().indexOf(text.toUpperCase()) == -1)
 	                 $(this).hide();
 	             else
-	                $(this).show();});     
+	                $(this).show();
+	        });     
 	    });
 	    $("#eatsearch").keyup(function(){
 	        var text = $(this).val();
@@ -182,39 +187,25 @@ foreach ($related_list as $related)
 				$item.find( "a.ui-icon-arrowreturnthick-1-s" ).remove();
 				$item.append( move_up_icon).appendTo( $related ).fadeIn(function() {});
 			});
+	    addRow($item,'insert');
 		}
 
 		// image recycle function
-		var move_down_icon = "<a href='' title='Relat this POI' class='ui-icon ui-icon-arrowreturnthick-1-s'>Delete image</a>";
+		var move_icon_down= "<a href='' title='Relat this POI' class='ui-icon ui-icon-arrowreturnthick-1-s'>Delete image</a>";
 		function recycleItem( $item,$itemtype ) {
-		$item.fadeOut(function() {
-			if ($itemtype=='Stay'){
-			    	$item
-					.find( "a.ui-icon-arrowreturnthick-1-n" )
-						.remove()
-					.end()
-					.append( move_down_icon)
-					.appendTo( '#staylist' )
-					.fadeIn();};
-		    if ($itemtype=='Eat'){
-				    $item
-					.find( "a.ui-icon-arrowreturnthick-1-n" )
-						.remove()
-					.end()
-					.append( move_down_icon)
-					.appendTo( '#eatlist' )
-					.fadeIn();};
-				    if ($itemtype=='Things'){
-					    $item
-						.find( "a.ui-icon-arrowreturnthick-1-n" )
-							.remove()
-						.end()
-						.append( move_down_icon)
-						.appendTo( '#thingslist' )
-						.fadeIn();};
-		});
-		var mapid= $item.attr("id");
-		removeMarker(mapid);
+		    $item.fadeOut(function() {
+		        $item.find( "a.ui-icon-arrowreturnthick-1-n" ).remove();
+		        if ($itemtype=='Stay'){
+		            $item.append( move_icon_down).appendTo( $stay).fadeIn(function() {});}
+		        else if ($itemtype=='Eat'){
+		            $item.append( move_icon_down).appendTo( $eat).fadeIn(function() {});}
+		        else if ($itemtype=='Things'){
+		            $item.append( move_icon_down).appendTo( $things).fadeIn(function() {});}
+		    });
+		    var mapid= $item.attr("id");
+		    removeMarker(mapid);
+		    addRow($item,'delete');
+		
 };
 		
 		$( "#staylist li, #eatlist li, #thingslist li,#relatedlist li" ).click(function(event ) {
@@ -237,10 +228,52 @@ foreach ($related_list as $related)
 
 			return false;
 		});
+		function addRow($item,action) {
+		    var poi_id = document.getElementById('thispoi_id').value;
+		    var relatedid = $item.attr("id");
+		    var relatedtype = $item.attr("data-poitype");
+		    var lat2 = $item.attr("data-lat");
+		    var lon2 = $item.attr("data-lon");
+		    var lat1 = document.getElementById('thispoi_lat').value;
+		    var lon1 = document.getElementById('thispoi_lon').value;
+
+		    var poi_distance = calcdist(lat1,lon1,lat2,lon2);
+		    var tobeposted = {
+		    		parent_poi_id: poi_id ,
+		    		related_poi_id:relatedid ,
+		    		poi_type:relatedtype,
+		    		poi_distance:poi_distance,
+		    		action:action
+		    };
+		    $.ajax({
+	    	  type: 'POST',
+	    	  url:'http://myapp/poi/related/'+poi_id,
+	    	  data: tobeposted,
+		      success: function(retdata){}
+			});
+	};
 		
-	    
 });
-	  
+function toRad(value){
+	    return value* Math.PI / 180;
+};	
+
+function calcdist(lat1,lon1,lat2,lon2){
+	var R = 6371; // Radius of the earth in km
+    var dLat = toRad((lat2-lat1));  // Javascript functions in radians
+    var dLon = toRad((lon2-lon1));
+    callat1=toRad(lat1);
+    callat2=toRad(lat2);
+    
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(callat1) * Math.cos(callat2) * 
+        Math.sin(dLon/2) * Math.sin(dLon/2); 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    d = Math.round(d);
+    return d;
+};
+
 </script>
 <style>
     .ui-state-default.hide { display:none; }

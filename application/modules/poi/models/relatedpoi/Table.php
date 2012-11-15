@@ -49,50 +49,62 @@ class Poi_Model_relatedpoi_Table extends Core_Db_Table_Abstract
 	        $related_rows[$i]['related_poi_id']=$row['related_poi_id'];
 	        $related_rows[$i]['poi_distance']=$row['poi_distance'];
 	        $related_rows[$i]['poi_distance_uom']=$row['poi_distance_uom'];
-	        $related_rows[$i++] = $row->findParentRow ( 'Poi_Model_Poi_Table', 'relatedPoi' );
+	        $parentRow= $row->findParentRow ( 'Poi_Model_Poi_Table', 'relatedPoi' );
+	        $parentRow=$parentRow->toArray();
+	        $result= array_merge($related_rows[$i], $parentRow);
+	        $related_rows[$i++]=$result;
 	    }
-	        
+        
 	    return $related_rows;
 	}
 	
+	public function getPoibyRelated($poi_id,$related_poi_id)
+	{
+	        $select=$this->select ()->where ( 'parent_poi_id = ?', $poi_id)
+	        ->where ( 'related_poi_id = ?',$related_poi_id);
 	
-	public function saveRelatedPoiRows($info, $poi_id,$table_data,$cat) 
+	     
+	    $rows=$this->fetchRow ( $select);
+	     
+	    return $rows;
+	}
+	
+	public function saveRelatedPoiRows($info, $poi_id) 
 	{
 	    $rowdata=array();
-	    foreach ( $info as $key => $value ) 
-	    {
+	    $exrow=$this->getPoibyRelated($poi_id, $info['related_poi_id']);
+	    if (isset($exrow))
+	         $insert=false;
+	    else
 	        $insert=true;
-	        foreach ($table_data as $table_key=>$table_value)
+        if ($insert)
 	        {
-	            if ($table_value['poifcl_poi_id']==$poi_id & 
-	                $table_value['poifcl_param_id']==$value)
-	            {
-	                $poifacl_id=$table_value['poifcl_id'];
-	                $insert=false;
-	                break;
-	            }
-	        }
-	        if ($insert)
-	        {
-                    unset($rowdata['poifcl_id']);
-	            	$rowdata=array (
-                    'poifcl_poi_id' => $poi_id,
-	                'poifcl_param_id' => $value,
-            	    'poifcl_param_category_id'=>$cat);
+                unset($rowdata['id']);
+	            $rowdata=array (
+                    'parent_poi_id' => $poi_id,
+	                'related_poi_id' => $info['related_poi_id'],
+            	    'poi_type'=>$info['poi_type'],
+	            	'poi_distance'=>$info['poi_distance']);
     	            $row_id=$this->insert($rowdata);
+    	            return $row_id;
 	        }
 	        else
 	        {
                 $rowdata=array (
-	                'poifcl_id'=>$poifacl_id,
-                    'poifcl_poi_id' => $poi_id,
-	                'poifcl_param_id' => $value,
-            	    'poifcl_param_category_id'=>$cat);
-                $where['poifcl_id= ?'] = $rowdata['poifcl_id'];
+                      'id'=>$exrow['id'],
+                      'parent_poi_id' => $poi_id,
+                      'related_poi_id' => $info['related_poi_id'],
+                      'poi_type'=>$info['poi_type'],
+                      'poi_distance'=>$info['poi_distance']);
+                $where['id= ?'] = $rowdata['id'];
 	            $this->update($rowdata, $where);
 	        }
 	         
-	    }
+	}
+	public function deleteRelatedPoiRows($info, $poi_id)
+	{
+	    $exrow=$this->getPoibyRelated($poi_id, $info['related_poi_id']);
+        $this->deleteById($exrow['id']);	
 	}
 	
 }

@@ -7,13 +7,20 @@ function initialize() {
 			var poi_id = document.getElementById('thispoi_id').value;
             var latlng = new google.maps.LatLng(lat, lon);
             var myOptions = {
-                zoom: 10,
+                zoom: 9,
                 center: latlng,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
             };
             map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
                             
 			addMarker(lat,lon,'b',poi_id);
+	        $('#relatedlist li').each(function(){
+				var mapid = $(this).attr("id");
+			    var lat2 = $(this).attr("data-lat");
+				var lon2 = $(this).attr("data-lon");
+				addMarker(lat2,lon2,'r',mapid);
+	        });     
+
         }
         var myKey = "AIzaSyBTdIhb3x2S7P-62U2q-5EYDU1v29IyJF0";
         function loadScript() {

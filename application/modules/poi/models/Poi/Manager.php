@@ -70,5 +70,19 @@ class Poi_Model_Poi_Manager extends Core_Model_Manager
 	public function getimagesbyPoiId($Poi_id) {
 		return $this->getResource ( 'poimain' )->getimagesbyPoiId ( $poi_Id );
 	}
+	public function saveRelatedPoiRow($info,$poi_id)
+	{
+	    $related_table=new Poi_Model_relatedpoi_Table();
+	    $row_id=$related_table->saveRelatedPoiRows($info, $poi_id);
+	    return $row_id;
+	     
+	}
+	public function deleteRelatedPoiRow($info,$poi_id)
+	{
+	    $related_table=new Poi_Model_relatedpoi_Table();
+	    $row_id=$related_table->deleteRelatedPoiRows($info, $poi_id);
+	    return $row_id;
+	
+	}
 	
 }

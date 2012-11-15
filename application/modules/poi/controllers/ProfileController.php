@@ -146,6 +146,8 @@ class Poi_ProfileController extends Core_Controller_Action
 	public function relatedAction() 
 	{
 	    $poi_id=$this->_getParam('id');
+	    if (!$this->_request->isPost())
+	    {
 	    $poi_type=$this->_getParam('poi_type');
 	    $staylist=$this->_poimodel->getPoiListbyType('Stay')->toArray();
 	    $eatlist=$this->_poimodel->getPoiListbyType('Eat')->toArray();
@@ -157,27 +159,36 @@ class Poi_ProfileController extends Core_Controller_Action
 	    $eatlist=$this->removelist($eatlist,$relatedlist);
 	    $thingslist=$this->removelist($thingslist,$relatedlist);
 
-	    $form = new Poi_Form_Poi_RelatedPoi(array('poi_id'=>$poi_id,
-	                                              'poi_type'=>$poi_type,
-	                                              'stay_list'=>$staylist,
-	                                              'eat_list' =>$eatlist,
-	                                              'things_list'=>$thingslist,
-	                                              'related_list'=>$relatedlist));
         $mykey='AIzaSyBTdIhb3x2S7P-62U2q-5EYDU1v29IyJF0';
         $this->view->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?sensor=false');
         $this->view->headScript()->appendFile('/js/poimarker.js');
         $this->view->headLink()->appendStylesheet('/css/default/jquery-ui-1.9.1.css');
 	     
-        $this->view->form = $form;
         $this->view->title = 'Related Point Of Interest';
         $this->view->poi_id = $poi_id;
         $this->view->poi_type=$poi_type;
-        $this->view->realated__type=$relatedlist;
+        $this->view->related_list=$relatedlist;
         $this->view->stay_list=$staylist;
         $this->view->eat_list=$eatlist;
         $this->view->things_list=$thingslist;
         $this->view->thispoi=$thispoi;
-        
+	    }
+        if ($this->_request->isPost())
+        {
+             
+            $request = $this->getRequest ();
+            $row=$request->getPost ();
+            if ($row['action']=='insert')
+            {
+                $poi_id=$this->_poimodel->saveRelatedPoiRow($row,$poi_id);
+                $this->_helper->flashMessenger('Profile Updated');
+            }
+            if ($row['action']=='delete')
+            {
+                $poi_id=$this->_poimodel->deleteRelatedPoiRow($row,$poi_id);
+                $this->_helper->flashMessenger('Profile Updated');
+            }
+        }
 	    
 	    
 	}
