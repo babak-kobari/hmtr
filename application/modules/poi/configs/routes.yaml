@@ -25,6 +25,14 @@ view:
     controller: profile
     action: view
     id:0
+thngsparam:
+  route: poi/thngsparam/:id/:param_id
+   defaults:
+    module: poi
+    controller: profile
+    action: thngsparam
+    id:0
+    param_id:0
 addStay:
   route: poi/addstay
    defaults:

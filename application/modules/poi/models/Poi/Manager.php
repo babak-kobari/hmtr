@@ -53,6 +53,10 @@ class Poi_Model_Poi_Manager extends Core_Model_Manager
     	        $facl_table->savefaclrows ( $info ['poi_dining_options'], $poi_id,$params['Dining_Options'],'Dining_Options' );
 	        if ($poi_type=='Eat' and isset($info ['Cuisine']))
     	        $facl_table->savefaclrows ( $info ['Cuisine'], $poi_id,$params['Cuisine'],'Cuisine' );
+	        if ($poi_type=='Things' and isset($info ['poi_things_options']))
+    	        $facl_table->savefaclrows ( $info ['poi_things_options'], $poi_id,$params['Things_options'],'Things_options' );
+	        if ($poi_type=='Things' and isset($info ['poi_things_activity']))
+    	        $facl_table->savefaclrows ( $info ['poi_things_activity'], $poi_id,$params['poi_things_activity'],'Things_activity' );
 	        $form->getElement ( 'poi_images' )->receive ();
 	        $images=$form->getElement ( 'poi_images' )->getValue();
 	        $image_table=new Poi_Model_poiimages_Table();
@@ -60,15 +64,6 @@ class Poi_Model_Poi_Manager extends Core_Model_Manager
 	         
 		
 		return $poi_id;
-	}
-	public function getParambyId($Param_id) {
-		return $this->getResource ( 'Param' )->getParambyId ( $Param_id );
-	}
-	public function getParamList($param_Type, $Param_Category_Type = null) {
-		return $this->getResource ( 'Param' )->getParamList ( $param_Type, $Param_Category_Type );
-	}
-	public function getimagesbyPoiId($Poi_id) {
-		return $this->getResource ( 'poimain' )->getimagesbyPoiId ( $poi_Id );
 	}
 	public function saveRelatedPoiRow($info,$poi_id)
 	{

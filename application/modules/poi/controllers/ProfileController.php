@@ -40,14 +40,53 @@ class Poi_ProfileController extends Core_Controller_Action
 	}
 	public function addeatAction()
 	{
-	    $Stay=$this->_setParam('poi_type', 'Eat');
+	    $Eat=$this->_setParam('poi_type', 'Eat');
 	    $this->_forward('generalinfo');
 	}
 	public function addthingsAction()
 	{
-	    $Stay=$this->_setParam('poi_type', 'Things');
+	    $Things=$this->_setParam('poi_type', 'Things');
 	    $this->_forward('generalinfo');
 	}
+	
+	
+	
+	
+	public function thngsparamAction()
+	{
+	    $poi_id=$this->_getParam('id');
+	    $thingsparam=$this->_getParam('param_id');
+	    $paramtable= new Users_Model_Param_Table();
+	    $thingsparam=$paramtable->getparambyId($thingsparam);
+	    $params=array(
+	            'Things_options'=>array(),
+	            'Things_activity'=>array());
+	    if (!$poi_id=='undefined')
+	    {
+	        $row = $this->_poimodel->getPoibyId ( $poi_id );
+	        $params['Things_options']=$row->getFacl($thingsparam->param_category_id)->toarray();
+	        $params['Things_activity']=$row->getFacl($thingsparam->param_category_id.'__Act')->toarray();
+	    }
+	    $facl_value = array();
+	    foreach ($params as $key => $value)
+	    {
+	        $facl_temp = array();
+	        foreach ($value as $key2 => $value2)
+	        {
+	            $facl_temp=array_merge($facl_temp,explode(' ',$value2['poifcl_param_id']));
+	        }
+	        $facl_value[$key]=$facl_temp;
+	    }
+	    
+	     
+	    $form = new Poi_Form_Poi_Things(array('param_desc_id' => $thingsparam->param_category_desc));
+	    $this->view->form = $form;
+	    $form->_setfaclvalue ($facl_value['Things_options'],'poi_things_options');
+        $form->_setfaclvalue ($facl_value['Things_activity'],'poi_things_activity');
+	    $this->_helper->layout->disableLayout();
+	    $this->render('poithingsparams');
+        	}
+
 	
 	public function generalinfoAction() 
 	{
@@ -55,8 +94,16 @@ class Poi_ProfileController extends Core_Controller_Action
 	    $poi_type=$this->_getParam('poi_type');
 	    $params=array('Amenities'=>array(),
 	                  'Dining_Options'=>array(),
-	                  'Cuisine'=>array());
+	                  'Cuisine'=>array(),
+	                  'Things_options'=>array(),
+	                  'Things_activity'=>array());
 	    $images=array();
+	    $thingsparam = array();
+	    $thingsparam['param_category_desc']='';
+	     
+// ----------------- Get Params Filled in	    
+	    
+	    
 	    if (!is_null($poi_id))
 	    {
 	        $row = $this->_poimodel->getPoibyId ( $poi_id );
@@ -71,7 +118,19 @@ class Poi_ProfileController extends Core_Controller_Action
     	        $params['Dining_Options']=$row->getFacl('Dining_Options')->toarray();
 	            $params['Cuisine']=$row->getFacl('Cuisine')->toarray();
 	        }
+	    	if ($poi_type=='Things')
+	        {
+	            $paramtable= new Users_Model_Param_Table();
+	            $thingsparam=$paramtable->getparambyId($row->poi_things_type);
+    	        $params['Things_options']=$row->getFacl('Things_options')->toarray();
+	            $params['Things_activity']=$row->getFacl('Things_activity')->toarray();
+	        }
 	    }
+	    
+	    
+	    
+	    
+	    
 	    $facl_value = array();
 	    foreach ($params as $key => $value)
 	    {
@@ -84,7 +143,8 @@ class Poi_ProfileController extends Core_Controller_Action
 	    }
 
 	    
-	    $form = new Poi_Form_Poi_Generalinfo(array('poi_id'=>$poi_id,'poi_type'=>$poi_type));
+	    $form = new Poi_Form_Poi_Generalinfo(array('poi_id'=>$poi_id,'poi_type'=>$poi_type,    
+	            'param_desc_id' => $thingsparam['param_category_desc']));
 	     
 	    if (isset($row ))
 	        $this->view->form= $form->populate($row->toarray());
@@ -92,13 +152,24 @@ class Poi_ProfileController extends Core_Controller_Action
 	    {
             $this->view->form = $form;
 	    }
+	    
+	    
+	    
 	    if ($poi_type=='Stay' and isset($facl_value['Amenities']))
     	    $form->_setfaclvalue ($facl_value['Amenities'],'poi_amenities');
 	    if ($poi_type=='Eat' and isset($facl_value['Dining_Options']))
 	        $form->_setfaclvalue ($facl_value['Dining_Options'],'poi_dining_options');
 	    if ($poi_type=='Eat' and isset($facl_value['Cuisine']))
     	    $form->_setfaclvalue ($facl_value['Cuisine'],'Cuisine');
-	     
+	    if ($poi_type=='Things' and isset($facl_value['Things_options']))
+	        $form->_setfaclvalue ($facl_value['Things_options'],'poi_things_options');
+	    if ($poi_type=='Things' and isset($facl_value['Things_activity']))
+	        $form->_setfaclvalue ($facl_value['Things_activity'],'poi_things_activity');
+
+	    
+	    
+	    
+	    
         $this->view->headScript()->appendFile('/js/coin-slider.min.js');
 	    $this->view->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places');
 	    $this->view->headScript()->appendFile('/js/googlemap.js');
@@ -109,20 +180,20 @@ class Poi_ProfileController extends Core_Controller_Action
 	    $this->view->poi_id = $poi_id;
 	    $this->view->poi_type=$poi_type;
 	    $this->view->images=$images;
-
+	     
 	    
 	    
-	    if ($this->_request->isPost()
-	            && $form->isValid($this->_getAllParams()))
+	    
+	    if ($this->_request->isPost())
 	    {
 	    
 	        $info= $this->_getAllParams();
-//	        $row->setFromArray($form->getValues());
-//	        $faclrow=new Poi_Model_poifacl_Table();
-//	        $faclrow->savefaclrows ( $info ['poi_amenities'], $poi_id,$a );
 		    $request = $this->getRequest ();
 	        $row=$request->getPost (); 
 	        $poi_id=$this->_poimodel->savePoi($form, $row,$poi_id,$poi_type,$params,$images);
+
+	        
+	        
 	        $this->_helper->flashMessenger('Profile Updated');
 	        $row = $this->_poimodel->getPoibyId ( $poi_id );
 	    	if ($poi_type=='Stay')

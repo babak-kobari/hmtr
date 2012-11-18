@@ -28,10 +28,13 @@
     </tr>
     <tr>
         <td>
-		    <label for="poi_restaurant_type">Type of Restaurant</label>
+		    <label for="poi_things_type">Things to Do Type</label>
         </td>
         <td>
-		    <?php echo $form->getElement('poi_restaurant_type');?>
+        <?php if (isset($poi_id) and !is_null($poi_id))
+                echo $form->getValue('poi_things_type');
+            else
+		        echo $form->getElement('poi_things_type');?>
         </td>
     </tr>
 </tbody>
@@ -67,3 +70,26 @@
         </tr>
         </table>
 <div id="map_canvas"></div>
+
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+	
+	$('.poi_things_type').change(function() {
+		var id = $(this).attr("value");
+		if (typeof document.getElementsByName("poi_id")[0] != 'undefined') {
+		    var poi_id = document.getElementById('poi_id').value;
+		} else {
+			var poi_id='undefined';
+		}
+		var a = 'http://myapp/poi/thngsparam/'+poi_id+'/'+id;
+	    $.ajax({
+	        url: a,
+	        success: function(data){
+	            var divtab2 = document.getElementById("tabs-2");
+	            divtab2 .innerHTML = data;},
+	    });	
+	});
+});
+//-->
+</script>
