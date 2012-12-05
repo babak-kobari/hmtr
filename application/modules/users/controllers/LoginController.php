@@ -96,6 +96,7 @@ class Users_LoginController extends Core_Controller_Action
             }
         }
         $this->view->form = $form;
+        $this->view->title='Please Login';
     }
 
     /**
@@ -149,6 +150,7 @@ class Users_LoginController extends Core_Controller_Action
             }
         }
         $this->view->form = $form;
+        $this->view->title = 'Change Your Password';
     }
 
     /**

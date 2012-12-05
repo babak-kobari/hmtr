@@ -61,6 +61,7 @@ class Users_RegisterController extends Core_Controller_Action
             $this->view->messages = $message;
         }
         $this->view->form = $form;
+        $this->view->title='User Registration';
     }
 
     /**
@@ -131,6 +132,7 @@ class Users_RegisterController extends Core_Controller_Action
             }
         }
         $this->view->form = $form;
+        $this->view->title='Forget your password?';
     }
 
 }

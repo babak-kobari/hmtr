@@ -23,18 +23,25 @@ class Users_Form_Auth_Login extends Core_Form
                  ->setRequired(true)
                  ->addFilter('StripTags')
                  ->addFilter('StringTrim');
-
+        
+        
+        $username->removeDecorator('Label');
+        $username->class='input-text required-entry';
+        
         $password = new Zend_Form_Element_Password('password');
         $password->setLabel('Password')
                  ->addDecorators($this->_inputDecorators)
                  ->setRequired(true);
-
+        $password ->removeDecorator('Label');
+        $password ->class='input-text required-entry';
+        
         $rememberMe = new Zend_Form_Element_Checkbox('rememberMe');
         $rememberMe->setLabel('Remember Me');
-
+        $submit  ->class='checkbox';
+        
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Login');
-        $submit->setAttrib('class', 'btn btn-primary');
+        $submit->class='button';
 
         $this->addElements(array($username, $password, $rememberMe, $submit));
 

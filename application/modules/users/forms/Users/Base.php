@@ -42,14 +42,18 @@ class Users_Form_Users_Base extends Core_Form
         $this->addElement($this->_travelstyle());
         
         $this->addElement($this->_submit());
+        foreach($this->getElements() as $element)
+            {
+
+                $element->removeDecorator('Label');
+            }        
         return $this;
     }        
     
     protected function _username($user_id)
     {
         $element = new Zend_Form_Element_Text('login');
-        $element->setLabel('User Name')
-        ->addDecorators($this->_inputDecorators)
+        $element->addDecorators($this->_inputDecorators)
         ->setRequired(true)
         ->addFilter('StringTrim')
         ->addValidator('Alnum')
@@ -67,6 +71,8 @@ class Users_Form_Users_Base extends Core_Form
                                        'value' => $user_id));
                 
         $db_lookup_validator = new Zend_Validate_Db_NoRecordExists($options);
+        
+        $element->class='input-text required-entry';
         $element->addValidator($db_lookup_validator);
         
         
@@ -77,11 +83,11 @@ class Users_Form_Users_Base extends Core_Form
     protected function _birthdate()
     {
         $birth_date = new Zend_Form_Element_Text('birth_date');
-        $birth_date->setLabel('Birth Date')->setRequired('false');
         
         $validator = new Zend_Validate_Date();
         $birth_date->addValidator($validator);
-        
+
+        $birth_date->class='input-text';
         $birth_date->size = '10';
         $birth_date->maxlength = '10';
         return $birth_date;
@@ -108,13 +114,12 @@ class Users_Form_Users_Base extends Core_Form
     protected function _gender()
     {
         $gender = new Zend_Form_Element_Radio('gender');
-        $gender->setLabel('Gender:');
         $gender->addMultiOptions(array(
                     '1' => 'Male',
                     '2' => 'Female' 
                         ))
             ->setSeparator('');       
-
+        $gender->class = 'radio';
         return $gender;
     }
     protected function _aboutme()
@@ -163,6 +168,9 @@ class Users_Form_Users_Base extends Core_Form
             array('max' => Users_Model_User::MAX_FIRSTNAME_LENGTH)
      )
         ->addValidator('Alpha');
+
+    $element->class='input-text required-entry';
+        
     return $element;
     }
 
@@ -177,6 +185,8 @@ class Users_Form_Users_Base extends Core_Form
                 array('max' => Users_Model_User::MAX_LASTNAME_LENGTH)
         )
         ->addValidator('Alpha');
+        $element->class='input-text required-entry';
+        
     
         return $element;
     }
@@ -184,8 +194,7 @@ class Users_Form_Users_Base extends Core_Form
     protected function _email($user_id)
     {
         $element = new Zend_Form_Element_Text('email');
-        $element->setLabel('Email')
-        ->setRequired(true)
+        $element->setRequired(true)
         ->addValidator('EmailAddress');
         $options=array('table' => 'hm_users', 
                        'field' => 'email',
@@ -194,6 +203,7 @@ class Users_Form_Users_Base extends Core_Form
                                        'value' => $user_id));
                 
         $db_lookup_validator = new Zend_Validate_Db_NoRecordExists($options);
+        $element->class='input-text required-entry';
         $element->addValidator($db_lookup_validator);    
         return $element;
     }
@@ -203,6 +213,7 @@ class Users_Form_Users_Base extends Core_Form
     {
         $element = parent::_submit();
         $element->setLabel('Update');
+        $element->class = 'button';
     
         return $element;
     }

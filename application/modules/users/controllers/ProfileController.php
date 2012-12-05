@@ -19,40 +19,16 @@ class Users_ProfileController extends Core_Controller_Action
     {
         parent::init();
     
-        $this->view->leftbar1title='My Account';
-        $this->view->leftbar1menuname='userleftmenu1';
-        
-//        $this->_twocolumns();
-//        $this->_manager = new Users_Model_User_Manager();
+        $this->view->leftbartitle='My Profile';
     }
     
     public function indexAction()
     {
         $identity = Zend_Auth::getInstance()->getIdentity();
         $users = new Users_Model_User_Table();
-        $row = $users->getById($identity->id);
-        $form = new Users_Form_Users_Account(array('user_id'=>$identity->id));
-        $this->view->title = 'My Account Information';
-        if ($this->_request->isPost()
-                && $form->isValid($this->_getAllParams())) 
-        {
-        
-            $row->setFromArray($form->getValues());
-            $row->save();
-        
-            //$row->login(false);
-        
-            $this->_helper->flashMessenger('Profile Updated');
-            $this->_helper->redirector('index');
-        }
-        if (isset($row ))
-        {
-            $this->view->form= $form->populate($row->toarray());
-        }
-        else
-        {
-            $this->view->form = $form;
-        }
+        $row = $users->getById($identity->id)->toArray();
+        $this->view->title = 'Profile Info.';
+        $this->view->row=$row;
     }
     public function personalAction()
     {
@@ -176,8 +152,35 @@ class Users_ProfileController extends Core_Controller_Action
     /**
      *
      */
-    public function viewAction()
+    public function accountAction()
     {
+        $identity = Zend_Auth::getInstance()->getIdentity();
+        $users = new Users_Model_User_Table();
+        $row = $users->getById($identity->id);
+        $form = new Users_Form_Users_Account(array('user_id'=>$identity->id));
+        $this->view->title = 'My Account Information';
+        if ($this->_request->isPost()
+                && $form->isValid($this->_getAllParams()))
+        {
+        
+            $row->setFromArray($form->getValues());
+            $row->save();
+        
+            //$row->login(false);
+        
+            $this->_helper->flashMessenger('Profile Updated');
+            $this->_helper->redirector('index');
+        }
+        if (isset($row ))
+        {
+            $this->view->form= $form->populate($row->toarray());
+        }
+        else
+        {
+            $this->view->form = $form;
+        }
+        
+    
     }
 
     /**

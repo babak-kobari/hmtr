@@ -1,5 +1,99 @@
-<?php 
-
-echo $this->form;
-
+<?php
+$row = $this->row;
 ?>
+
+<div class="main-container col2-left-layout">
+    <div class="main">
+        <div class="col-main">
+        <div class="col-main-container">
+            <div class="dashboard">
+                <div class="page-title">
+                    <h1><?php echo $this->title;?></h1>
+                </div>
+        <div class="welcome-msg">
+           <p><strong>Hallo, <?php echo $row['firstname']; ?>!</strong></p>
+            <p>Below is your profile overview, please select any of link below 
+            or from side panel to edit your detail information</p>
+        </div>
+        <div class="box-account box-info">
+        <div class="box-head ">
+            <h2>My Profile</h2>
+        </div>
+        <div class="col2-set box-dash-data">
+        <div class="col-1">
+            <div class="box">
+                <div class="box-title">
+                    <h3 class="edit">Account Info<a href="/users/profile/account">Edit</a></h3>
+                </div>
+                <div class="box-content">
+                    <p><?php echo $row['login']; ?>
+                        <br />
+                    <?php echo $row['email']; ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="box">
+                <div class="box-title">
+                    <h3 class="edit">Personal Info<a href="/users/profile/personal">Edit</a></h3>
+                </div>
+                <div class="box-content">
+                    <p>Edit your Personal Info</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="col2-set box-dash-data">
+        <div class="col-1">
+            <div class="box">
+                <div class="box-title">
+                    <h3 class="edit">Change Password<a href="/users/login/recover-password">Edit</a></h3>
+                </div>
+                <div class="box-content">
+                    <p>Change your password</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="box">
+                <div class="box-title">
+                    <h3 class="edit">Travel Preferences<a href="/users/profile/travelpreferences">Edit</a></h3>
+                </div>
+                <div class="box-content">
+                    <p>Define the way you prefer to travel</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+ </div>
+</div>
+<!-- Left Side Bar Starts Here -->	 
+<div class="col-left sidebar">
+    <div class="block block-sidebar">
+    <div class="block-title">
+        <strong><span><?php echo $this->leftbartitle;?></span></strong>
+    </div>
+    <div class="block-content">
+    <ul>
+    <?php 
+    $leftbarcontainer=$this->menuContainer('leftbar');
+    $leftsidebar=$this->navigation($leftbarcontainer);
+    foreach ($leftbarcontainer as $pages) {
+        foreach ($pages as $uid => $page) {
+            $liClass = $page->getClass();
+            if ($page->getLabel() !== null && $page->isVisible(true)) {
+                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
+        }
+    }
+}
+?>
+    </ul>
+    </div>
+</div>
+</div>
+
+
+</div>
+</div>

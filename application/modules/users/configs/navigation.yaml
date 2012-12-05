@@ -25,64 +25,72 @@ dashboard:
         controller: management
         action: stats
         route: default
-header:
+toppanel:
   userlogout:
-    label: Logout
+    label: Sign Out
     route: logout
     module: users
     controller: login
     action: logout
-    order: 100
+    order: 10
   userlogin:
-    label: Login
+    label: sign In
     route: login
     module: users
     controller: login
     action: index
-    order: 100
+    order: 20
   userProfile:
     label: Profile
     route: default
     module: users
     controller: profile
     action: index
-    order: 100
+    order: 30
   registration:
-    label: Registration
+    label: Sign Up
     route: default
     module: users
     controller: register
     action: index
-    order: 99
+    order: 40
 #-------------------------------
-userleftmenu1:
+leftbar:
   Changepassword:
     label: Change Passowrd
     route: default
     module: users
     controller: login
     action: recover-password
-    order: 100
-  
+    class: last
+    order: 40
   Mytravelinfo:
     label: Travel Preferences
     route: default
     module: users
     controller: profile
     action: travelpreferences
-    order: 100
+    order: 30
   personallinfo:
     label: Personal Info
     route: default
     module: users
     controller: profile
     action: personal
-    order: 100
+    order: 20
   accountinfo:
     label: Account Info
     route: default
     module: users
     controller: profile
+    action: account
+    order: 10
+  dashboard:
+    label: My Dashboard
+    route: default
+    module: users
+    controller: profile
     action: index
-    order: 100
+    class: current
+    order: 5
     

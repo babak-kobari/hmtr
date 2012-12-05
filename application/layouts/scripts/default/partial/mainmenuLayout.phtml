@@ -1,0 +1,20 @@
+<ul class="nav">
+<?php
+    // loop root level (only has Home, but later may have an Admin root page?)
+    foreach ($this->container as $pages) {
+        // loop next level
+        foreach ($pages as $uid => $page) {
+            /* @var Zend_Navigation_Page $page */
+            // check if it is active (recursive)
+
+            $liClass = $page->getClass();
+
+            if ($page->getLabel() !== null && $page->isVisible(true)) {
+                    echo '<li class="'.$liClass .'">' . $this->menu()->htmlify($page) . '</li>', PHP_EOL;
+            }
+        }
+    }
+?>
+</ul>
+
+

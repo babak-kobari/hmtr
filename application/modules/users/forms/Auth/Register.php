@@ -46,7 +46,8 @@ class Users_Form_Auth_Register extends Core_Form
                                'field' => 'login')
                      )
                  );
-
+        $username->removeDecorator('Label');
+        $username->class='input-text required-entry';
 
         $password = new Zend_Form_Element_Password('password');
         $password->setLabel('Password')
@@ -59,6 +60,9 @@ class Users_Form_Auth_Register extends Core_Form
                  )
                  ->addValidator('PasswordConfirmation');
 
+        $password ->removeDecorator('Label');
+        $password ->class='input-text required-entry';
+        
 
         $confirmPassword = new Zend_Form_Element_Password('password2');
         $confirmPassword->setLabel('Password again')
@@ -69,7 +73,9 @@ class Users_Form_Auth_Register extends Core_Form
                       'StringLength', false,
                       array(Users_Model_User::MIN_PASSWORD_LENGTH)
                   );
-
+        $confirmPassword ->removeDecorator('Label');
+        $confirmPassword ->class='input-text required-entry';
+        
         $email = new Zend_Form_Element_Text('email');
         $email->setLabel('Email')
               ->addDecorators($this->_inputDecorators)
@@ -83,7 +89,9 @@ class Users_Form_Auth_Register extends Core_Form
                       array('table' => 'hm_users', 'field' => 'email')
                   )
               );
-
+        $email->removeDecorator('Label');
+        $email->class='input-text required-entry';
+        
         $imgDir = dirname(APPLICATION_PATH) . "/public/captcha";
 
         // check captcha path is writeable
@@ -119,10 +127,12 @@ class Users_Form_Auth_Register extends Core_Form
         }
 
         $captcha->addDecorators($this->_inputDecorators);
-
+        $captcha->removeDecorator('Label');
+        $captcha->class='input-text required-entry';
+        
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Register');
-        $submit->setAttrib('class', 'btn btn-primary');
+        $submit->setAttrib('class', 'button');
 
         $this->addElements(
             array(

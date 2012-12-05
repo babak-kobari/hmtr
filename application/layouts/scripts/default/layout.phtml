@@ -11,7 +11,6 @@ $class[] = 'a-' . $request->getActionName();
 <?php
 echo $this->headTitle();
 $this->headLink()->appendStylesheet('/css/default/layout.css');
-$this->headLink()->appendStylesheet('/css/default/text.css');
 $this->headScript()->appendFile('/js/jquery-1.8.2.js');
 $this->headScript()->appendFile('/js/jquery-ui.js');
 echo $this->headLink();
@@ -19,89 +18,55 @@ echo $this->headScript();
 ?>
 
 </head>
-<body >
-	<div id="header">
-		<div id="logo">
-			<h1>
-				<a href="#">Help me 2 Travel</a>
-			</h1>
-			<h2>your travel planer</h2>
-		</div>
-		<div id="menu">
-			<ul>
-               <?php echo $this->render('default/partial/menu.phtml') ?>
+<body class=" cms-index-index cms-home">
+<div class="wrapper">
+	<noscript>
+        <div class="noscript">
+            <div class="noscript-inner">
+                <p><strong>JavaScript seem to be disabled in your browse.</strong></p>
+                <p>You must have JavaScript enabled in your browser to utilize the functionality of this website.</p>
+            </div>
+        </div>
+	</noscript>
+<div class="page">
+	<div class="header-container">
+    	<div class = "top-panel">
+    	    <?php echo $this->render('default/partial/topPanel.phtml') ?>
+    	</div>
+        <div class="header">
+	        <header>
+ 		  	  <a href="\" title="HelpmeTravel" class="logo">Help me Travel</a>
+              <div class="nav-container">
+    	            <?php echo $this->render('default/partial/mainmenu.phtml') ?>
+              </div> <!-- nav-container -->
+            </header>
+        </div> <!-- header -->
+     </div>
+<!-- Page body starts here -->
+	 <?php echo $this->layout()->content;?>
+	 
+	 
+	 
+	 
+	 
+     <hr>
+     
+    <footer class="p-footer" >
+		<small><b>&copy;Powered by <a href="http://www.hempme2travel.com/">www.hempme2travel.com</a> All Right Reserved. </b></small>
+    	
+    	<nav>
+    		 <ul>
+    		   <li class=" news"><a href="" title=""><span>News</span></a></li>
+               <li class=" about"><a href="" title="About Us"><span>About Us</span></a></li>
+               <li class=" corporate"><a href="" title="Corporate "><span>Corporate &amp; Retail</span></a></li>
+               <li class=" faq"><a href="" title="FAQ"><span>FAQ</span></a></li>
+               <li class=" agb"><a href="" title=""><span>AGB</span></a></li>
+               <li class=" imprint"><a href="" title="dimdim"><span>dim dim</span></a></li>       		
     		</ul>
-		</div>
-	</div>
-	<!-- end #header -->
-	<div id="page">
-		<!-- start sidebar1 -->
-		<div id="sidebar1" class="sidebar">
-			<ul>
-<?php 
-			  if (isset($this->leftbar1title))
-                 {?>
-           		<li>
-			        <h2><?php echo $this->leftbar1title; ?></h2>
-			        <ul>
-    			        <?php echo $this->render('default/partial/leftmenu1.phtml') ?>
-			        </ul>
-			    </li>
-<?php
-                }?>
-<?php 
-			  if (isset($this->leftbar2title))
-                 {?>
-           		<li>
-			        <h2><?php echo $this->leftbar2title; ?></h2>
-			        <ul>
-    			        <?php echo $this->render('default/partial/leftmenu2.phtml') ?>
-			        </ul>
-			    </li>
-<?php
-                }?>
-                
-			</ul>
-		</div>
-		<!-- end sidebar1 -->
-		<!-- start content -->
-		<div id="content">
-			<div class="post">
-				<h1><?php echo $this->layout()->menu;?></h1>
-
-				<h1 class="title">
-					<a href="#" rel="bookmark" title=""><?php echo $this->title?></a>
-				</h1>
-				<div class="entry">
-	    			<?php echo $this->layout()->content;?>
-    			</div>
-			</div>
-		</div>
-		<!-- end content -->
-		<!-- start sidebar2 -->
-		<div id="sidebar2" class="sidebar">
-			<ul>
-				<li id="recent-posts">
-					<h2>right pan</h2>
-					<ul>
-						<li>
-							<h3>
-								<a href="#">Aliquam Libero</a>
-							</h3>
-						<?php echo $this->layout()->rightbar1;?>
-					</li>
-					</ul>
-			
-			</ul>
-		</div>
-		<!-- end sidebar2 -->
-		<div style="clear: both;">&nbsp;</div>
-	</div>
-	<!-- end page -->
-	<div id="footer">
-		<p>
-			Powered by <a href="http://www.hempme2travel.com/">www.hempme2travel.com</a>
-		</p>
-	</div>
+    	</nav>
+    </footer>
+</div> <!-- Page  -->
+</div> <!-- wrapper -->
+    
 </body>
 </html>

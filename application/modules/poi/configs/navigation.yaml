@@ -2,5 +2,6 @@ header:
   poimenu:
     label: Point Of Interests
     route: poiprofile
+    class: poi
     order: 10
 #-------------------------------
