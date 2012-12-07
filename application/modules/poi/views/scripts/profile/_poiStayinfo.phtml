@@ -1,91 +1,98 @@
-		
-<table>
-    <tbody>
-    <tr>
-        <td>
-            <label for="poi_name">Name</label>
-        </td>
-        <td>
+<div class="box-info">
+<ul class="form-list">
+   <li class="fields">
+    <div class="field ">
+         <label for="poi_name">Name</label>
+         <div class="input-box">
     	    <?php echo $form->getElement('poi_name');?>
     	    <?php echo $form->getElement('poi_id');?>
-    	</td>
-    </tr>
-    <tr>
-    	<td>
+         </div>
+    </div>
+    <div class="field">
             <label for="poi_group_name">Hotel Chain</label>
-        </td>
-        <td>
+        <div class="input-box">
 	        <?php echo $form->getElement('poi_group_name');?>
-	    </td>
-	</tr>
-	<tr>
-	    <td>
+        </div>
+    </div>
+   </li>
+   
+   
+   
+   
+   <li class="fields">
+    <div class="field ">
             <label for="poi_web_site">Web Site</label>
-        </td>
-        <td>
+        <div class="input-box">
 	        <?php echo $form->getElement('poi_web_site');?>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="poi_contact detail">Contact Detail</label>
-        </td>
-        <td>
+        </div>
+    </div>
+    <div class="field">
+        <label for="poi_contact detail">Contact Detail</label>
+        <div class="input-box">
             <?php echo $form->getElement('poi_contact_detail');?>
-        </td>
-    </tr>
-    <tr>
-        <td>
+        </div>
+    </div>
+   </li>
+   
+   
+   <li class="fields">
+    <div class="field ">
 		    <label for="poi_stay_type">Category</label>
-        </td>
-        <td>
+        <div class="input-box">
 		    <?php echo $form->getElement('poi_stay_type');?>
-        </td>
-        <td>
+        </div>
+    </div>
+    <div class="field">
             <label for="poi_stay_calssification">Classification</label>
-        </td>
-        <td>
+    <div class="input-box">
             <?php echo $form->getElement('poi_stay_calssification');?>
-        </td>
-    </tr>
-    <tr>
-        <td>
+    </div>
+    </div>
+   </li>
+   
+
+   
+   <li class="fields">
+    <div class="field ">
             <label for="poi_location_type">Location Type</label>
-        </td>
-        <td>
+            <div class="input-box">
             <?php echo $form->getElement('poi_location_type');?>
-        </td>
-    </tr>
-</tbody>
-</table>
-<table>
-        <tr>
-            <td>
+                    </div>
+    </div>
+    <div class="field">
                 <label for="poi_country">Country</label>
-            </td>
-            <td>
+        <div class="input-box">
                 <?php echo $form->getElement('poi_country');?>
-            </td>
-            <td>
+            </div>
+    </div>
+   </li>
+   
+   
+
+      <li class="fields">
+    <div class="field ">
                 <label for="poi_city">City</label>
-            </td>
-            <td>
+    <div class="input-box">
                 <?php echo $form->getElement('poi_city');?>
                 <input id="poi_lat" name = "poi_lat" type="hidden" value="<?php echo $form->getElement('poi_lat')->getValue();?>">
                 <input id="poi_lon" name = "poi_lon" type="hidden" value="<?php echo $form->getElement('poi_lon')->getValue();?>">
-            </td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td>
+    </div>
+    </div>
+   </li>
+   
+      <li class="wide">
+    <div>
                 <label for="poi_area">Area</label>
-            </td>
-            <td>
+        <div class="input-box">
                 <?php $lat='';
                       $lon='';?>
                 <?php echo $form->getElement('poi_area');?>
-           </td>
-        </tr>
-        </table>
+            </div>
+    </div>
+   </li>
+   </ul>
+</div>
 <div id="map_canvas"></div>
+
+
+

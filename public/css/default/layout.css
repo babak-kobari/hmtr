@@ -105,9 +105,13 @@ header .nav .search.active a{background-position:-308px bottom}
 header .nav .friends.active a{background-position:-481px bottom}
 header .nav .poi.active a{background-position:-595px bottom}
 header .nav li.active a{color:#fff}
+header .form-search .search-autocomplete{z-index:999}
+header .form-search .search-autocomplete ul{border:0;background-color:#fff}
+header .form-search .search-autocomplete li{padding:3px;border-bottom:0;cursor:pointer}
+header .form-search .search-autocomplete li .amount{float:right;font-weight:bold}
 
 footer{overflow:hidden;padding-bottom:20px;display:block;clear:both}
-footer nav{float:right;border-top:1px solid #fff;border-bottom:1px solid #fff;border-right:0}
+footer nav{float:right;border-top:1px solid yellow;border-bottom:1px solid yellow;border-right:0}
 footer nav{-moz-box-shadow:rgba(0,0,0,0.2) 0 0 4px;-webkit-box-shadow:rgba(0,0,0,0.2) 0 0 4px;-o-box-shadow:rgba(0,0,0,0.2) 0 0 4px;box-shadow:rgba(0,0,0,0.2) 0 0 4px}
 footer nav li{text-align:center;line-height:36px;margin:0;display:block;float:left;border-right:1px solid #dcdfe2;background-color:#f5f6f6;background-image:-webkit-linear-gradient(top,#fafafa 0,#e7e9ea 100%)}
 footer nav li a{border-right:1px solid #fff;font-size:14px;font-weight:500;text-decoration:none;color:#515151;cursor:pointer;padding:0 18px 0 18px;display:block}
@@ -131,8 +135,8 @@ input.radio{
 	margin-right:10px;
 	margin-left: 10px;
 	}
-input.checkbox{margin-right:10px}
-checkbox{margin-right:10px}
+
+input.checkbox{margin-left:10px !important}
 input.qty{width:2.5em!important}
 p.control input.checkbox,p.control input.radio{margin-right:6px}
 .form-list li{margin:0 0 8px}
@@ -161,6 +165,47 @@ p.control input.checkbox,p.control input.radio{margin-right:6px}
 	background-color:#d4d6d7;
 	display:block;position:relative;
 	min-height:1020px}
+
+.cms-home .index-tabs{clear:both;display:block;margin-bottom:70px;position:relative}
+.tab-wrapper{clear:both;display:block}
+.tab-wrapper hr {margin-bottom:35px}
+
+
+.index-tabs .tab-button{background-color:#dddedf;
+	border:1px solid #dddedf;
+	border-bottom:0;
+	color:#999;cursor:pointer;
+	display:block;
+	font-family:'Merriweather',Arial;
+	font-size:16px;
+	font-weight:300;
+	height:48px;line-height:48px;
+	padding-left:20px;
+	padding-bottom:0!important;
+	position:absolute;
+	top:0;left:0;width:29%}
+.index-tabs .tab-active .tab-button{
+		background-color:#ebebec;
+		border:1px solid #f6f6f6;
+		border-bottom:0;
+		color:#383636;
+		font-weight:500;
+		height:49px;
+		line-height:49px;z-index:999}
+.index-tabs .tab-2 .tab-button{left:242px;width:30%}
+.index-tabs .tab-3 .tab-button{left:490px;width:29%}
+.index-tabs .tab .tab-button span
+	{background:url(img/tab_buttons.png) no-repeat top right;display:block;float:left;height:24px;margin-top:10px;margin-right:10px;width:27px}
+.index-tabs .tab.tab-2 .tab-button span{background-position:center right}
+.index-tabs .tab.tab-3 .tab-button span{background-position:bottom right}
+.index-tabs .tab.tab-1.tab-active .tab-button span{background-position:top left}
+.index-tabs .tab.tab-2.tab-active .tab-button span{background-position:center left}
+.index-tabs .tab.tab-3.tab-active .tab-button span{background-position:bottom left}
+.index-tabs .container{background-color:#ebebec;border:1px solid #f6f6f6;box-shadow:0 0 1px rgba(0,0,0,.1);clear:both;display:block;margin-bottom:49px;padding:20px;padding-bottom:5px;position:relative;top:49px;overflow:hidden}
+.index-tabs .container h3{padding-bottom:10px}
+.index-tabs .container p{padding-bottom:15px}
+.tab-left-col{display:block;float:left;width:45%}
+.tab-right-col{display:block;float:right;width:45%}
 
 
 .main-container{
@@ -218,7 +263,7 @@ p.control input.checkbox,p.control input.radio{margin-right:6px}
 
 .block{border:0;margin:0 0 10px}
 .sidebar .block-sidebar .block-content{padding:0}
-.sidebar .block-sidebar ul li{border:1px solid white;box-shadow:0 1px 3px #bdbebf;-webkit-box-shadow:0 1px 3px rgba(0,0,0,.25);background-color:#ecedee;color:#373737;display:block;font-family:'Merriweather',Arial;font-size:12px;height:26px;line-height:28px;margin-bottom:4px}
+.sidebar .block-sidebar ul li{border:1px solid yellow;box-shadow:0 1px 3px #bdbebf;-webkit-box-shadow:0 1px 3px rgba(0,0,0,.25);background-color:#ecedee;color:#373737;display:block;font-family:'Merriweather',Arial;font-size:12px;height:26px;line-height:28px;margin-bottom:4px}
 .sidebar .block-sidebar ul li.current{background-color:#debb42;border-color:#e8d582;color:#fff;padding-left:10px}
 .sidebar .block-sidebar ul li.current strong{font-weight:normal}
 .sidebar .block-sidebar ul li a{color:#373737;display:block;padding-left:10px;text-decoration:none}
@@ -306,7 +351,7 @@ p.control input.checkbox,p.control input.radio{margin-right:6px}
 
 .box-info{
 	display:block;
-	border:1px solid #fff;
+	border:1px solid yellow;
 	box-shadow:0 1px 3px #bdbebf;
 	-webkit-box-shadow:0 1px 3px rgba(0,0,0,.25);
 	background-color:#ecedee;
@@ -331,6 +376,7 @@ p.control input.checkbox,p.control input.radio{margin-right:6px}
 .col-main-container .title-buttons button{float:right}
 .col-main-container li.item{box-shadow:none;height:auto;margin:0;padding:5px}
 .input-text.required-entry{background-color: #ffc;}
+.input-text.disabled{background-color: lightgray;}
 
 
 .box-info h2{border-bottom:1px solid #debb42;margin-bottom:10px;padding-bottom:10px}
@@ -434,7 +480,12 @@ p.control input.checkbox,p.control input.radio{margin-right:6px}
 .noscript p{margin:0}
 
 
-
+#map_canvas {
+		border:4px outset yellow;
+        height: 400px;
+        width: 99%;
+        margin-top: 0.6em;
+      }
 
 
 

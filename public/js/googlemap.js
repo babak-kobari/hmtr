@@ -54,7 +54,7 @@
           marker.setIcon(image);
           marker.setPosition(place.geometry.location);
 
-          var address = '';
+//          var address = '';
           if (place.address_components) 
           {
             address = [

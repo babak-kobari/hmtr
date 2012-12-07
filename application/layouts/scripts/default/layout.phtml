@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php 
 $request = Zend_Controller_Front::getInstance()->getRequest();
 $class = array();
@@ -18,7 +19,7 @@ echo $this->headScript();
 ?>
 
 </head>
-<body class=" cms-index-index cms-home">
+<body onload="initialize()" class=" cms-index-index cms-home">
 <div class="wrapper">
 	<noscript>
         <div class="noscript">

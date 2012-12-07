@@ -3,8 +3,6 @@ $form = $this->form;
 $poi_id=$this->poi_id;
 $poi_type=$this->poi_type;
 ?>
-<a
-href="<?= '/poi/related/'. $poi_id;?>">Related POI</a>
 
 <form id="<?php echo $form->getName();?>"
 		name="<?php echo $form->getName();?>" class="overlay topLabel page"
@@ -12,14 +10,22 @@ href="<?= '/poi/related/'. $poi_id;?>">Related POI</a>
 		method="<?php echo $form->getMethod();?>"
 		action="<?php echo $form->getAction();?>">
 
+		
+<div class="main-container col2-left-layout">
+<div class="main">
 
-<div id="tabs">
-    <ul>
-        <li><a href="#tabs-1">General Info</a></li>
-        <li><a href="#tabs-2">Amenities and Facilities</a></li>
-        <li><a href="#tabs-3">Images</a></li>
-        </ul>
-    <div id="tabs-1">
+<div class="col-main">
+<div class="col-main-container">
+<div class="dashboard">
+<div class="page-title">
+    <h2><?php echo $this->title;?></h2>
+</div> <!-- page title-->
+<div class = "tab-wrapper">
+<div class="index-tabs">
+<!-- Tab 1-->	 
+<div id="tab-1" class="tab tab-1 tab-active">
+<p class="tab-button"><span>&nbsp;</span>General Info</p>
+<div class="container">
         <?php 
         if ($poi_type=='Stay')
         {
@@ -34,13 +40,17 @@ href="<?= '/poi/related/'. $poi_id;?>">Related POI</a>
             include '_poiThingsinfo.phtml';
         }
         ?>
-    </div>
-    <div id="tabs-2">
+</div> <!--  container-->
+</div> <!--  tab tab-1 tab-active-->
+<!-- Tab 2-->	 
+<div id="tab-2" class="tab tab-2">
+<p class="tab-button"><span></span>Amenities and Facilities</p>
+<div class="container">
         <?php 
         if ($poi_type=='Stay')
         {
         include '_poiStayParams.phtml';
-                    }
+        }
         if ($poi_type=='Eat')
         {
             include '_poiEatParams.phtml';
@@ -50,20 +60,80 @@ href="<?= '/poi/related/'. $poi_id;?>">Related POI</a>
             include 'poithingsparams.phtml';
         }
         ?>
-    </div>
-    <div id="tabs-3">
+</div>
+</div>
+<!-- Tab 3-->	 
+<div id="tab-3" class="tab tab-3">
+<p class="tab-button"><span>&nbsp;</span>Images</p>
+<div class="container">
         <?php include '_poiImages.phtml';?>
+</div> <!--  container-->
+</div> <!--  tab tab-1 tab-active-->
+
+</div>  <!--  index tabs-->
+</div> <!--  tab-wrapper-->
+</div> <!--  dashboard -->
+</div> <!--  col main container -->
+</div> <!-- col main  -->
+
+
+
+
+<!-- Left Side Bar Starts Here -->	 
+<div class="col-left sidebar">
+    <div class="block block-sidebar">
+    <div class="block-title">
+        <strong><span><?php echo $this->leftbartitle;?></span></strong>
+    </div>
+    <div class="block-content">
+    <ul>
+    <?php 
+    $leftbarcontainer=$this->menuContainer('leftbarpoi');
+    $leftsidebar=$this->navigation($leftbarcontainer);
+    foreach ($leftbarcontainer as $pages) {
+        foreach ($pages as $uid => $page) {
+            $liClass = $page->getClass();
+            if ($page->getLabel() !== null && $page->isVisible(true)) {
+                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
+        }
+    }
+}
+?>
+    </ul>
     </div>
 </div>
+</div>
+
+</div>
+</div>
 </form>
- <script>
-    $(function() {
-        $( "#tabs" ).tabs();
-    });
- </script>
+<a href="<?= '/poi/related/'. $poi_id;?>">Related POI</a>
+
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('#coin-slider').coinslider({ navigation: true, delay: 5000 });
+jQuery(document).ready(function($){
+	// enable jQuery noConflict mode
+	jQuery.noConflict();
+	
+	if($.browser.msie && $.browser.version < 8) 
+		$('input[type=radio],[type=checkbox]').on('click', 
+				function(){ $(this).trigger('change'); });
+	
+	
+	/**
+	 * Index Tabs
+	 */
+	$('.index-tabs .tab-2 .container').hide();
+	$('.index-tabs .tab-3 .container').hide();
+	
+	$('.index-tabs .tab-button').click(function(){
+		$(this).parents('.index-tabs').find('.tab').each(function(){ 
+			$(this).removeClass('tab-active'); $('.container', this).hide(); });
+		$(this).next('.container').show();
+		$(this).parent('div').addClass('tab-active');
 	});
+}
 </script>
- 
+		
+		
+		
+

@@ -8,48 +8,53 @@ elseif (!is_array($setvalues))
         $setvalues=explode(' ', $setvalues);
 if (isset ( $datas )) {
 	$newrow = true;
-	$colnum = 0;
-	$totalcol = 2;
+	$colnum = 1;
 	$doit = true;
-	?>
-	<table>
-		<tbody>
-<?php
+}?>
 
-}
+<div class="box-info">
+<div class="box-head ">
+    <h2 class='add'><?php echo $form->getValue('poi_name').' Amenities and Facilities';?>:<a href="http://hm2t/usertrvelinterest">Add New</a></h2>
+</div>
 
+<?php 
 foreach ( $datas as $key => $value ) {
 	if ($newrow) {
 		$newrow = false;
 		?>
-		<tr><?php
+    <div class="col4-set">
+	<?php
 	}
-	$colnum += 1;
 	?>
-	<td><label for="poi_amenities-<?php echo $key;?>"><?php echo $value;?></label>
-		<input type="checkbox" name="poi_amenities[]"
+    <div class="<?php echo 'col-'.$colnum++; ?>">
+      <div class="box">
+         <div class="box-content">
+	        <label for="poi_amenities-<?php echo $key;?>"><?php echo $value;?></label>
+         </div>
+      </div>
+    </div>
+    <div class="<?php echo 'col-'.$colnum++; ?>">
+       <div class="box">
+          <div class="box-content">
+    		<input type="checkbox" name="poi_amenities[]"
 					id="poi_amenities-<?php echo $key;?>" value=<?php echo $key?> 
 					<?php  if(in_array($key, $setvalues))
 							 echo "checked"; 
-					else echo ''; ?>></td>
-<?php
-	if ($colnum == $totalcol) {
-		$colnum = 0;
-		?>
-		</tr><?php
-		$newrow = true;
-	}
-}
-if ($doit) {
-	?>
-	
-</tbody>
-<tfoot>
-<tr>
-<td>
-        <?php echo $form->getElement('submit');?>
-</td>
-</tr>
-</tfoot>
-</table> <?php }?>
-
+					else echo ''; ?>>
+		</div>
+		</div>
+		</div>
+        <?php if ($colnum==5)
+        {
+                    $colnum=1;
+                    $newrow=true;?>
+                    </div><br><?php 
+                    
+        }
+            }?>
+    </div>
+<div class="buttons-set">
+<input type="submit" name="submit" id="submit" value="Update" class = 'button'>
+</div>
+    
+		

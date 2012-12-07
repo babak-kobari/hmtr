@@ -2,48 +2,64 @@
 <?php
 $diningoptions = $form->getElement ( 'poi_dining_options' )->getMultiOptions ();
 $setvalues= $form->getElement ( 'poi_dining_options' )->getValue();
-if (!is_array($setvalues))
+if (is_null($setvalues))
+        $setvalues=array();
+elseif (!is_array($setvalues))
         $setvalues=explode(' ', $setvalues);
 if (isset ( $diningoptions )) {
 	$newrow = true;
-	$colnum = 0;
-	$totalcol = 2;
+	$colnum = 1;
 	$doit = true;
-	?>
-<h2>Dining Options</h2>
-	<table>
-		<tbody>
-<?php
+}?>
 
-}
+<div class="box-info">
+<div class="box-head ">
+    <h2 class='add'><?php echo $form->getValue('poi_name').' Dining Options';?><a href="http://hm2t/usertrvelinterest">Add New</a></h2>
+</div>
 
+<?php 
 foreach ( $diningoptions as $key => $value ) {
 	if ($newrow) {
 		$newrow = false;
 		?>
-		<tr><?php
+        <div class="col4-set">
+	<?php
 	}
-	$colnum += 1;
 	?>
-	<td><label for="poi_dining_options-<?php echo $key;?>"><?php echo $value;?></label>
+    <div class="<?php echo 'col-'.$colnum++; ?>">
+      <div class="box">
+         <div class="box-content">
+                <label for="poi_dining_options-<?php echo $key;?>"><?php echo $value;?></label>
+         </div>
+      </div>
+    </div>
+    <div class="<?php echo 'col-'.$colnum++; ?>">
+       <div class="box">
+          <div class="box-content">
 		<input type="checkbox" name="poi_dining_options[]"
 					id="poi_dining_option-<?php echo $key;?>" value=<?php echo $key?> 
 					<?php  if(in_array($key, $setvalues))
 							 echo "checked"; 
-					else echo ''; ?>></td>
-<?php
-	if ($colnum == $totalcol) {
-		$colnum = 0;
-		?>
-		</tr><?php
-		$newrow = true;
-	}
-}
-?>
-	
-</tbody>
-</table>
-
+					else echo ''; ?>>
+          		</div>
+		</div>
+		</div>
+        <?php if ($colnum==5)
+        {
+                    $colnum=1;
+                    $newrow=true;?>
+                    </div><br><?php 
+                    
+        }
+            }?>
+    </div>
+        <?php if (!$newrow)
+        {?>
+         </div><br><?php 
+        }?>
+		
+ <!--  set 2 -->
+<br> 
 <?php
 $cuisineoptions= $form->getElement ( 'Cuisine' )->getMultiOptions ();
 $setvalues= $form->getElement ( 'Cuisine' )->getValue();
@@ -51,55 +67,60 @@ if (is_null($setvalues))
         $setvalues=array();
 elseif (!is_array($setvalues))
         $setvalues=explode(' ', $setvalues);
-
-if (isset ( $cuisineoptions)) {
+if (isset ( $cuisineoptions )) {
 	$newrow = true;
-	$colnum = 0;
-	$totalcol = 3;
+	$colnum = 1;
 	$doit = true;
-	?>
-<h2>Cuisine</h2>
-	<table>
-		<tbody>
-<?php
+}?>
 
-}
 
+<div class="box-info">
+<div class="box-head ">
+    <h2 class='add'><?php echo $form->getValue('poi_name').' Cuisine Options';?>:<a href="http://hm2t/usertrvelinterest">Add New</a></h2>
+</div>
+
+<?php 
 foreach ( $cuisineoptions as $key => $value ) {
 	if ($newrow) {
 		$newrow = false;
 		?>
-		<tr><?php
+    <div class="col4-set">
+	<?php
 	}
-	$colnum += 1;
 	?>
-	<td><label for="Cuisine-<?php echo $key;?>"><?php echo $value;?></label>
+    <div class="<?php echo 'col-'.$colnum++; ?>">
+      <div class="box">
+         <div class="box-content">
+	<label for="Cuisine-<?php echo $key;?>"><?php echo $value;?></label>
+                           </div>
+      </div>
+    </div>
+    <div class="<?php echo 'col-'.$colnum++; ?>">
+       <div class="box">
+          <div class="box-content">
 		<input type="checkbox" name="Cuisine[]"
 					id="Cuisine-<?php echo $key;?>" value=<?php echo $key?> 
 					<?php  if(in_array($key, $setvalues))
 							 echo "checked"; 
-					else echo ''; ?>></td>
-<?php
-	if ($colnum == $totalcol) {
-		$colnum = 0;
-		?>
-		</tr><?php
-		$newrow = true;
-	}
-}
-if ($doit) {
-	?>
-	
-</tbody>
-</table>
-
-<table>
-<tr>
-<td>
-        <?php echo $form->getElement('submit');?>
-</td>
-</tr>
-</table>
-
-<?php }?>
-
+					else echo ''; ?>>
+          		</div>
+		</div>
+		</div>
+        <?php if ($colnum==5)
+        {
+                    $colnum=1;
+                    $newrow=true;?>
+                    </div><br><?php 
+                    
+        }
+            }?>
+    </div>
+        <?php if (!$newrow)
+        {?>
+         </div><br><?php 
+        }?>
+    
+<div class="buttons-set">
+<input type="submit" name="submit" id="submit" value="Update" class = 'button'>
+</div>
+    

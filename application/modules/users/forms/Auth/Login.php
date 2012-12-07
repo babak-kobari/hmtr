@@ -37,7 +37,7 @@ class Users_Form_Auth_Login extends Core_Form
         
         $rememberMe = new Zend_Form_Element_Checkbox('rememberMe');
         $rememberMe->setLabel('Remember Me');
-        $submit  ->class='checkbox';
+        $rememberMe->class='checkbox';
         
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel('Login');

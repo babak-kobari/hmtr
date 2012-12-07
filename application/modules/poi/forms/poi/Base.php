@@ -53,6 +53,12 @@ class Poi_Form_Poi_Base extends Core_Form
 	    $this->addElement($this->_amenities());
 	    $this->addElement($this->_images($poi_id));
 	    $this->addElement($this->_submit());
+	    foreach($this->getElements() as $element)
+	    {
+	    
+	        $element->removeDecorator('Label');
+	    }
+	     
 	    return $this;
 	}
 
@@ -65,7 +71,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	            '2' => 'No'
 	    ))
 	    ->setSeparator('');
-	
+	    $element->class='radio';
 	    return $element;
 	}
 	
@@ -79,6 +85,7 @@ class Poi_Form_Poi_Base extends Core_Form
 		$element->maxlength = '200';
 		$element->class = 'field text gf';
 		// $poi_name->addValidator('Alnum');
+		$element->class='input-text required-entry';
 		return $element;
 	}
 	protected function _poigroupname()
@@ -89,6 +96,8 @@ class Poi_Form_Poi_Base extends Core_Form
 		$element->maxlength = '200';
 		$element->class = 'field text gf';
 		// $poi_group_name->addValidator('Alnum');
+		$element->class='input-text';
+		
 		return $element;
 	}
 	protected function _website()
@@ -98,6 +107,7 @@ class Poi_Form_Poi_Base extends Core_Form
 		$element->size = '35';
 		$element->maxlength = '200';
 		$element->class = 'field text gf';
+		$element->class='input-text';
 		return $element;
 	}
 	protected function _contact_detail()
@@ -107,6 +117,7 @@ class Poi_Form_Poi_Base extends Core_Form
 		$element->size = '35';
 		$element->maxlength = '200';
 		$element->class = 'field text gf';
+		$element->class='input-text';
 		return $element;
 	}	
 	
@@ -147,7 +158,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	{
 		$element= new Zend_Form_Element_Text ( 'poi_city' );
 //		$element->setLabel ( 'City' )->setRequired ( 'true' );
-		$element->class = 'field text';
+		$element->class='input-text';
 		return $element;
 	}
 	protected function _area()
@@ -157,7 +168,8 @@ class Poi_Form_Poi_Base extends Core_Form
 		$element->class = 'field text';
 		$element->size = '70';
 		$element->maxlength = '200';
-				return $element;
+		$element->class='input-text required-entry search-autocomplete';
+		return $element;
 	}
 	
 	protected function _lat()
