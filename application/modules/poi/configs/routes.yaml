@@ -5,19 +5,19 @@ poiprofile:
     controller: profile
     action: index
 generalinfo:
-  route: poi/generalinfo/:id
+  route: poi/profile/generalinfo/:id
    defaults:
     module: poi
     controller: profile
     action: generalinfo
     id:0
 related:
-  route: poi/related/:id
+  route: poi/profile/related/:id
    defaults:
     module: poi
     controller: profile
     action: related
-    id:0
+    id:25
 view:
   route: poi/view/:id
    defaults:

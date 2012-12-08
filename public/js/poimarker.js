@@ -11,7 +11,7 @@ function initialize() {
                 center: latlng,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
             };
-            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+            map = new google.maps.Map(document.getElementById("map_canvas2"), myOptions);
                             
 			addMarker(lat,lon,'b',poi_id);
 	        $('#relatedlist li').each(function(){

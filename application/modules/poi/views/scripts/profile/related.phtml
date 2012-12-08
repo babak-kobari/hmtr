@@ -6,108 +6,202 @@ $eat_list=$this->eat_list;
 $things_list=$this->things_list;
 $related_list=$this->related_list;
 $thispoi=$this->thispoi;
+$poi_name=$thispoi['poi_name'];
+
 
 
 ?>
 <script type="text/javascript">
 loadScript(); 
 </script>
-<a
-href="<?= '/poi/generalinfo/'. $poi_id;?>">General Information</a>
+
+<div class="main-container col2-left-layout">
+<!-- Left Side Bar Starts Here -->	 
+<div class="col-left sidebar">
+    <div class="block block-sidebar">
+    <div class="block-title">
+        <strong><span><?php echo $this->leftbartitle;?></span></strong>
+    </div>
+    <div class="block-content">
+    <ul>
+    <?php 
+    $leftbarcontainer=$this->menuContainer('leftbarpoi');
+    $leftsidebar=$this->navigation($leftbarcontainer);
+    foreach ($leftbarcontainer as $pages) {
+        foreach ($pages as $uid => $page) {
+            $liClass = $page->getClass();
+            if ($page->getLabel() !== null && $page->isVisible(true)) {
+                    if ($page->getLabel() == 'Edit Related POIs')
+                        {
+                            continue;
+                        }
+                    if ($page->getLabel() == 'Edit POI')
+                        {
+                            echo '<li class="'.$liClass .'"><a href ='.
+                    '"'.$page->getHref().'/'.$poi_id.'">'.$page->getLabel().'</a></li>', PHP_EOL;
+                    } else {
+                    echo '<li class="'.$liClass .'"><a href ='.
+                    '"'.$page->getHref().'">'.$page->getLabel().'</a></li>', PHP_EOL;
+                    }
+//                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
+        }
+    }
+}
+?>
+
+</ul>
+    </div>
+</div>
+</div>
+<!-- Left Side Bar Starts Here -->	 
+
+<div class="main">
+<div class="col-main">
+<div class="col-main-container">
+<div class="box-info">
+<div class="box-head ">
+    <h2><?php echo 'Related Pois of '.$poi_name;?></h2>
+</div>
+
 <input id="thispoi_lat" name = "thispoi_lat" type="hidden" value="<?php echo $thispoi['poi_lat'];?>">
 <input id="thispoi_lon" name = "thispoi_lon" type="hidden" value="<?php echo  $thispoi['poi_lon'];?>">
 <input id="thispoi_id" name = "thispoi_id" type="hidden" value="<?php echo  $thispoi['poi_id'];?>">
+<div class="container">
 
 <!-- Dragable-->
-<div id='container'>
-<input type="text" name="staysearch" id="staysearch" value=""style="width: 30%;float: left;">
-<input type="text" name="eatsearch" id="eatsearch" value="" style="width: 30%;margin-left:  4%">
-<input type="text" name="thingssearch" id="thingssearch" value=""style="width: 30%;margin-left:  1%">
 
-<div id="divstaylist">
-<ul id="staylist" class="poilist" style="display:block; width: 30%; height: 30%; overflow: auto;">
+
+<div class="col3-set">
+<!-- ----------------------Col 1   -->
+
+<div class="col-1">
+<div class="box-info">
+<div class="input-search-box">
+<input type="text" name="staysearch" id="staysearch" value=""class="input-search">
+<input id="tw-input-submit" type="submit" value="" disabled="disabled"/>
+</div>
+<div id="divselectablelist" class="ui-widget ui-helper-clearfix">
+<ul id="staylist" class="poilist  ui-helper-reset ui-helper-clearfix">
 <?php 
 $i=0;
 foreach ($stay_list as $stay)
 {?>
-    <li id=<?php echo $stay['poi_id'];?> class="ui-state-default" 
+    <li id=<?php echo $stay['poi_id'];?> class="ui-widget-content ui-corner-tr" 
         data-lat=<?php echo $stay['poi_lat']?> data-lon = <?php echo $stay['poi_lon']?> data-poitype=<?php echo $stay['poi_type']?>
         style="cursor:move;">
-    	<a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
-		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
-        <?php echo $stay['poi_name']?>
+        <h4><?php echo $stay['poi_name']?></h4>
+        <a href="" title="View the POI" class="ui-icon ui-icon-zoomin ">View the POI</a>
+		<a id = "poilist-icon" href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
 	</li>
     <?php }
     
 ?>
 </ul>
 </div>
-
-<div id="diveatlist">
-<ul id="eatlist" class="poilist"  style="display:block;float:left; width: 30%; height: 30%; overflow: auto;">
+</div>
+</div>
+<!-- ----------------------Col 2   -->
+<div class="col-2">
+<div class="box-info">
+<div class="input-search-box">
+<input type="text" name="eatsearch" id="eatsearch" value="" class="input-search">
+<input id="tw-input-submit" type="submit" value="" disabled="disabled"/>
+</div>
+<div id="divselectablelist" class="ui-widget ui-helper-clearfix">
+<ul id="eatlist" class="poilist ui-helper-reset ui-helper-clearfix">
 <?php 
+$i=0;
 foreach ($eat_list as $eat)
 {?>
-    <li id=<?php echo $eat['poi_id'];?> class="ui-state-default" 
+    <li id=<?php echo $eat['poi_id'];?> class="ui-widget-content ui-corner-tr" 
         data-lat=<?php echo $eat['poi_lat']?> data-lon = <?php echo $eat['poi_lon']?> data-poitype=<?php echo $eat['poi_type']?>
         style="cursor:move;">
-    	<a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
-		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
-        <?php echo $eat['poi_name']?>
+        <h4><?php echo $eat['poi_name']?></h4>
+        <a href="" title="View the POI" class="ui-icon ui-icon-zoomin ">View the POI</a>
+		<a id = "poilist-icon" href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
 	</li>
-    
     <?php }
+    
 ?>
 </ul>
 </div>
-
-<div id="divthingslist">
-<ul id="thingslist" class="poilist" style="float:left; 30%; height: 30%; overflow: auto;">
+</div>
+</div>
+<!-- ----------------------Col 3   -->
+<div class="col-3">
+<div class="box-info">
+<div class="input-search-box" >
+<input type="text" name="thingssearch" id="thingssearch" value="" class="input-search">
+<input id="tw-input-submit" type="submit" value="" disabled="disabled"/>
+</div>
+<div id="divselectablelist" class="ui-widget ui-helper-clearfix">
+<ul id="thingslist" class="poilist ui-helper-reset ui-helper-clearfix">
 <?php 
+$i=0;
 foreach ($things_list as $things)
 {?>
-    <li id=<?php echo $things['poi_id'];?> class="ui-state-default" 
+    <li id=<?php echo $things['poi_id'];?> class="ui-widget-content ui-corner-tr" 
         data-lat=<?php echo $things['poi_lat']?> data-lon = <?php echo $things['poi_lon']?> data-poitype=<?php echo $things['poi_type']?>
         style="cursor:move;">
-    	<a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
-		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
-        <?php echo $things['poi_name']?>
+        <h4><?php echo $things['poi_name']?></h4>
+        <a href="" title="View the POI" class="ui-icon ui-icon-zoomin ">View the POI</a>
+		<a id = "poilist-icon" href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-s">Push to Related POI</a>
 	</li>
-<?php }
+    <?php }
+    
 ?>
 </ul>
 </div>
-<div id="tooltip" class="tooltip"></div>
-<br style="clear: both;" />
-<p></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ----------------------Related    -->
 
-<!-- dropable -->
-<div id="divrelatedlist" >
-<ul id = "relatedlist"  class="poilist" style="height: 10%; overflow: auto; ">
-<?php 
-//if (!is_array($related_list))
-//    $related_list=array();
-?>
+</div>
+<div class="main-container">
+<div class="relatedpoi">
+
+<div class="container">
+<div class="col2-set">
+<div class="col-1">
+<div class="box-info">
+<div id="map_canvas2"></div>
+</div>
+</div>
+<div class="col-2">
+<div class="box-info">
+<div id="divselectablelist" class="ui-widget ui-helper-clearfix">
+<ul id = "relatedlist"  class="poilist ui-helper-reset ui-helper-clearfix">
 <?php 
 foreach ($related_list as $related)
 
 {?>
 
-    <li id=<?php echo $related['poi_id'];?> class="ui-state-default" 
+    <li id=<?php echo $related['poi_id'];?> class="ui-widget-content ui-corner-tr"
         data-lat=<?php echo $related['poi_lat']?> data-lon = <?php echo $related['poi_lon']?> data-poitype=<?php echo $related['poi_type']?>
         style="cursor:move;">
-    	<a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
-		<a href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-n">Push to Related POI</a>
-        <?php echo $related['poi_name']?>
+        <h4><?php echo $related['poi_name']?></h4>
+        <a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
+		<a id = "poilist-icon2" href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-n">Push to Related POI</a>
 	</li>
 <?php }
 ?>
 
 </ul>
 </div>
-
 </div>
-<div id="map_canvas"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="tooltip" class="tooltip"></div>
+
 <script>
   $(document).ready(function() {
 		var $related = $( "#relatedlist" );
@@ -171,7 +265,9 @@ foreach ($related_list as $related)
 	            			autoOpen: false,
 	            	    	resizable : false,
 	    	        		show: true,
-	    	        		hide: true
+	    	        		hide: true,
+	    	        		height: 300,
+	    	                width: 800,
 	    	        	    };
 			            var divtooltip = document.getElementById("tooltip");
 			            divtooltip.innerHTML = data;
@@ -276,41 +372,4 @@ function calcdist(lat1,lon1,lat2,lon2){
 
 </script>
 <style>
-    .ui-state-default.hide { display:none; }
-    .poilist  { 
-    list-style-type: none; 
-    margin: 0; 
-    padding: 0; 
-    float: left; 
-    margin-right: 5px; 
-    background: #eee; 
-    padding: 5px; 
-    width: 143px;}
-    
-    #relatedlist{ 
-    list-style-type: none; 
-    margin: 0; 
-    padding: 0; 
-    float: left; 
-    margin-right: 10px; 
-    background: #eee; 
-    padding: 5px; 
-    width: 96%;}
-    .ui-state-default.hide { display:none; }
-    #relatedlist ul li, #poilist ul li  { 
-    margin: 5px; 
-    padding: 5px; 
-    font-size: 1.2em; 
-    width: 120px; }
-.tooltip {
-    display:none;
-    height:163px;
-    padding:40px 30px 10px 30px;
-    width:310px;
-    font-size:11px;
-    overflow: auto;
-    color:#fff;}
-.poilist li a { float: right; }
-.poilist li a.ui-icon-zoomin { float: left; }
-    
 </style>

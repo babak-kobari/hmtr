@@ -1,4 +1,3 @@
-
 <div class="box-info">
 <ul class="form-list">
    <li class="fields">
@@ -32,29 +31,10 @@
    
    <li class="fields">
     <div class="field ">
-		    <label for="poi_things_type">Type of Restaurant</label>
+		    <label for="poi_restaurant_type">Type of Restaurant</label>
             <div class="input-box">
-        <?php if (isset($poi_id) and !is_null($poi_id))
-        {
-            $listNameOptions = 
-                $form->getElement('poi_things_type')->getMultiOptions();
-            foreach ($listNameOptions as $key)
-            {
-                foreach ($key as $value=>$lable)
-                {
-                    if ($value == $form->getValue('poi_things_type'))
-                    {?>
-                        <input type="text" name="poi_things_type" id="poi_things_type" value="<?php echo $lable;?>" size="35" maxlength="200" class="input-text disabled" disabled>
-                        
-                       <?php  break;
-                    }
-                }
-            }
-                
-//                echo $form->getValue('poi_things_type');
-        } else
-		        echo $form->getElement('poi_things_type');?>
-                    </div>
+		    <?php echo $form->getElement('poi_restaurant_type');?>
+        </div>
     </div>
    </li>
    
@@ -97,25 +77,5 @@
 <div id="map_canvas"></div>
 
 
-<script type="text/javascript">
-<!--
-$(document).ready(function() {
-	
-	jQuery('#poi_things_type').change(function() {
-		var id = jQuery(this).attr("value");
-		if (typeof document.getElementsByName("poi_id")[0] != 'undefined') {
-		    var poi_id = document.getElementById('poi_id').value;
-		} else {
-			var poi_id='undefined';
-		}
-		var a = 'http://myapp/poi/thngsparam/'+poi_id+'/'+id;
-		jQuery.ajax({
-	        url: a,
-	        success: function(data){
-	            var divtab2 = document.getElementById("tab-2");
-	            divtab2.innerHTML = data;}
-	    });	
-	});
-});
-//-->
-</script>
+
+ 

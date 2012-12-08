@@ -43,9 +43,9 @@ $poi_type=$this->poi_type;
 </div> <!--  container-->
 </div> <!--  tab tab-1 tab-active-->
 <!-- Tab 2-->	 
-<div id="tab-2" class="tab tab-2">
+<div class="tab tab-2">
 <p class="tab-button"><span></span>Amenities and Facilities</p>
-<div class="container">
+<div id="tab-2" class="container">
         <?php 
         if ($poi_type=='Stay')
         {
@@ -94,46 +94,51 @@ $poi_type=$this->poi_type;
         foreach ($pages as $uid => $page) {
             $liClass = $page->getClass();
             if ($page->getLabel() !== null && $page->isVisible(true)) {
-                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
+                    if ($page->getLabel() == 'Edit POI')
+                        {
+                            continue;
+                        }
+                    if ($page->getLabel() == 'Edit Related POIs')
+                        {
+                            echo '<li class="'.$liClass .'"><a href ='.
+                    '"'.$page->getHref().'/'.$poi_id.'">'.$page->getLabel().'</a></li>', PHP_EOL;
+                    } else {
+                    echo '<li class="'.$liClass .'"><a href ='.
+                    '"'.$page->getHref().'">'.$page->getLabel().'</a></li>', PHP_EOL;
+                    }
+//                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
         }
     }
 }
 ?>
-    </ul>
+
+</ul>
     </div>
 </div>
 </div>
+<!-- Left Side Bar Starts Here -->	 
 
 </div>
 </div>
 </form>
-<a href="<?= '/poi/related/'. $poi_id;?>">Related POI</a>
 
 <script type="text/javascript">
 jQuery(document).ready(function($){
-	// enable jQuery noConflict mode
-	jQuery.noConflict();
-	
-	if($.browser.msie && $.browser.version < 8) 
+	if(jQuery.browser.msie && $.browser.version < 8) 
 		$('input[type=radio],[type=checkbox]').on('click', 
 				function(){ $(this).trigger('change'); });
-	
-	
-	/**
-	 * Index Tabs
-	 */
-	$('.index-tabs .tab-2 .container').hide();
-	$('.index-tabs .tab-3 .container').hide();
-	
-	$('.index-tabs .tab-button').click(function(){
-		$(this).parents('.index-tabs').find('.tab').each(function(){ 
-			$(this).removeClass('tab-active'); $('.container', this).hide(); });
-		$(this).next('.container').show();
-		$(this).parent('div').addClass('tab-active');
+	jQuery('.index-tabs .tab-2 .container').hide();
+	jQuery('.index-tabs .tab-3 .container').hide();
+	jQuery('.index-tabs .tab-button').click(function(){
+		jQuery(this).parents('.index-tabs').find('.tab').each(function(){ 
+			jQuery(this).removeClass('tab-active'); $('.container', this).hide(); });
+		jQuery(this).next('.container').show();
+		jQuery(this).parent('div').addClass('tab-active');
 	});
-}
+	
+});
 </script>
 		
-		
+
 		
 

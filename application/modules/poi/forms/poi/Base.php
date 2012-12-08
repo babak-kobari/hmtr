@@ -238,11 +238,19 @@ class Poi_Form_Poi_Base extends Core_Form
 	{
 		$element= new Zend_Form_Element_File ( 'poi_images' );
 		$path=APPLICATION_PATH . '/../public/uploads/poi/'.$poi_id.'/';
+		
 		$a=is_dir($path);
 		if (!is_dir($path))
 		{
 		    mkdir($path);
 		}
+		$element->addValidator('Count', false, 1);
+		// max 2MB
+		$element->addValidator('Size', false, 2097152)
+		->setMaxFileSize(2097152);
+		// only JPEG, PNG, or GIF
+		$element->setValueDisabled(true);
+		
 		$element->setDestination ( $path);
 		$element->addValidator ( 'Extension', false, array (
 				'jpg,png,gif' 

@@ -2,16 +2,6 @@
 <div class="box-head ">
     <h2 ><?php echo $form->getValue('poi_name').' Photos';?></h2>
 </div>
-<ul class="form-list">
-   <li class="fields">
-    <div class="field ">
-         <div class="input-box">
-                <?php echo $form->getElement('poi_images');?>
-<?php echo $form->getElement('submit');?>
-                </div>
-    </div>
-</li>
-</ul>
 </div>
 <?php $path='/uploads/poi/'.$this->poi_id.'/';?>
 

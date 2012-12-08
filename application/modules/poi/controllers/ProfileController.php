@@ -169,13 +169,11 @@ class Poi_ProfileController extends Core_Controller_Action
 	    
 	    
 	    
-	    
-        $this->view->headLink()->appendStylesheet('/css/default/coin-slider-styles.css');
-        $this->view->headScript()->appendFile('/js/coin-slider.min.js');
+	    $this->view->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');
+	    $this->view->headScript()->appendFile('/js/googlemap.js');
+//	    $this->view->headScript()->appendFile('/js/tabs.js');
+	     
         $this->view->headLink()->appendStylesheet('/css/default/jquery-ui-1.9.1.css');
-        $this->view->headScript()->appendFile('/js/tabs.js');
-        $this->view->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');
-        $this->view->headScript()->appendFile('/js/googlemap.js');
         
 	    $this->view->title = 'Point Of Interest';
 	    $this->view->poi_id = $poi_id;
@@ -233,9 +231,9 @@ class Poi_ProfileController extends Core_Controller_Action
 
         $mykey='AIzaSyBTdIhb3x2S7P-62U2q-5EYDU1v29IyJF0';
         $this->view->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?sensor=false');
-        $this->view->headScript()->appendFile('/js/poimarker.js');
         $this->view->headLink()->appendStylesheet('/css/default/jquery-ui-1.9.1.css');
-	     
+        $this->view->headScript()->appendFile('/js/poimarker.js');
+        
         $this->view->title = 'Related Point Of Interest';
         $this->view->poi_id = $poi_id;
         $this->view->poi_type=$poi_type;
