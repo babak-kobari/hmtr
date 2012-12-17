@@ -1,0 +1,13 @@
+shareexp:
+  route: shareexp
+   defaults:
+    module: exp
+    controller: shareexp
+    action: index
+exppoi:
+  route: exp/shareexp/savepoi
+   defaults:
+    module: exp
+    controller: shareexp
+    action: savepoi
+    

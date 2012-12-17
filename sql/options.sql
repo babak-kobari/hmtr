@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 31, 2012 at 12:45 AM
+-- Generation Time: Dec 13, 2012 at 03:50 PM
 -- Server version: 5.1.50
 -- PHP Version: 5.3.14
 
@@ -25,7 +25,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `options`
 --
 
-DROP TABLE IF EXISTS `options`;
 CREATE TABLE IF NOT EXISTS `options` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,

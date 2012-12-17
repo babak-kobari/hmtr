@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 31, 2012 at 12:43 AM
+-- Generation Time: Dec 13, 2012 at 03:49 PM
 -- Server version: 5.1.50
 -- PHP Version: 5.3.14
 
@@ -25,14 +25,13 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `hm_poi`
 --
 
-DROP TABLE IF EXISTS `hm_poi`;
 CREATE TABLE IF NOT EXISTS `hm_poi` (
   `poi_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `poi_name` varchar(200) DEFAULT NULL,
   `poi_group_name` varchar(200) DEFAULT NULL,
   `poi_ranking` int(5) DEFAULT NULL,
   `poi_trip_advisor_ranking` int(5) DEFAULT NULL,
-  `poi_type` varchar(5) NOT NULL,
+  `poi_type` varchar(10) NOT NULL,
   `poi_stay_type` int(11) DEFAULT NULL,
   `poi_stay_calssification` varchar(10) DEFAULT NULL,
   `poi_country` varchar(200) DEFAULT NULL,
@@ -51,4 +50,4 @@ CREATE TABLE IF NOT EXISTS `hm_poi` (
   `poi_working_Time` int(11) DEFAULT NULL,
   `poi_average_cost` int(11) DEFAULT NULL,
   PRIMARY KEY (`poi_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;

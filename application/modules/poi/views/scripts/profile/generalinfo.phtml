@@ -13,6 +13,47 @@ $poi_type=$this->poi_type;
 		
 <div class="main-container col2-left-layout">
 <div class="main">
+<!-- Left Side Bar Starts Here -->	 
+<div class="col-left sidebar">
+    <div class="block block-sidebar">
+    <div class="block-title">
+        <strong><span><?php echo $this->leftbartitle;?></span></strong>
+    </div>
+    <div class="block-content">
+    <ul>
+    <?php 
+    $leftbarcontainer=$this->menuContainer('leftbarpoi');
+    $leftsidebar=$this->navigation($leftbarcontainer);
+    foreach ($leftbarcontainer as $pages) {
+        foreach ($pages as $uid => $page) {
+            $liClass = $page->getClass();
+            if ($page->getLabel() !== null && $page->isVisible(true)) {
+                    if ($page->getLabel() == 'Edit POI')
+                        {
+                            continue;
+                        }
+                    if ($page->getLabel() == 'Edit Related POIs')
+                        {
+                            if ($poi_id !== null)
+                                echo '<li class="'.$liClass .'"><a href ='.
+                                    '"'.$page->getHref().'/'.$poi_id.'">'.$page->getLabel().'</a></li>', PHP_EOL;
+                            else 
+                                continue;
+                    } else {
+                    echo '<li class="'.$liClass .'"><a href ='.
+                    '"'.$page->getHref().'">'.$page->getLabel().'</a></li>', PHP_EOL;
+                    }
+//                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
+        }
+    }
+}
+?>
+
+</ul>
+    </div>
+</div>
+</div>
+<!-- Left Side Bar Starts Here -->	 
 
 <div class="col-main">
 <div class="col-main-container">
@@ -79,44 +120,6 @@ $poi_type=$this->poi_type;
 
 
 
-<!-- Left Side Bar Starts Here -->	 
-<div class="col-left sidebar">
-    <div class="block block-sidebar">
-    <div class="block-title">
-        <strong><span><?php echo $this->leftbartitle;?></span></strong>
-    </div>
-    <div class="block-content">
-    <ul>
-    <?php 
-    $leftbarcontainer=$this->menuContainer('leftbarpoi');
-    $leftsidebar=$this->navigation($leftbarcontainer);
-    foreach ($leftbarcontainer as $pages) {
-        foreach ($pages as $uid => $page) {
-            $liClass = $page->getClass();
-            if ($page->getLabel() !== null && $page->isVisible(true)) {
-                    if ($page->getLabel() == 'Edit POI')
-                        {
-                            continue;
-                        }
-                    if ($page->getLabel() == 'Edit Related POIs')
-                        {
-                            echo '<li class="'.$liClass .'"><a href ='.
-                    '"'.$page->getHref().'/'.$poi_id.'">'.$page->getLabel().'</a></li>', PHP_EOL;
-                    } else {
-                    echo '<li class="'.$liClass .'"><a href ='.
-                    '"'.$page->getHref().'">'.$page->getLabel().'</a></li>', PHP_EOL;
-                    }
-//                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
-        }
-    }
-}
-?>
-
-</ul>
-    </div>
-</div>
-</div>
-<!-- Left Side Bar Starts Here -->	 
 
 </div>
 </div>

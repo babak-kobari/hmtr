@@ -20,6 +20,8 @@ class Poi_ProfileController extends Core_Controller_Action
         $this->view->leftbar1title='Points of Interest';
         $this->view->leftbar1menuname='poileftmenu1';
         $this->_poimodel = new Poi_Model_Poi_Manager();
+        $this->view->leftbartitle='Points of Interest';
+        
       
         
 	}

@@ -165,7 +165,6 @@ class Poi_Form_Poi_Base extends Core_Form
 	{
 		$element= new Zend_Form_Element_Text ( 'poi_area' );
 //		$element->setLabel ( 'Area' )->setRequired ( 'true' );
-		$element->class = 'field text';
 		$element->size = '70';
 		$element->maxlength = '200';
 		$element->class='input-text required-entry search-autocomplete';

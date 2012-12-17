@@ -24,7 +24,8 @@ class Users_LoginController extends Core_Controller_Action
         parent::init();
         $this->_flashMessenger = $this->_helper->getHelper('FlashMessenger');
         $this->_manager = new Users_Model_User_Manager();
-                
+        $this->view->leftbartitle='My Profile';
+        
     }
 
     /**

@@ -1,0 +1,69 @@
+/*
+ * jquery.mb.components
+ * Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ * email: mbicocchi@open-lab.com
+ * site: http://pupunzi.com
+ *
+ * Licences: MIT, GPL
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ */
+
+body{
+	font-family:"Lucida Sans Unicode","Lucida Grande",Helvetica,Arial,sans-serif;
+	font-size:13px;
+}
+
+#wrapper{
+  display:none;
+  margin:auto;
+  /*width:1000px;*/
+}
+
+#myScroll{
+/*display:none;*/
+}
+
+
+#myScroll .scrollEl{
+  display:none;
+  border:1px solid #ddd;
+  height:auto;
+  padding:10px;
+  text-shadow:#999 1px 1px 1px;
+  text-align:center;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+}
+
+#controls div, #controls1 div{
+  font-family:sans-serif;
+  margin-top:5px;
+  background:#fff;
+  display:inline-block;
+  padding:6px;
+  cursor:pointer;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-box-shadow:#999 2px 2px 2px;
+  -webkit-box-shadow:#999 2px 2px 2px;
+}
+
+#controls div.positiondisplay{
+	background:#000;
+	color:#fff;
+	cursor:default;
+}
+
+
+#controls .sel{
+  color:black !important;
+  font-weight:bold;
+}
+#controls .disabled{
+  color:gray;
+}
+#controls .page{
+  padding:5px;
+  color:gray;
+}

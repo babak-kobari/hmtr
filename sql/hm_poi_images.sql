@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 31, 2012 at 12:43 AM
+-- Generation Time: Dec 13, 2012 at 03:49 PM
 -- Server version: 5.1.50
 -- PHP Version: 5.3.14
 
@@ -25,7 +25,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `hm_poi_images`
 --
 
-DROP TABLE IF EXISTS `hm_poi_images`;
 CREATE TABLE IF NOT EXISTS `hm_poi_images` (
   `poiimg_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `poiimg_poi_id` int(10) NOT NULL,
@@ -34,4 +33,4 @@ CREATE TABLE IF NOT EXISTS `hm_poi_images` (
   `poiimg_desc` varchar(200) DEFAULT NULL,
   `poiimg_default` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`poiimg_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;

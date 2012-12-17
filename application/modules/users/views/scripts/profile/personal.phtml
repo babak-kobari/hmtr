@@ -9,6 +9,32 @@ $form = $this->form;
 
 <div class="main-container col2-left-layout">
     <div class="main">
+    <!-- Left Side Bar Starts Here -->	 
+<div class="col-left sidebar">
+    <div class="block block-sidebar">
+    <div class="block-title">
+        <strong><span><?php echo $this->leftbartitle;?></span></strong>
+    </div>
+    <div class="block-content">
+    <ul>
+    <?php 
+    $leftbarcontainer=$this->menuContainer('leftbar');
+    $leftsidebar=$this->navigation($leftbarcontainer);
+    foreach ($leftbarcontainer as $pages) {
+        foreach ($pages as $uid => $page) {
+            $liClass = $page->getClass();
+            if ($page->getLabel() !== null && $page->isVisible(true)) {
+                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
+        }
+    }
+}
+?>
+    </ul>
+    </div>
+</div>
+</div>
+<!-- Left Side Bar ends Here -->	 
+    
         <div class="col-main">
         <div class="col-main-container">
         <div class="dashboard">
@@ -89,30 +115,6 @@ $form = $this->form;
  </div>
     </div>
  </div>
-</div>
-<!-- Left Side Bar Starts Here -->	 
-<div class="col-left sidebar">
-    <div class="block block-sidebar">
-    <div class="block-title">
-        <strong><span><?php echo $this->leftbartitle;?></span></strong>
-    </div>
-    <div class="block-content">
-    <ul>
-    <?php 
-    $leftbarcontainer=$this->menuContainer('leftbar');
-    $leftsidebar=$this->navigation($leftbarcontainer);
-    foreach ($leftbarcontainer as $pages) {
-        foreach ($pages as $uid => $page) {
-            $liClass = $page->getClass();
-            if ($page->getLabel() !== null && $page->isVisible(true)) {
-                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
-        }
-    }
-}
-?>
-    </ul>
-    </div>
-</div>
 </div>
 
 

@@ -1,3 +1,4 @@
+<!doctype html>
 <?php 
 $request = Zend_Controller_Front::getInstance()->getRequest();
 $class = array();
@@ -10,8 +11,10 @@ $class[] = 'a-' . $request->getActionName();
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <?php
 echo $this->headTitle();
+$this->headLink()->appendStylesheet('/css/default/skin1.css');
+$this->headScript()->prependFile('/js/jquery-1.8.2.js');
+$this->headScript()->appendFile('/js/jquery.tools.min.js');
 $this->headLink()->appendStylesheet('/css/default/layout.css');
-$this->headScript()->appendFile('/js/jquery-1.8.2.js');
 $this->headScript()->appendFile('/js/jquery-ui.js');
 $this->headScript()->appendFile('/js/cycle.js');
 echo $this->headLink();
@@ -20,7 +23,7 @@ echo $this->headScript();
 
 </head>
 <body class=" cms-index-index cms-home">
-<div class="wrapper">
+<div class="layout-wrapper">
 	<noscript>
         <div class="noscript">
             <div class="noscript-inner">
@@ -45,11 +48,6 @@ echo $this->headScript();
      </div>
 <!-- Page body starts here -->
 	 <?php echo $this->layout()->content;?>
-	 
-	 
-	 
-	 
-	 
      <hr>
      
     <footer class="p-footer" >

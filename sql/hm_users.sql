@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 31, 2012 at 12:44 AM
+-- Generation Time: Dec 13, 2012 at 03:50 PM
 -- Server version: 5.1.50
 -- PHP Version: 5.3.14
 
@@ -25,7 +25,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `hm_users`
 --
 
-DROP TABLE IF EXISTS `hm_users`;
 CREATE TABLE IF NOT EXISTS `hm_users` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `login` varchar(255) NOT NULL,
@@ -65,4 +64,4 @@ CREATE TABLE IF NOT EXISTS `hm_users` (
 --
 
 INSERT INTO `hm_users` (`id`, `login`, `email`, `password`, `salt`, `firstname`, `lastname`, `avatar`, `role`, `status`, `created`, `updated`, `logined`, `ip`, `count`, `hashCode`, `inform`, `facebookId`, `twitterId`, `googleId`, `birth_date`, `nationality`, `currentlocation`, `gender`, `about_me`, `travel_style`, `travel_type`) VALUES
-(10067, 'babak', 'bb@b2b2.com', '643ea1f0edbc388c25eb35722a610dd6', 'eaf1d8505e846732a3e7ba4e6e4efd01', 'babak', 'kobari', NULL, 'user', 'active', '2012-10-06 19:19:08', '2012-10-27 10:37:42', '2012-10-27 10:37:42', 2130706433, 34, '588d47615180f47d83e429b489464301', 'false', NULL, NULL, NULL, '2012-12-12', 23, 23, 1, 'sdafsdf', 260, 23);
+(10067, 'babak', 'bb@b2b2.com', '643ea1f0edbc388c25eb35722a610dd6', 'eaf1d8505e846732a3e7ba4e6e4efd01', 'babak', 'kobari', NULL, 'user', 'active', '2012-10-06 19:19:08', '2012-12-11 18:03:43', '2012-12-11 18:03:43', 2130706433, 59, '588d47615180f47d83e429b489464301', 'false', NULL, NULL, NULL, '2012-12-12', 23, 23, 1, 'sdafsdf', 260, 23);

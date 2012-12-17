@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 31, 2012 at 12:44 AM
+-- Generation Time: Dec 13, 2012 at 03:50 PM
 -- Server version: 5.1.50
 -- PHP Version: 5.3.14
 
@@ -25,7 +25,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Table structure for table `hm_user_travelpreferences`
 --
 
-DROP TABLE IF EXISTS `hm_user_travelpreferences`;
 CREATE TABLE IF NOT EXISTS `hm_user_travelpreferences` (
   `trvint_id` int(10) NOT NULL AUTO_INCREMENT,
   `trvint_user_id` int(10) NOT NULL,

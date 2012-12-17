@@ -81,10 +81,11 @@ foreach ($this->travel_with as $row)
         <?php if ($colnum==5)
         {
                     $colnum=1;
-                    $newrow=true;?>
+                    $newrow=true;
+                    ?>
                     </div><br><?php 
                     
-        }
+        } $i=$i+1;
             }?>
     </div>
 </div>
@@ -130,7 +131,7 @@ foreach ($this->good_for as $row)
                 value="<?php echo $row['trvint_param_id'];?>" >
         <input type="range" name="<?php echo 'good_for['.$i.'][trvint_rate]';?>" 
             min="1" max="10" value="<?php echo $row['trvint_rate'];?>" 
-             step="1" size = "10"/>
+             step="1" size = "10" />
                                 </div>
             </div>
         </div>
@@ -140,8 +141,8 @@ foreach ($this->good_for as $row)
                     $newrow=true;?>
                     </div><br><?php 
                     
-        }
-            }?>
+        } $i=$i+1;
+                                }?>
     </div>
 </div>    
     
@@ -196,10 +197,13 @@ foreach ($this->Travel_Objective as $row)
                     $newrow=true;?>
                     </div><br><?php 
                     
-        }
-            }?>
+        } $i=$i+1;
+                                }?>
     </div>
 </div>    
+<script>
+    $(":range").rangeinput();
+</script>
 
 <div class="buttons-set">
 <input type="submit" name="submit" id="submit" value="Update" class = 'button'>
@@ -214,7 +218,4 @@ foreach ($this->Travel_Objective as $row)
 </form>
 
 
-<script>
-    $(":range").rangeinput();
-</script>
 
