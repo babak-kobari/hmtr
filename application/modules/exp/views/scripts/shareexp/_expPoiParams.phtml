@@ -1,0 +1,59 @@
+
+<?php
+$datas = $this->params;
+?>
+
+<div class="box-info">
+<?php 
+foreach ( $datas as $key => $value ) {
+    $title=true;
+        foreach ($value as $key2=>$value2)
+    {
+
+if ($title)
+{?>
+<div class="box-head ">
+    <h2><?php echo $key?></h2>
+</div><?php 
+    $title=false;
+}        
+        ?>
+		<div class="col3-set">
+		<div class="col-1">
+      <div class="box">
+         <div class="box-content">
+	        <label><?php echo $value2['poifcl_param_category_desc'];?></label>
+    		<input type="hidden" name="poi_amenities"
+					id="poi_amenities-<?php echo $value2['exp_poi_param_id'];?>" value=<?php echo $value2['exp_poi_param_id'];?>>
+    		<input type="hidden" name="poi_amenities_deec"
+					id="poi_amenities_desc-<?php echo $value2['exp_poi_param_id'];?>" value="<?php echo $key;?>">
+					</div>
+      </div>
+    </div>
+    <div class="col-2">
+       <div class="box">
+          <div class="box-content">
+    		<input type="hidden" name="rateit-<?php echo $value2['exp_poi_param_id'];?>"
+					id="rateit-<?php echo $value2['exp_poi_param_id'];?>" 
+					value="<?php echo $value2['exp_poi_param_rate'];?>" 
+					data-amenitiesid="<?php echo $value2['exp_poi_param_id'];?>">
+					
+          <div class="rateit" id="rateit-<?php echo $value2['exp_poi_param_id'];?>" 
+              data-rateit-step="1" data-rateit-value="<?php $value2['exp_poi_param_rate'];?>"
+              data-rateit-backingfld="#rateit-<?php echo $value2['exp_poi_param_id'];?>">
+          </div>
+         </div>
+	    </div>
+	</div>
+    <div class="col-3">
+       <div class="box">
+          <div class="box-content">
+            <textarea name="shortdesc-<?php echo $value2['exp_poi_param_id'];?>" id="shortdesc-<?php echo $value2['exp_poi_param_id'];?>" cols="20" rows="2" maxlength="2000"><?php echo $value2['exp_poi_param_comment'];?></textarea>
+          </div>
+         </div>
+	    </div>
+	</div>
+	
+    <br>
+  <?php }}?>
+    </div>

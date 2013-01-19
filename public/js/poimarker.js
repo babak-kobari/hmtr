@@ -5,6 +5,7 @@ function initialize() {
 			var lat = document.getElementById('thispoi_lat').value;
 			var lon = document.getElementById('thispoi_lon').value;
 			var poi_id = document.getElementById('thispoi_id').value;
+			var page_id = document.getElementById('page_id').value;
             var latlng = new google.maps.LatLng(lat, lon);
             var myOptions = {
                 zoom: 9,
@@ -12,14 +13,11 @@ function initialize() {
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
             };
             map = new google.maps.Map(document.getElementById("map_canvas2"), myOptions);
-                            
-			addMarker(lat,lon,'b',poi_id);
-	        $('#relatedlist li').each(function(){
-				var mapid = $(this).attr("id");
-			    var lat2 = $(this).attr("data-lat");
-				var lon2 = $(this).attr("data-lon");
-				addMarker(lat2,lon2,'r',mapid);
-	        });     
+            if (page_id=='relatedlist li'){
+    			addMarker(lat,lon,'b',poi_id);
+            	
+            }
+			addrelatedMarkers(page_id);
 
         }
         var myKey = "AIzaSyBTdIhb3x2S7P-62U2q-5EYDU1v29IyJF0";
@@ -29,6 +27,15 @@ function initialize() {
             script.src = "https://maps.googleapis.com/maps/api/js?key=" + myKey + "&sensor=false&callback=initialize";
             
             document.body.appendChild(script);
+        }
+        function addrelatedMarkers (page_id) {
+	        $(page_id).each(function(){
+				var mapid = $(this).attr("id");
+			    var lat2 = $(this).attr("data-lat");
+				var lon2 = $(this).attr("data-lon");
+				addMarker(lat2,lon2,'r',mapid);
+	        });     
+        	
         }
         function addMarker(lat,lon,color,mapid) {
         	var iconcolor = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';

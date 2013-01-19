@@ -113,19 +113,19 @@ class Poi_ProfileController extends Core_Controller_Action
 	        $images=$row->getImages()->toarray();
 	        if ($poi_type=='Stay')
 	        {
-    	        $params['Amenities']=$row->getFacl('Amenities')->toarray();
+    	        $params['Amenities']=$row->getFacl('Amenities');
 	        }
 	    	if ($poi_type=='Eat')
 	        {
-    	        $params['Dining_Options']=$row->getFacl('Dining_Options')->toarray();
-	            $params['Cuisine']=$row->getFacl('Cuisine')->toarray();
+    	        $params['Dining_Options']=$row->getFacl('Dining_Options');
+	            $params['Cuisine']=$row->getFacl('Cuisine');
 	        }
 	    	if ($poi_type=='Things')
 	        {
 	            $paramtable= new Users_Model_Param_Table();
 	            $thingsparam=$paramtable->getparambyId($row->poi_things_type);
-    	        $params['Things_options']=$row->getFacl('Things_options')->toarray();
-	            $params['Things_activity']=$row->getFacl('Things_activity')->toarray();
+    	        $params['Things_options']=$row->getFacl('Things_options');
+	            $params['Things_activity']=$row->getFacl('Things_activity');
 	        }
 	    }
 	    

@@ -66,6 +66,7 @@ loadScript();
 <input id="thispoi_lat" name = "thispoi_lat" type="hidden" value="<?php echo $thispoi['poi_lat'];?>">
 <input id="thispoi_lon" name = "thispoi_lon" type="hidden" value="<?php echo  $thispoi['poi_lon'];?>">
 <input id="thispoi_id" name = "thispoi_id" type="hidden" value="<?php echo  $thispoi['poi_id'];?>">
+<input id="page_id" name = "page_id" type="hidden" value="#relatedlist li">
 <div class="container">
 
 <!-- Dragable-->
@@ -170,7 +171,7 @@ foreach ($things_list as $things)
 <div class="col2-set">
 <div class="col-1">
 <div class="box-info">
-<div id="map_canvas2"></div>
+<div id="map_canvas2" class="map_canvas2"></div>
 </div>
 </div>
 <div class="col-2">

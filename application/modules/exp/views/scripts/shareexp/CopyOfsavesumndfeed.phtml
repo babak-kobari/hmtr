@@ -1,0 +1,47 @@
+<?php 
+$form=$this->form;
+?>
+<form id="<?php echo $form->getName();?>"
+		name="<?php echo $form->getName();?>" class="overlay topLabel page"
+		enctype="multipart/form-data"
+		method="<?php echo $form->getMethod();?>"
+		action="<?php echo $form->getAction();?>">
+
+<div class="box-info">
+<ul class="small-form-list">
+   <li class="fields">
+    <div class="field ">
+         <label for="exp_trans_type">Transportation Type</label>
+         <div class="input-box">
+    	    <?php echo $form->getElement('exp_trans_type');?>
+         </div>
+    </div>
+   </li>
+   
+   <li class="fields">
+    <div class="field ">
+            <label for="exp_trans_cost">Average Transportation Cost for the day</label>
+        <div class="input-box">
+	        <?php echo $form->getElement('exp_trans_cost');?>
+        </div>
+    </div>
+   </li>
+      <li class="wide">
+       <div class="field ">
+		    <label for="exp_trans_comment">Your comment</label>
+        <div class="input-box">
+		    <?php echo $form->getElement('exp_trans_comment');?>
+        </div>
+    </div>
+   </li>
+   <li class="fields">
+    <div class="field ">
+            <label for="exp_day_cost">Total Cost of the Day</label>
+            <div class="input-box">
+            <?php  echo $form->getElement('exp_day_cost');?>
+            </div>
+     </div>
+   </li>
+   </ul>
+</div>
+</form>

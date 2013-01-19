@@ -12,13 +12,14 @@ class Exp_Model_Exp_Table extends Core_Db_Table_Abstract
 	        'columns' => 'exp_travel_type',
 	        'refTableClass' => 'Users_Model_Param_Table',
 	        'refColumns' => 'param_id'),
-	        'travel_objective' => array (
-	                'columns' => 'exp_travel_objective' ,
-	                'refTableClass' => 'Users_Model_Param_Table',
-	                'refColumns' => 'param_id')
-	                        );
-	                protected $_dependentTables = array (
-	                        'Exp_Model_expdays_Table');
+	'travel_objective' => array (
+	         'columns' => 'exp_travel_objective' ,
+	         'refTableClass' => 'Users_Model_Param_Table',
+	         'refColumns' => 'param_id')
+	);
+	protected $_dependentTables = array (
+	      'Exp_Model_expdays_Table',
+	      'Exp_Model_exppoihead_Table');
 	
 	
 	public function getExpbyId($exp_id) {

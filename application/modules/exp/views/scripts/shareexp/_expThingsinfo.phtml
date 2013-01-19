@@ -1,0 +1,52 @@
+<div class="box-info">
+<ul class="form-list">
+   <li class="fields">
+    <div class="field ">
+         <label for="exp_poi_title">Title</label>
+         <div class="input-box">
+    	    <?php echo $form->getElement('exp_poi_title');?>
+    		<input type="hidden" name="exp_poi_id"
+					id="exp_poi_id" 
+					value="<?php echo $poi_id?>">
+    	             </div>
+    </div>
+    <div class="field">
+            <label for="exp_poi_average_cost">Average Cost</label>
+        <div class="input-box">
+	        <?php echo $form->getElement('exp_poi_average_cost');?>
+        </div>
+    </div>
+   </li>
+   
+   <li class="fields">
+    <div class="field ">
+            <label for="exp_poi_average_time">Average Spend Time</label>
+        <div class="input-box">
+	        <?php echo $form->getElement('exp_poi_average_time');?>
+        </div>
+    </div>
+    <div class="field">
+        <label for="exp_poi_overal_rating">Overall Rating</label>
+        <div class="input-box">
+    		<input type="hidden" name="exp_poi_overal_rating"
+					id="exp_poi_overal_rating" 
+					value = "<?php echo $form->getValue('exp_poi_overal_rating');?>">
+					
+            <div class="rateit" id="overall" data-rateit-step="1" 
+                 data-rateit-backingfld="#exp_poi_overal_rating"></div>
+        </div>
+    </div>
+   </li>
+      <li class="wide">
+    <div>
+                <label for="exp_poi_short_description">Short Description</label>
+        <div class="input-box">
+                <?php echo $form->getElement('exp_poi_short_description');?>
+            </div>
+    </div>
+   </li>
+   </ul>
+</div>
+
+
+

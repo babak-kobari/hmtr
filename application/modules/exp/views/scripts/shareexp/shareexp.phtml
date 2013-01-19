@@ -5,11 +5,20 @@ $eat_list=$this->eat_list;
 $things_list=$this->things_list;
 $days=$into_param['exp_days'];
 $days_detail=$this->days_detail;
-$exp_head_id=$this->exp_head_id;
+$exp_id=$this->exp_id;
+$exp_user_id=$this->exp_user_id;
+
+$form=$this->form;
+
 ?>
+<script type="text/javascript">
+loadScript(); 
+</script>
+
 <div class="main-container col2-layout-expshare">
 <div class="main">
 <div class="col-right">
+<div id="feedback"></div>
 </div>
 
 <div class="col-main">
@@ -22,6 +31,8 @@ $exp_head_id=$this->exp_head_id;
 <input id="thispoi_lat" name = "thispoi_lat" type="hidden" value="24.4958385">
 <input id="thispoi_lon" name = "thispoi_lon" type="hidden" value="54.60401209999998">
 <input id="thispoi_id" name = "thispoi_id" type="hidden" value="13">
+<input id="page_id" name = "page_id" type="hidden" value="#day_1 li">
+
 <div class="container">
 
 <!-- Dragable-->
@@ -125,9 +136,19 @@ foreach ($things_list as $things)
 </div>
 </div>
 </div> <!-- box info    -->
+
+</div> <!-- col-main-container   -->
+</div> <!-- col-main   -->
+
+
+
+</div>
+</div>
 <div class="relatedpoi">
 <div class="container">
-<div class="col2-set">
+<div class="col3-set">
+<div id = "day_summary" class = "day_summary">
+</div>
 <div class="col-selectedpoi">
 <div id="wrapper">
 <div id="horizontal">
@@ -145,17 +166,20 @@ for ($i = 1; $i <= $days; $i++)
 <?php 
 foreach ($days_detail as $related)
 
-{?>
+{   
+    if ($related['exp_day_no'] == $i){
+?>
 
-    <li id=<?php echo $related['poi_id'];?> class="ui-widget-content ui-corner-tr"
+    <li id=<?php echo $related['exp_poi_id'];?> class="ui-widget-content ui-corner-tr"
         data-lat=<?php echo $related['poi_lat']?> data-lon = <?php echo $related['poi_lon']?> data-poitype=<?php echo $related['poi_type']?>
         style="cursor:move;">
         <h4><?php echo $related['poi_name']?></h4>
         <a href="" title="View the POI" class="ui-icon ui-icon-zoomin">View the POI</a>
 		<a id = "poilist-icon2" href="" title="Push to Related POI" class="ui-icon ui-icon-arrowreturnthick-1-n">Push to Related POI</a>
-	</li>
-<?php }
-?>
+        <a id = "poilist-icon3" href="" title='Add your feedback' class='ui-icon ui-icon-document'>Add Your Feedback</a>
+    </li>
+<?php } 
+}  ?>
 
 </ul>
 </div>
@@ -172,22 +196,16 @@ foreach ($days_detail as $related)
       <div class="positiondisplay">AAA</div>
     </div>
 </div>
-</div>
+</div> 
 <div class="col-maps">
-<div id="feedback" class="box-info">
+<div id="map_canvas2" class="box-info map_canvas3">
 
 </div>
 </div>
 </div>
 </div>
 </div>
-
-</div> <!-- col-main-container   -->
-</div> <!-- col-main   -->
-</div>
-</div>
-
-<!-- ----------------------Related    -->
+<!-- ---------------------- end of Related    -->
 <div class="main-container">
 </div>
 <div id="tooltip" class="tooltip"></div>
@@ -269,7 +287,7 @@ foreach ($days_detail as $related)
 		var $stay    = $( "#staylist" );
 		var $eat    = $( "#eatlist" );
 		var $things    = $( "#thingslist" );
-		
+		var current_page_index=1; 
 		var dragops = {
 				connectWith: "<?php echo $a;?>",
 				revert:true,
@@ -281,8 +299,9 @@ foreach ($days_detail as $related)
 					var mapid = ui.item.attr("id");
 				    var lat2 = ui.item.attr("data-lat");
 					var lon2 = ui.item.attr("data-lon");
-					
-					relateItem( ui.item );
+
+
+//					relateItem( ui.item );
 //					addMarker(lat2,lon2,'r',mapid);
 					}
 				};
@@ -329,23 +348,14 @@ foreach ($days_detail as $related)
 			    $.ajax({
 			        url: a,
 			        success: function(data){
-			            var digops = {
-	            			autoOpen: false,
-	            	    	resizable : false,
-	    	        		show: true,
-	    	        		hide: true,
-	    	        		height: 300,
-	    	                width: 800,
-	    	        	    };
 			            var divtooltip = document.getElementById("contentright");
 			            divtooltip.innerHTML = data;
-//			            $( "#tooltip" ).dialog(digops );		                 
-//					    $("#tooltip").dialog("open");
 					    $('#extruderRight').openMbExtruder(true);
 					    $('#extruderRight').openPanel();
-					    },
+},
 					    
 	      	});
+				    
 		};
 		// Push to related function
 		var move_up_icon = "<a href='' title='take the POI back' class='ui-icon ui-icon-arrowreturnthick-1-n'>Take the POI Back</a>";
@@ -359,31 +369,39 @@ foreach ($days_detail as $related)
 				$item.find( "a.ui-icon-arrowreturnthick-1-s" ).remove();
 				$item.append( move_up_icon,add_info_icon).appendTo( $related ).fadeIn(function() {});
 			});
-	    addpoiRow($item,'insert');
+	    var $index= $('#myScroll').get(0).idx;
+	    var $related= "#day_"+$index;
+		var order = $($related).sortable("toArray");
+	    addpoiRow($item,'insert',order);
 		}
 
 
 		// get feedback 
-		function getbeedback( $item ) {
+		function getfeedback( $item ) {
 		    var id = $item;
-		    var a = 'http://myapp/poi/view/'+id;
+            var tooltipvalues = ['bad', 'poor', 'ok', 'good', 'super'];
+		    var a = 'http://myapp/exp/sharepoiexp/'+id+'/'+<?php echo $exp_id;?>;
+		    savefeedback();
 		    $.ajax({
 		        url: a,
 		        success: function(data){
 		            var digops = {
-            			autoOpen: false,
-            	    	resizable : false,
-    	        		show: true,
-    	        		hide: true,
-    	        		height: 300,
-    	                width: 800,
-    	        	    };
+           			autoOpen: false,
+           	    	resizable : false,
+   	        		show: true,
+   	        		hide: true,
+   	        		height: 300,
+   	                width: 800,
+   	        	    };
 		            var divtooltip = document.getElementById("feedback");
 		            divtooltip.innerHTML = data;
-				    },
+				    $('div.rateit').bind('over', function (event, value) { $(this).attr('title', tooltipvalues[value-1]); });
+			      	$(function () { $('div.rateit').rateit(); });
+			      	 $( "#accordion" ).accordion({heightStyle: "fill"});
+},
 				    
-      	});
-				}
+     	});
+}
 			
 		// image recycle function
 		var move_icon_down= "<a href='' title='Relat this POI' class='ui-icon ui-icon-arrowreturnthick-1-s'>Delete image</a>";
@@ -398,8 +416,11 @@ foreach ($days_detail as $related)
 		            $item.append( move_icon_down).appendTo( $things).fadeIn(function() {});}
 		    });
 		    var mapid= $item.attr("id");
-//		    removeMarker(mapid);
-		    addpoiRow($item,'delete');
+		    removeMarker(mapid);
+		    var $index= $('#myScroll').get(0).idx;
+		    var $related= "#day_"+$index;
+		    var order = $($related).sortable("toArray");		    
+		    addpoiRow($item,'delete',order);
 		
 		};
 		
@@ -413,28 +434,34 @@ foreach ($days_detail as $related)
 			{
 			    var poi_lat = $( this ).attr("data-lat");
 				var poi_lon = $( this ).attr("data-lon");
-//				addMarker(poi_lat,poi_lon,'r',$itemid);
+				addMarker(poi_lat,poi_lon,'r',$itemid);
 			    relateItem( $item );
 			} else if ( $target.is( "a.ui-icon-zoomin" ) ) {
 				viewItem( $itemid );
 			} else if ( $target.is( "a.ui-icon-arrowreturnthick-1-n" ) ) {
 				recycleItem( $item,$itemtype );
 			} else if ( $target.is( "a.ui-icon-document" ) ) {
-				getbeedback($itemid);
+				getfeedback($itemid);
 			}
 			return false;
 		});
 		
-		function addpoiRow($item,action) {
+		function addpoiRow($item,action,order) {
 		    var index= $('#myScroll').get(0).idx;
 		    var poi_id = $item.attr("id");
 		    var relatedtype = $item.attr("data-poitype");
 		    var lat = $item.attr("data-lat");
 		    var lon = $item.attr("data-lon");
+		    var lon = $item.attr("data-lon");
 		    var tobeposted = {
-		    		exp_head_id: <?php echo $exp_head_id;?> ,
+		    		exp_id: <?php echo $exp_id;?> ,
 		    		exp_day_no:index,
 		    		exp_poi_id:poi_id,
+		    		exp_poi_lat:lat,
+		    		exp_poi_lon:lon,
+		    		exp_poi_type:relatedtype,
+		    		exp_poi_order:999,
+		    		order:order,
 		    		action:action
 		    };
 		    $.ajax({
@@ -468,6 +495,207 @@ function calcdist(lat1,lon1,lat2,lon2){
     return d;
     };
 
+    function savesumndfeed (page_id,index) {
+        var exppoi_param_id = new Array();
+        var exppoi_param_value = new Array();
+        var exppoi_param_detail = new Array();
+        var form_set=false;
+        var form_exppoi=document.getElementById("ExppoiForm");
+	    if (typeof(form_exppoi) != 'undefined' && form_exppoi!= null)
+	    {
+		    j=0;
+		    k=0;
+		    m=-1;
+		    checked=false;
+		    average_time_loop=false;
+		    form_set=true;
+        for (var i=0;i<form_exppoi.length;i++)
+    	  {
+    	  if (form_exppoi.elements[i].id.substring(0,21)=='exp_poi_average_time-')
+    	    {
+    		  average_time_loop=true;
+        		if (form_exppoi.elements[i].checked)
+        		{
+            		m++;
+            		checked=true;
+            		exppoi_param_id[m]   ='exp_poi_average_time';
+            		exppoi_param_value[m]=form_exppoi.elements[i].value;
+            		continue;
+            	}
+        		else
+            		continue;
+    	    
+    	    }
+	        if (form_exppoi.elements[i].id.substring(0,14)=='poi_amenities-')
+    	    {
+        		exppoi_param_detail[j]=[];
+        	    exppoi_param_detail[j][k++]=form_exppoi.elements[i].value;
+    	    	continue;
+        	    
+        	}
+    	    if (form_exppoi.elements[i].id.substring(0,19)=='poi_amenities_desc-')
+    	    {
+        	    exppoi_param_detail[j][k++]=form_exppoi.elements[i].value;
+    	    	continue;
+        	    
+        	}
+        	if (form_exppoi.elements[i].id.substring(0,7)=='rateit-')
+    	    {
+        	    exppoi_param_detail[j][k++]=form_exppoi.elements[i].value;
+    	    	continue;
+        	    
+        	}
+    	    if (form_exppoi.elements[i].id.substring(0,10)=='shortdesc-')
+    	    {
+        	    exppoi_param_detail[j++][k++]=form_exppoi.elements[i].value;
+        	    k=0;
+    	    	continue;
+    	    }
+    		if (!checked && average_time_loop)
+    	  	{
+    	      	m++;
+    	  		exppoi_param_value[m]=0;
+    	    	exppoi_param_id[m]   ='exp_poi_average_time';
+    	    	continue;
+    	    }
+    	    m++;
+    	    exppoi_param_id[m]   =form_exppoi.elements[i].id;
+    		exppoi_param_value[m]=form_exppoi.elements[i].value;
+    	    }
+	    }
+        var transtype = document.getElementById('exp_trans_type');
+	    if (typeof(transtype ) != 'undefined' && transtype != null)
+	    {
+		    var transtype = document.getElementById('exp_trans_type').value;
+	    }
+        var trans_cost = document.getElementById('exp_trans_cost');
+	    if (typeof(trans_cost ) != 'undefined' && trans_cost != null)
+	    {
+	        var trans_cost = document.getElementById('exp_trans_cost').value;
+	    }
+        var trans_comment= document.getElementById('exp_trans_comment');
+	    if (typeof(trans_comment) != 'undefined' && trans_comment!= null)
+	    {
+	        var trans_comment= document.getElementById('exp_trans_comment').value;
+	    }
+        var day_cost= document.getElementById('exp_day_cost');
+	    if (typeof(day_cost) != 'undefined' && day_cost!= null)
+	    {
+	        var day_cost= document.getElementById('exp_day_cost').value;
+	    }
+	    
+	    var tobeposted = {
+	    		exp_id: <?php echo $exp_id;?> ,
+	    		exp_day_no:page_id,
+	    	    exp_next_day_no:index,
+	    		exp_trans_type:transtype,
+	    		exp_trans_cost :trans_cost ,
+	    		exp_trans_comment:trans_comment,
+	    		exp_day_cost:day_cost,
+	    		exppoi_id:exppoi_param_id,
+	    		exppoi_value:exppoi_param_value,
+	    		exppoi_detail:exppoi_param_detail,
+	    };
+	    $.ajax({
+    	  type: 'POST',
+    	  url:'http://myapp/exp/shareexp/savesumndfeed',
+    	  data: tobeposted,
+	      success: function(retdata){
+		  var divsummary = document.getElementById("day_summary");
+	      divsummary.innerHTML = retdata;}
+		});
+    };     
+
+
+    function savefeedback () {
+        var exppoi_param_id = new Array();
+        var exppoi_param_value = new Array();
+        var exppoi_param_detail = new Array();
+        var form_set=false;
+        var form_exppoi=document.getElementById("ExppoiForm");
+	    if (typeof(form_exppoi) != 'undefined' && form_exppoi!= null)
+	    {
+		    j=0;
+		    k=0;
+		    m=-1;
+		    checked=false;
+		    average_time_loop=false;
+		    form_set=true;
+        for (var i=0;i<form_exppoi.length;i++)
+    	  {
+    	  if (form_exppoi.elements[i].id.substring(0,21)=='exp_poi_average_time-')
+    	    {
+    		  average_time_loop=true;
+        		if (form_exppoi.elements[i].checked)
+        		{
+            		m++;
+            		checked=true;
+            		exppoi_param_id[m]   ='exp_poi_average_time';
+            		exppoi_param_value[m]=form_exppoi.elements[i].value;
+            		continue;
+            	}
+        		else
+            		continue;
+    	    
+    	    }
+	        if (form_exppoi.elements[i].id.substring(0,14)=='poi_amenities-')
+    	    {
+        		exppoi_param_detail[j]=[];
+        	    exppoi_param_detail[j][k++]=form_exppoi.elements[i].value;
+    	    	continue;
+        	    
+        	}
+    	    if (form_exppoi.elements[i].id.substring(0,19)=='poi_amenities_desc-')
+    	    {
+        	    exppoi_param_detail[j][k++]=form_exppoi.elements[i].value;
+    	    	continue;
+        	    
+        	}
+        	if (form_exppoi.elements[i].id.substring(0,7)=='rateit-')
+    	    {
+        	    exppoi_param_detail[j][k++]=form_exppoi.elements[i].value;
+    	    	continue;
+        	    
+        	}
+    	    if (form_exppoi.elements[i].id.substring(0,10)=='shortdesc-')
+    	    {
+        	    exppoi_param_detail[j++][k++]=form_exppoi.elements[i].value;
+        	    k=0;
+    	    	continue;
+    	    }
+    		if (!checked && average_time_loop)
+    	  	{
+    	      	m++;
+    	  		exppoi_param_value[m]=0;
+    	    	exppoi_param_id[m]   ='exp_poi_average_time';
+    	    	continue;
+    	    }
+    	    m++;
+    	    exppoi_param_id[m]   =form_exppoi.elements[i].id;
+    		exppoi_param_value[m]=form_exppoi.elements[i].value;
+    	    }
+	    }
+	    if(form_set)
+	    {
+	    var tobeposted = {
+	    		exp_id: <?php echo $exp_id;?> ,
+	    		exppoi_id:exppoi_param_id,
+	    		exppoi_value:exppoi_param_value,
+	    		exppoi_detail:exppoi_param_detail,
+	    };
+	    $.ajax({
+    	  type: 'POST',
+    	  url:'http://myapp/exp/shareexp/savefeedback',
+    	  data: tobeposted,
+	      success: function(retdata){}
+		});
+	    }
+    };     
+
+    $(window).bind('beforeunload', function(){ 
+	savesumndfeed(current_page_index,$('#myScroll').get(0).idx);
+    return '';
+    });
     $(function(){
       if (self.location.href == top.location.href){
         $("body").css({font:"normal 13px/16px 'trebuchet MS', verdana, sans-serif"});
@@ -477,8 +705,8 @@ function calcdist(lat1,lon1,lat2,lon2){
         width:260,
         elementsInPage:1,
         elementMargin:0,
-        shadow:"#999 2px 2px 2px",
-        height:"auto",
+//        shadow:"#999 2px 2px 2px",
+        height:"340px",
         controls:"#controls",
         slideTimer:600,
         autoscroll:false,
@@ -486,9 +714,18 @@ function calcdist(lat1,lon1,lat2,lon2){
 				changePageCallback:function(){
 					var positiondisplay= $('#myScroll').get(0).idx+'/'+$('#myScroll').get(0).totalPages;
 					$('#controls .positiondisplay').html(positiondisplay);
-				},
+				    var currentpage= '#day_'+$('#myScroll').get(0).idx+' li';
+				    savesumndfeed(current_page_index,$('#myScroll').get(0).idx);
+					addrelatedMarkers(currentpage);
+		            var divtooltip = document.getElementById("feedback");
+		            divtooltip.innerHTML = '';
+					
+					current_page_index= $('#myScroll').get(0).idx;
+},
 				loadCallback:function(){
 					var positiondisplay= $('#myScroll').get(0).idx+'/'+$('#myScroll').get(0).totalPages;
+					current_page_index= $('#myScroll').get(0).idx;
+					savesumndfeed(current_page_index,current_page_index);
 					$('#controls .positiondisplay').html(positiondisplay);
 				}
       });
