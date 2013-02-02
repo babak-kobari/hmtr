@@ -21,27 +21,137 @@ class Exp_ShareexpController extends Core_Controller_Action
         
 	    $this->_expmodel = new Exp_Model_Exp_Manager();
         $this->_poimodel = new Poi_Model_Poi_Manager();
+        $this->_parammodel = new Users_Model_Param_Table();
+        $this->_identity = Zend_Auth::getInstance()->getIdentity()->id;
+        
 	    	     
 	}
 
     public function indexAction()
     {
-        $identity = Zend_Auth::getInstance()->getIdentity();
-        $form = new Exp_Form_Exp_Intro(array('exp_user_id'=>$identity));        
+        try {
+            $filterArray= array();
+            $user_id=$this->_identity;
+            $countris= $this->_parammodel->getParamList('Gen','Country')->toArray();
+            $travel_objective= $this->_parammodel->getParamList('Gen','Travel_Objective')->toArray();
+            $travel_with= $this->_parammodel->getParamList('Gen','Travel_With')->toArray();
+
+            $user_countries=$this->_expmodel->getexpcountriesbyuser($user_id,$countris);
+            
+            
+            
+            $this->view->countries = $user_countries;
+        	$this->view->travel_with = $travel_with;
+        	$this->view->travel_objectives = $travel_objective;
+        	$this->view->totalWIP = $this->_expmodel->gettotalWIP($user_id);
+        	$this->view->resultSet = $this->_expmodel->getexpdetail($user_id,$filterArray,$countris,$travel_with,$travel_objective);
+        	//echo "<pre>";print_r($this->view->resultSet);exit;
+        	$this->view->headLink()->appendStylesheet('/css/default/jquery-ui-1.9.1.css');
+        	$this->view->headScript()->appendFile('/js/gridview.js');
+        	 
+        }catch (Exception $e) {
+        	throw new Exception($e->getMessage());
+        }
+    	
+    }
+    public function applyfilterAction () {
+    	$this->_helper->layout()->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender(true);
+    	$request = $this->getRequest();
+    	if ($request->isXmlHttpRequest()) {
+    	    $user_id=$this->_identity;
+    	    $countris= $this->_parammodel->getParamList('Gen','Country');
+    	    $travel_objective= $this->_parammodel->getParamList('Gen','Travel_Objective');
+    	    $travel_with= $this->_parammodel->getParamList('Gen','Travel_with');
+    	    $resultSet = $this->_expmodel->getexpdetail($user_id,$request->getParams(),$countris,$travel_with,$travel_objective);
+    		$responseString = "<tr><td colspan='17' align='center'>No Data Found !!!!</td></tr>";
+    		if(count($resultSet) > 0 ) {
+    			$responseString ="";
+    			$slno = 1;
+    			foreach ($resultSet as $result) {
+	  				$responseString .= "<tr>";
+	  				$responseString .= "<td>".($result['exp_title'])."</td>";
+	  				$responseString .= "<td>".($result['country_name'])."</td>";
+	  				$responseString .= "<td>".($result['exp_mount'])."</td>";
+	  				
+	  				$responseString .= "<td>".($result['exp_days'])."</td>";
+	  				
+	  				$responseString .= "<td>".($result['travel_With'])."</td>";
+	  				$responseString .= "<td>".($result['travel_Objective'])."</td>";
+	  				$responseString .= "<td>".($result['exp_total_cost'])."</td>";
+	  				$responseString .= "<td>".($result['exp_status'])."</td>";
+	  				$responseString .= "<td>";
+	  				if ($result['exp_status'] == 'WIP'){
+	  					
+	  						$responseString.= "<a href='shareexp/tripsummary/".$result['exp_id']."'>Edit</a>";
+	  							
+	  				}
+	  				$responseString .="</td>";
+	  				
+	  			$responseString .= "</tr>";
+	  		
+	  			
+    			}
+	  			
+	  			
+    		}
+    		
+    		echo $responseString;
+    	}else {
+    		
+    	}
+    	
+    }
+    function gettitlesAction () {
+    	$this->_helper->layout()->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender(true);
+    	$request = $this->getRequest();
+    	if ($request->isXmlHttpRequest()) {
+    		echo   json_encode($this->_expmodel->getTitles($request->getParam('term')));
+    	}
+    }
+ 
+    function getcityAction () {
+    	$this->_helper->layout()->disableLayout();
+    	$this->_helper->viewRenderer->setNoRender(true);
+    	
+    	$request = $this->getRequest();
+    	if ($request->isXmlHttpRequest()) {
+    		$result = json_encode($this->_expmodel->getCityNames($request->getParam('term')));
+    		echo $result;
+    	}
+    	
+    }
+
+
+	public function tripsummaryAction()
+    {
+        $identity = $this->_identity;
+	    $exp_id=$this->_getParam('exp_id');
         $this->view->title='Let Share your Travel';
-        $this->view->form = $form;
-        $row=$this->_expmodel->getDbTable()->toarray();
-        $row['exp_days']=1;
-        $row['exp_adults']=2;
-        $row['exp_childs']=0;
-        $this->view->row=$row;
-        
+        $form = new Exp_Form_Exp_Intro(array('exp_user_id'=>$identity));        
+        $this->exp_id=$exp_id;
+        if ($exp_id==0)
+        {
+            $row=$this->_expmodel->getDbTable()->toarray();
+            $row['exp_days']=1;
+            $row['exp_adults']=2;
+            $row['exp_childs']=0;
+            $this->view->row=$row;
+            $this->view->form = $form;
+        }
+        else
+        {
+            $tripsummary = $this->_expmodel->getexpheadbyId($exp_id);
+            $this->view->row=$tripsummary;            
+            $this->view->form= $form->populate($tripsummary->toArray());
+        }        
         
 	    if ($this->_request->isPost())
         {
             $info= $this->_getAllParams();
 //            $exp_id=$this->_expmodel->saveExp($info);
-          $exp_id=1;          
+//          $exp_id=1;          
             $Stay=$this->_setParam('intro_param', $info);
             $this->_setParam('exp_id',$exp_id);
             $this->_setParam('exp_user_id',$identity);
@@ -98,7 +208,7 @@ class Exp_ShareexpController extends Core_Controller_Action
        // read general parameters
        $row = array();
        $exppoi_param_id = array();
-       $identity = Zend_Auth::getInstance()->getIdentity();
+       $identity = $this->_identity;
        $row['exp_id'] = $this->_getParam('exp_id');
        $exp_id = $this->_getParam('exp_id');
        // read day summary parameters
@@ -125,7 +235,7 @@ class Exp_ShareexpController extends Core_Controller_Action
            $exppoi[$param_id]=$exppoi_param_value[$i++];
        }
        $exppoi['exp_id']=$exp_id;
-       $exppoi['exp_poi_user_id']=$identity->id;
+       $exppoi['exp_poi_user_id']=$identity;
        if (isset($exppoi['exp_poi_title']) and isset($exppoi['exp_poi_average_cost']))
        {
            $row_id=$this->_expmodel->savepoiexp($exppoi,$exp_poi_detail);
@@ -153,7 +263,7 @@ class Exp_ShareexpController extends Core_Controller_Action
    public function savefeedbackAction()
    {
        $exppoi_param_id = array();
-       $identity = Zend_Auth::getInstance()->getIdentity();
+       $identity = $this->_identity;
        $exp_id = $this->_getParam('exp_id');
        $exp_poi_detail=$this->_getParam('exppoi_detail');
        $exppoi_param_id = $this->_getParam('exppoi_id');
@@ -166,7 +276,7 @@ class Exp_ShareexpController extends Core_Controller_Action
            $exppoi[$param_id]=$exppoi_param_value[$i++];
        }
        $exppoi['exp_id']=$exp_id;
-       $exppoi['exp_poi_user_id']=$identity->id;
+       $exppoi['exp_poi_user_id']=$identity;
        if (isset($exppoi['exp_poi_title']) and isset($exppoi['exp_poi_average_cost']))
        {
            $row_id=$this->_expmodel->savepoiexp($exppoi,$exp_poi_detail);

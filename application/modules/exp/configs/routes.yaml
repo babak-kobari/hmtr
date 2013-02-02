@@ -30,4 +30,23 @@ expsavefeedback:
     module: exp
     controller: shareexp
     action: savefeedback
+applyfilter:
+  route: shareexp/applyfilter
+   defaults:
+    module: exp
+    controller: shareexp
+    action: applyfilter
+gettitle:
+  route: shareexp/gettitles
+   defaults:
+    module: exp
+    controller: shareexp
+    action: gettitles
+tripsummary:
+  route: shareexp/tripsummary/:exp_id
+   defaults:
+    module: exp
+    controller: shareexp
+    action: tripsummary
+    exp_id:0
     

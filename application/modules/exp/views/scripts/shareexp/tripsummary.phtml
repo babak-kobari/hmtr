@@ -1,0 +1,111 @@
+<form id="shareexpIntro" name="shareexpIntro"  
+    enctype="multipart/form-data" method="post" action="">
+
+<?php 
+$form = $this->form;
+$exp_user_id=$this->exp_user_id;
+$row=$this->row;
+$exp_id=$this->exp_id;
+?>
+    
+<div class="main-container col1-layout">
+    <div class="main">
+        <div class="col-main">
+        <div class="col-main-container">
+            <div class="dashboard">
+                <div class="page-title">
+                    <h1><?php echo $this->title;?></h1>
+                </div>
+        <div class="col2-set">
+        <div class="col-1">
+            <div class="world">
+            </div>
+        </div>
+        <div class="col-2">
+        <div class="exp-box-info">
+                <div class="box-title">
+                    <h2> plan your trip</h2>
+                </div>
+                 <div class="exp-box-intro">
+                 <div class="col2-set">
+                     <div class="col-narrow">
+                     <p>Title</p>
+                     </div>
+                     <div class="col-wide">
+                        <?php echo $form->getElement('exp_title');?>
+                                          </div>
+                     </div>
+                 <hr>
+                     
+                 <div class="col2-left-layout ">
+                     <div class="col-left">
+                     <div class="box-content">
+                     <p>Days/ Nights</p>
+                     </div>
+                     </div>
+                     <div class = "col-main">
+                    <input type="hidden" name="<?php echo 'exp_user_id';?>" 
+                        value="<?php echo $exp_user_id;?>" >
+                     <input type="range" name="<?php echo 'exp_days';?>" 
+                        min="1" max="10" value="<?php echo $row['exp_days'];?>" 
+                         step="1" size = "5"/>
+                         </div>
+                 </div>
+                 <hr>
+                 <div class="col2-set">
+                     <div class="col-1">
+                     <p>Adults</p>
+                     <input type="range" name="<?php echo 'exp_adults';?>" 
+                        min="1" max="10" value="<?php echo $row['exp_adults'];?>" 
+                         step="1" size = "5"/>
+                                          </div>
+                     <div class="col-2">
+                     <p>Childs</p>
+                     <input type="range" name="<?php echo 'exp_childs';?>" 
+                        min="0" max="4" value="<?php echo $row['exp_childs'];?>" 
+                         step="1" size = "5"/>
+                                          </div>
+                     </div>
+                 <hr>
+                     <div class="col2-set">
+                     <div class="col-1">
+                     <p>City</p>
+        <?php echo $form->getElement('exp_city');?>
+                     </div>
+                     <div class="col-2">
+                     <p>Country</p>
+        <?php echo $form->getElement('exp_country');?>
+                                          </div>
+                     </div>
+                     <hr>
+                     <div class="col2-set">
+                     <div class="col-1">
+                     <p>Travel With</p>
+        <?php echo $form->getElement('exp_travel_with');?>
+                     </div>
+                     <div class="col-2">
+                     <p>Your Objective</p>
+        <?php echo $form->getElement('exp_travel_objective');?>
+                                          </div>
+                                          </div>
+                     <div class="col-1">
+                     <p>Travel Month</p>
+        <?php echo $form->getElement('exp_mount');?>
+                     </div>
+                   <div class="buttons-set">
+       <input type="submit" name="submit" id="submit" value="Go" class="button">
+       </div>
+ </div>
+                     
+  </div>
+        </div>
+    </div>
+    </div>
+ </div>
+</div>
+</div>
+</div>
+<script>
+$(":range").rangeinput({ progress: true, max: 100 });
+</script>
+</form>

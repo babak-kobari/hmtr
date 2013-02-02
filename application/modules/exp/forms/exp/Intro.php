@@ -94,9 +94,9 @@ class Exp_Form_Exp_Intro extends Core_Form
 	}
 	protected function _exptravel_type()
 	{
-	    $element= new Zend_Form_Element_Select ( 'exp_travel_type' );
+	    $element= new Zend_Form_Element_Select ( 'exp_travel_with' );
 	    $element->class = 'field select medium';
-	    $this->_addoptions ( $element, 'Gen', 'travel_Type' );
+	    $this->_addoptions ( $element, 'Gen', 'Travel_With' );
 	    return $element;
 	}
 	protected function _exptravel_objective()
@@ -108,9 +108,20 @@ class Exp_Form_Exp_Intro extends Core_Form
 	}
 	protected function _expmount()
 	{
-	    $element= new Zend_Form_Element_Select ( 'exp_exp_mount' );
+	    $element= new Zend_Form_Element_Select ( 'exp_mount' );
 	    $element->class = 'field select medium';
-	    $this->_addoptions ( $element, 'Gen', 'exp_mount' );
+	    $element->addMultiOptions(array('Jan'=>'Jan',
+	            'Feb'=>'Feb',
+	            'Mar'=>'Mar',
+	            'Apr'=>'Apr',
+	            'May'=>'May',
+	            'Jun'=>'Jun',
+	            'Jul'=>'Jul',
+	            'Aug'=>'Aug',
+                'Sep'=>'Sep',
+	            'Oct'=>'Oct',
+	            'Nov'=>'Nov',
+	            'Dec'=>'Dec'));
 	    return $element;
 	}
 	

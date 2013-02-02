@@ -128,5 +128,50 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 	    $table= new Exp_Model_Expdaysummry_Table();
 	    return $table->getexpdaysummaryIdandDayNo($exp_id, $exp_day_no);	     
 	}
+
+	public function getexpheadbyId($exp_id)
+	{
+	    $table= new Exp_Model_exphead_Table();
+	    return $table->getexpheadbyId($exp_id);
+	}
+	
+	public function getexpcountriesbyuser($user_id,&$countries)
+	{
+	    $table= new Exp_Model_exphead_Table();
+	    $rows=$table->getcountriesbyUser($user_id);
+	    foreach ($rows as $key=>$row)
+	    {
+	        $rows[$key]['country_name']=$countries[$row['exp_country']]['param_category_desc'];
+	    }
+	    return $rows;
+	}
+
+	public function gettotalWIP($user_id)
+	{
+	    $table= new Exp_Model_exphead_Table();
+	    $count=$table->getTotalWIP($user_id);
+	    return $count;
+	}
+	
+	public function getexpdetail($user_id,array $filterArray,&$country,&$travel_with,&$travel_objective)
+	{
+	    $table= new Exp_Model_exphead_Table();
+	    $rows = $table->getExpDetails($user_id,$filterArray,$country,$travel_with,$travel_objective);
+	    return $rows;
+	}
+	
+	public function getTitles($searchString) 
+	{
+	    $table= new Exp_Model_exphead_Table();
+	    $rows= $table->getTitles($searchString);
+	    return $rows;
+	}
+	
+	public function getCityNames($searchString) 
+		{
+	    $table= new Exp_Model_exphead_Table();
+	    $rows= $table->getCityNames($searchString);
+	    return $rows;
+		}
 	
 }
