@@ -32,10 +32,27 @@ class Exp_ShareexpController extends Core_Controller_Action
         try {
             $filterArray= array();
             $user_id=$this->_identity;
-            $countris= $this->_parammodel->getParamList('Gen','Country')->toArray();
-            $travel_objective= $this->_parammodel->getParamList('Gen','Travel_Objective')->toArray();
-            $travel_with= $this->_parammodel->getParamList('Gen','Travel_With')->toArray();
-
+            $temp_array = array();
+            $temp_array= $this->_parammodel->getParamList('Gen','Country')->toArray();
+            $countris=$temp_array;
+            foreach ($temp_array as $key=>$value)
+            {
+                $countris_array[$value['param_id']]=$value['param_category_desc'];
+            }
+            unset($temp_array);
+            $temp_array= $this->_parammodel->getParamList('Gen','Travel_Objective')->toArray();
+            foreach ($temp_array as $key=>$value)
+            {
+                $travel_objective[$value['param_id']]=$value['param_category_desc'];
+            }
+            
+            unset($temp_array);
+            $temp_array= $this->_parammodel->getParamList('Gen','Travel_With')->toArray();
+            foreach ($temp_array as $key=>$value)
+            {
+                $travel_with[$value['param_id']]=$value['param_category_desc'];
+            }
+            
             $user_countries=$this->_expmodel->getexpcountriesbyuser($user_id,$countris);
             
             
@@ -44,7 +61,7 @@ class Exp_ShareexpController extends Core_Controller_Action
         	$this->view->travel_with = $travel_with;
         	$this->view->travel_objectives = $travel_objective;
         	$this->view->totalWIP = $this->_expmodel->gettotalWIP($user_id);
-        	$this->view->resultSet = $this->_expmodel->getexpdetail($user_id,$filterArray,$countris,$travel_with,$travel_objective);
+        	$this->view->resultSet = $this->_expmodel->getexpdetail($user_id,$filterArray,$countris_array,$travel_with,$travel_objective);
         	//echo "<pre>";print_r($this->view->resultSet);exit;
         	$this->view->headLink()->appendStylesheet('/css/default/jquery-ui-1.9.1.css');
         	$this->view->headScript()->appendFile('/js/gridview.js');
@@ -60,9 +77,26 @@ class Exp_ShareexpController extends Core_Controller_Action
     	$request = $this->getRequest();
     	if ($request->isXmlHttpRequest()) {
     	    $user_id=$this->_identity;
-    	    $countris= $this->_parammodel->getParamList('Gen','Country');
-    	    $travel_objective= $this->_parammodel->getParamList('Gen','Travel_Objective');
-    	    $travel_with= $this->_parammodel->getParamList('Gen','Travel_with');
+    	    $temp_array = array();
+    	    $temp_array= $this->_parammodel->getParamList('Gen','Country')->toArray();
+    	    foreach ($temp_array as $key=>$value)
+    	    {
+    	        $countris[$value['param_id']]=$value['param_category_desc'];
+    	    }
+    	    unset($temp_array);
+    	    $temp_array= $this->_parammodel->getParamList('Gen','Travel_Objective')->toArray();
+    	    foreach ($temp_array as $key=>$value)
+    	    {
+    	        $travel_objective[$value['param_id']]=$value['param_category_desc'];
+    	    }
+    	    
+    	    unset($temp_array);
+    	    $temp_array= $this->_parammodel->getParamList('Gen','Travel_With')->toArray();
+    	    foreach ($temp_array as $key=>$value)
+    	    {
+    	        $travel_with[$value['param_id']]=$value['param_category_desc'];
+    	    }
+    	    	
     	    $resultSet = $this->_expmodel->getexpdetail($user_id,$request->getParams(),$countris,$travel_with,$travel_objective);
     		$responseString = "<tr><td colspan='17' align='center'>No Data Found !!!!</td></tr>";
     		if(count($resultSet) > 0 ) {
@@ -150,8 +184,8 @@ class Exp_ShareexpController extends Core_Controller_Action
 	    if ($this->_request->isPost())
         {
             $info= $this->_getAllParams();
-//            $exp_id=$this->_expmodel->saveExp($info);
-//          $exp_id=1;          
+            $info['exp_user_id']=$identity;
+            $this->_expmodel->savetripsummary($info);
             $Stay=$this->_setParam('intro_param', $info);
             $this->_setParam('exp_id',$exp_id);
             $this->_setParam('exp_user_id',$identity);

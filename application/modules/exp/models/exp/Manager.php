@@ -173,5 +173,28 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 	    $rows= $table->getCityNames($searchString);
 	    return $rows;
 		}
-	
+		
+	public function savetripsummary($row)
+		{
+		    $table = new Exp_Model_exphead_Table();
+		    unset($row['module']);
+		    unset($row['controller']);
+		    unset($row['action']);
+		    unset($row['submit']);
+		    
+		    if ($row['exp_id']==0)
+		    {
+		        unset($row['exp_id']);
+		        $row_id= $table->saveRow($row);
+		        
+		    }
+		    else
+		    {
+		        $where['exp_id = ?'] = $row['exp_id'];
+		        $row_id=$table->update($row, $where);
+		    }
+		
+		    return $row_id;
+		}
+		
 }

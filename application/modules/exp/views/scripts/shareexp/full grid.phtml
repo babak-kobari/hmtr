@@ -1,0 +1,165 @@
+<style type="text/css">
+body {
+	font-family:'PT Sans',Arial,sans-serif; color:#333;background-position:50% 0;font-size:13px;line-height:20px; margin: 0px;
+}
+/* tables */
+table {border-spacing:2px;border-collapse:separate;width:100%;}
+table thead {
+    background-color: #1E99D7;
+}
+table thead {background-image:url(<?php echo $this->baseUrl();?>/css/default/img/glass.png);background-position:0 50%;background-repeat:repeat-x;text-transform:uppercase;font-size:11px;color:#fff;}
+table td, table th {padding:5px 10px;text-align:left;}
+tbody tr {background:#f5f5f5;}
+tbody tr:nth-child(2n) {background:#ebebeb;}
+
+	
+	.ui-autocomplete {
+            font-size: 11px;
+            font-family: verdana, arial, helvetica;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+select {
+    width: 100px;
+}
+</style>
+
+<br/><br/>
+<?php if($this->totalWIP <= 3) { 
+	echo "<a href='".$this->url(array('controller'=>'expense','action'=>'add'),null,true)."'>Add New Record</a>";echo "<br/>";
+}
+?>
+<table  cellpadding="0" cellspacing="0">
+	
+	
+	<thead>
+	  <tr>
+	    <td>Title</td>
+	    <td>Country</td>
+	    <td>City</td>
+	    
+	    <td>Month</td>
+	    <td>Days</td>
+	    <td>Adults</td>
+	    <td>Childs</td>
+	    
+	    <td>Travel Type</td>
+	    <td>Travel Objective</td>
+	    <td>Total Cost</td>
+	    
+	    <td>Status</td>
+	    <td>Options</td>
+	  </tr>
+	  <tr>
+		<td><input type="text" name="exptitle" id="exptitle" size="25"/></td>
+		<td>
+			<select name="expcountry" id="expcountry">
+				<option value="">------</option>
+				<?php if (count($this->countries) > 0) {?>
+					<?php foreach ($this->countries as $county) { ?>
+						<option value="<?php echo $county['country_id']?>"><?php echo $county['country_name']?></option>
+					<?php }?>
+				<?php }?>
+					
+			</select>
+		</td>
+		<td><input type="text" name="expcity" id="expcity" size="20"/></td>
+		
+		<td>
+			<select  name="expmonth" id="expmonth">
+				<option value= "">-----</option>
+				
+				<option value= "Jan">Jan</option>
+				<option value= "Feb">Feb</option>
+				<option value= "Mar">Mar</option>
+				<option value= "Apr">Apr</option>
+				
+				<option value= "May">May</option>
+				<option value= "Jun">Jun</option>
+				<option value= "Jul">Jul</option>
+				<option value= "Aug">Aug</option>
+				
+				<option value= "Sep">Sep</option>
+				<option value= "Oct">Oct</option>
+				<option value= "Nov">Nov</option>
+				<option value= "Dec">Dec</option>
+			</select>
+		</td>
+		<td><input type="text" size="3" name="expdays" id="expdays" /></td>
+		<td><input type="text" size="3" name="expadults" id="expadults" /></td>
+		<td><input type="text" size="3" name="expchild" id="expchild"/></td>
+		
+		<td>
+			<select name="exptravelwith" id="exptravelwith">
+				<option value="">------</option>
+				<?php if (count($this->traveltypes) > 0) {?>
+					<?php foreach ($this->travel_with as $types) { ?>
+						<option value="<?php echo $types['tt_id']?>"><?php echo $types['tt_name']?></option>
+					<?php }?>
+				<?php }?>
+					
+			</select>
+		</td>
+		<td>
+			<select name="exptravelobj" id="exptravelobj">
+				<option value="">------</option>
+				<?php if (count($this->travel_objectives) > 0) {?>
+					<?php foreach ($this->travel_objectives as $obj) { ?>
+						<option value="<?php echo $obj['to_id']?>"><?php echo $obj['to_name']?></option>
+					<?php }?>
+				<?php }?>
+					
+			</select>
+		</td>
+		<td><input type="text" size="6" name="exptotalcost" id="exptotalcost"/></td>
+		
+		<td>
+			<select  name="expstatus" id="expstatus">
+				<option value= "">-----</option>
+				
+				<option value= "WIP">WIP</option>
+				<option value= "Completed">Completed</option>
+				<option value= "Published">Published</option>
+				
+			</select>
+		</td>
+		<td>
+			<input type="button" id="filter" value="Apply">
+		</td>
+	</tr>
+	  <tbody  id="span_content">
+	  
+	  <?php if(count($this->resultSet) > 0 ) { ?>
+	  		<?php $slno = 1;?>
+	  		<?php foreach ($this->resultSet as $result) {?>
+	  			<tr>
+	  				<td><?php echo $this->escape($result['exp_title']);?></td>
+	  				<td><?php echo $this->escape($result['country_name']);?></td>
+	  				<td><?php echo $this->escape($result['exp_city']);?></td>
+	  				<td><?php echo $this->escape($result['exp_mount']);?></td>
+	  				
+	  				<td><?php echo $this->escape($result['exp_days']);?></td>
+	  				<td><?php echo $this->escape($result['exp_adults']);?></td>
+	  				<td><?php echo $this->escape($result['exp_childs']);?></td>
+	  				
+	  				<td><?php echo $this->escape($result['travel_With']);?></td>
+	  				<td><?php echo $this->escape($result['travel_Objective']);?></td>
+	  				<td><?php echo $this->escape($result['exp_total_cost']);?></td>
+	  				
+	  				<td><?php echo $this->escape($result['exp_status']);?></td>
+	  				<td>
+	  					<?php if ($result['exp_status'] == 'WIP'){
+	  						 echo "<a href='".$this->url(array('controller'=>'expense','action'=>'edit','id' => $result['exp_id']),null,true)."'>Edit</a>";
+	  						
+	  					}
+	  					?>
+	  				</td>
+	  				
+	  			</tr>
+	  		<?php }?>
+	  <?php }?>
+	  
+	  </tbody>
+  <thead>
+</table>
+
