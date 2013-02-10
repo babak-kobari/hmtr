@@ -12,7 +12,7 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
     
 	public function getExpbyId($exp_id)
 	{
-	    $table= new Exp_Model_expdays_Table();
+	    $table= new Exp_Model_Expdays_Table();
 	    return $table->getExpbyId ( $exp_id);
 	}
 
@@ -32,8 +32,8 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 	
 	public function savepoiexp($row,$detail_rows)
 	{
-	    $table = new Exp_Model_exppoihead_Table();
-	    $detail_table = new Exp_Model_exppoidetail_Table();
+	    $table = new Exp_Model_Exppoihead_Table();
+	    $detail_table = new Exp_Model_Exppoidetail_Table();
 	    $this_row=$table->getpoiexpbyId($row['exp_id'], $row['exp_poi_id']);
 	    if (isset($this_row['exp_poi_head_id']))
 	    {
@@ -66,12 +66,12 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 	}
 	public function getExpbyTitle($exp_title) 
 	{
-	    $table= new Exp_Model_expdays_Table();
+	    $table= new Exp_Model_Expdays_Table();
 	    return $table->getExpbyId ( $exp_title);
 	}
 	public function getExpbyUserId($exp_user_id) 
 	{
-	    $table= new Exp_Model_expdays_Table();
+	    $table= new Exp_Model_Expdays_Table();
 	    return $table->getExpbyId ( $exp_user_id);
 	}
 	
@@ -80,7 +80,7 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 	public function saveExp($info) 
 	{
 		
-	    $table= new Exp_Model_expdays_Table();
+	    $table= new Exp_Model_Expdays_Table();
 	    $exp_id = $table->saveExphead($info);
 		
 		return $exp_id;
@@ -89,14 +89,14 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 	
 	public function getexpdaysbyhead($exp_id)
 	{
-	    $exp_days_table= new Exp_Model_expdays_Table();
+	    $exp_days_table= new Exp_Model_Expdays_Table();
 	    $exp_days=$exp_days_table->getexpdaysbyparent($exp_id);
 	    return $exp_days;
 	}
 	
 	public function saveDays($info)
 	{
-	    $table=new Exp_Model_expdays_Table();
+	    $table=new Exp_Model_Expdays_Table();
 	    $row_id=$table->saveRow($info);
 	    foreach ($info['order'] as $i=>$poi)
 	    {
@@ -109,7 +109,7 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 	}
 	public function deletePoi($info)
 	{
-	    $table=new Exp_Model_expdays_Table();
+	    $table=new Exp_Model_Expdays_Table();
 	    $row=$table->getexpdaysbyprimary($info);
 	    $row_id=$table->deleteById($row['exp_days_id']);
 	    return $row_id;
@@ -118,7 +118,7 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 
 	public function getpoiexpbyId($exp_id,$poi_id)
 	{
-	    $table=new Exp_Model_exppoihead_Table();
+	    $table=new Exp_Model_Exppoihead_Table();
 	    $row=$table->getpoiexpbyId($exp_id, $poi_id);
 	    return $row;
 	}
@@ -131,13 +131,13 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 
 	public function getexpheadbyId($exp_id)
 	{
-	    $table= new Exp_Model_exphead_Table();
+	    $table= new Exp_Model_Exphead_Table();
 	    return $table->getexpheadbyId($exp_id);
 	}
 	
 	public function getexpcountriesbyuser($user_id,&$countries)
 	{
-	    $table= new Exp_Model_exphead_Table();
+	    $table= new Exp_Model_Exphead_Table();
 	    $rows=$table->getcountriesbyUser($user_id);
 	    foreach ($rows as $key=>$row)
 	    {
@@ -148,35 +148,35 @@ class Exp_Model_Exp_Manager extends Core_Model_Manager
 
 	public function gettotalWIP($user_id)
 	{
-	    $table= new Exp_Model_exphead_Table();
+	    $table= new Exp_Model_Exphead_Table();
 	    $count=$table->getTotalWIP($user_id);
 	    return $count;
 	}
 	
 	public function getexpdetail($user_id,array $filterArray,&$country,&$travel_with,&$travel_objective)
 	{
-	    $table= new Exp_Model_exphead_Table();
+	    $table= new Exp_Model_Exphead_Table();
 	    $rows = $table->getExpDetails($user_id,$filterArray,$country,$travel_with,$travel_objective);
 	    return $rows;
 	}
 	
 	public function getTitles($searchString) 
 	{
-	    $table= new Exp_Model_exphead_Table();
+	    $table= new Exp_Model_Exphead_Table();
 	    $rows= $table->getTitles($searchString);
 	    return $rows;
 	}
 	
 	public function getCityNames($searchString) 
 		{
-	    $table= new Exp_Model_exphead_Table();
+	    $table= new Exp_Model_Exphead_Table();
 	    $rows= $table->getCityNames($searchString);
 	    return $rows;
 		}
 		
 	public function savetripsummary($row)
 		{
-		    $table = new Exp_Model_exphead_Table();
+		    $table = new Exp_Model_Exphead_Table();
 		    unset($row['module']);
 		    unset($row['controller']);
 		    unset($row['action']);

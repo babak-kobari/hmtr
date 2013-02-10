@@ -7,16 +7,16 @@
  * @version 
  */
 require_once dirname ( __FILE__ ) . '/Rows/Rows.php';
-class Exp_Model_exppoidetail_Table extends Core_Db_Table_Abstract
+class Exp_Model_Exppoidetail_Table extends Core_Db_Table_Abstract
 
 {
 	protected $_name = 'hm_exp_poi_detail';
 	protected $_primary = 'exp_poi_detail_id';
-	protected $_rowClass = 'Exp_Model_exppoidetail_Row';
+	protected $_rowClass = 'Exp_Model_Exppoidetail_Row';
 	protected $_referenceMap = array (
 	        'exp_poi_head' => array (
 	                'columns' => 'exp_poi_head_id',
-	                'refTableClass' => 'Exp_Model_exppoihead_Table',
+	                'refTableClass' => 'Exp_Model_Exppoihead_Table',
 	                'refColumns' => 'exp_poi_head_id'),
 			'exp_poi_facldesc' => array (
 					'columns' => 'exp_poi_param_id',

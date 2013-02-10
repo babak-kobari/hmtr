@@ -22,7 +22,7 @@ class Poi_Model_Poi_Manager extends Core_Model_Manager
 	
 	public function getrelatedPoibyType($poi_id,$poi_type = null)
 	{
-	    $table= new Poi_Model_relatedpoi_Table();
+	    $table= new Poi_Model_Relatedpoi_Table();
 	    $rows = $table->getPoibyType($poi_id, $poi_type);
 	    return $rows;
 	}

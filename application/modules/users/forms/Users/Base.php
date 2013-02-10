@@ -144,7 +144,7 @@ class Users_Form_Users_Base extends Core_Form
     {
         $travel_type = new Zend_Form_Element_Select('travel_type');
         $travel_type ->setLabel('Your Travel Type')->setRequired('false');
-        $this->_addoptions ( $travel_type , 'Gen', 'Country');
+        $this->_addoptions ( $travel_type , 'Gen', 'Travel_Objective');
         
         return $travel_type;
     }
@@ -221,6 +221,18 @@ class Users_Form_Users_Base extends Core_Form
     protected function _addoptions (Zend_Form_Element_Select $element, $param_type,
             $param_classification)
     {
+        if ($param_classification=='Country')
+        {
+            $data_model = new Params_Model_Countries_Table();
+            $datas= $data_model->getcountryAll();
+            foreach ($datas as $data)
+            {
+               $element->addMultiOption($data->param_id,
+               $data->param_desc);
+            }
+            return ;
+            
+        }
         $data_model = new Users_Model_Param_Table();
         $datas = $data_model->getParamList($param_type, $param_classification);
         foreach ($datas as $data) 

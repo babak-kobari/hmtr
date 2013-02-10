@@ -344,7 +344,7 @@ foreach ($days_detail as $related)
 	    });
 	    function viewItem($item) {
 			    var id = $item;
-			    var a = 'http://myapp/poi/view/'+id;
+			    var a = '/poi/view/'+id;
 			    $.ajax({
 			        url: a,
 			        success: function(data){
@@ -380,7 +380,7 @@ foreach ($days_detail as $related)
 		function getfeedback( $item ) {
 		    var id = $item;
             var tooltipvalues = ['bad', 'poor', 'ok', 'good', 'super'];
-		    var a = 'http://myapp/exp/sharepoiexp/'+id+'/'+<?php echo $exp_id;?>;
+		    var a = '/exp/sharepoiexp/'+id+'/'+<?php echo $exp_id;?>;
 		    savefeedback();
 		    $.ajax({
 		        url: a,
@@ -466,7 +466,7 @@ foreach ($days_detail as $related)
 		    };
 		    $.ajax({
 	    	  type: 'POST',
-	    	  url:'http://myapp/exp/shareexp/savepoi',
+	    	  url:'/exp/shareexp/savepoi',
 	    	  data: tobeposted,
 		      success: function(retdata){}
 			});
@@ -598,7 +598,7 @@ function calcdist(lat1,lon1,lat2,lon2){
 	    };
 	    $.ajax({
     	  type: 'POST',
-    	  url:'http://myapp/exp/shareexp/savesumndfeed',
+    	  url:'/exp/shareexp/savesumndfeed',
     	  data: tobeposted,
 	      success: function(retdata){
 		  var divsummary = document.getElementById("day_summary");
@@ -685,7 +685,7 @@ function calcdist(lat1,lon1,lat2,lon2){
 	    };
 	    $.ajax({
     	  type: 'POST',
-    	  url:'http://myapp/exp/shareexp/savefeedback',
+    	  url:'/exp/shareexp/savefeedback',
     	  data: tobeposted,
 	      success: function(retdata){}
 		});

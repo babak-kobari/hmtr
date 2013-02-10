@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
@@ -24,6 +24,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 array (
                         'namespace' => 'Exp',
                         'basePath' => APPLICATION_PATH . '/modules/exp'));
+        $this->_resourceLoader = new Zend_Application_Module_Autoloader (
+                array (
+                        'namespace' => 'Params',
+                        'basePath' => APPLICATION_PATH . '/modules/params'));
         
     
     }

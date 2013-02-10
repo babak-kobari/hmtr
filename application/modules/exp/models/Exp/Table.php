@@ -18,8 +18,8 @@ class Exp_Model_Exp_Table extends Core_Db_Table_Abstract
 	         'refColumns' => 'param_id')
 	);
 	protected $_dependentTables = array (
-	      'Exp_Model_expdays_Table',
-	      'Exp_Model_exppoihead_Table');
+	      'Exp_Model_Expdays_Table',
+	      'Exp_Model_Exppoihead_Table');
 	
 	
 	public function getExpbyId($exp_id) {

@@ -7,7 +7,7 @@
  * @version 
  */
 require_once dirname ( __FILE__ ) . '/Rows/Rows.php';
-class Poi_Model_poiimages_Table extends Core_Db_Table_Abstract
+class Poi_Model_Poiimages_Table extends Core_Db_Table_Abstract
 {
     protected $_name = 'hm_poi_images';
 	protected $_primary = 'poiimg_id';

@@ -7,7 +7,7 @@
  * @version 
  */
 require_once dirname ( __FILE__ ) . '/Rows/Rows.php';
-class Exp_Model_expdays_Table extends Core_Db_Table_Abstract
+class Exp_Model_Expdays_Table extends Core_Db_Table_Abstract
 
 {
 	protected $_name = 'hm_exp_days';

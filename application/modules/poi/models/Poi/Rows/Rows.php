@@ -19,7 +19,7 @@ class Poi_Model_Poi_Row extends Core_Db_Table_Row_Abstract
 //	     $select->setIntegrityCheck(false);
 //         $select->join(array('a'=>'hm_param'), 'a.param_id = poifcl_param_id',
 //                        array('a.param_category_desc'));
-		$rowset= $this->findDependentRowset ( 'Poi_Model_poifacl_Table',null,$select );
+		$rowset= $this->findDependentRowset ( 'Poi_Model_Poifacl_Table',null,$select );
 		$rowset=$rowset->toArray();
 		foreach ($rowset as $key=>$row)
 		{
@@ -29,7 +29,7 @@ class Poi_Model_Poi_Row extends Core_Db_Table_Row_Abstract
 		return $rowset;
 	}
 	public function getImages() {
-	    return $this->findDependentRowset ( 'Poi_Model_poiimages_Table' );
+	    return $this->findDependentRowset ( 'Poi_Model_Poiimages_Table' );
 	}
 	
 }

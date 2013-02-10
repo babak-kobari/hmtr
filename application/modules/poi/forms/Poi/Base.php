@@ -236,7 +236,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	protected function _images($poi_id)
 	{
 		$element= new Zend_Form_Element_File ( 'poi_images' );
-		$path=APPLICATION_PATH . '/../public/uploads/poi/'.$poi_id.'/';
+		$path=APPLICATION_PATH . IMAGE_PATH.$poi_id.'/';
 		
 		$a=is_dir($path);
 		if (!is_dir($path))

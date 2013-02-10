@@ -5,7 +5,12 @@
 defined('APPLICATION_PATH') || 
         define('APPLICATION_PATH', 
                 realpath(dirname(__FILE__) . '/../application'));
-// Define application environment
+
+defined('IMAGE_PATH') ||
+        define('IMAGE_PATH',
+        realpath(dirname(__FILE__) . '../public/uploads'));
+        
+        // Define application environment
 defined('APPLICATION_ENV')
         || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development'));
 

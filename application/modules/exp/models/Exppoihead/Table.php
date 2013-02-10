@@ -7,12 +7,12 @@
  * @version 
  */
 require_once dirname ( __FILE__ ) . '/Rows/Rows.php';
-class Exp_Model_exppoihead_Table extends Core_Db_Table_Abstract
+class Exp_Model_Exppoihead_Table extends Core_Db_Table_Abstract
 
 {
 	protected $_name = 'hm_exp_poi_head';
 	protected $_primary = 'exp_poi_head_id';
-	protected $_rowClass = 'Exp_Model_exppoihead_Row';
+	protected $_rowClass = 'Exp_Model_Exppoihead_Row';
 	protected $_referenceMap = array (
 	        'exp_head' => array (
 	                'columns' => 'exp_id',
@@ -28,7 +28,7 @@ class Exp_Model_exppoihead_Table extends Core_Db_Table_Abstract
 	                'refColumns' => 'id')
 	);
 	protected $_dependentTables = array (
-	        'Exp_Model_exppoidetail_Table');
+	        'Exp_Model_Exppoidetail_Table');
 	
 	
 	public function getpoiexpbyId($exp_id,$poi_id)

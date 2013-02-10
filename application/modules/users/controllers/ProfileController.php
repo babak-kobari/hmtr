@@ -47,8 +47,6 @@ class Users_ProfileController extends Core_Controller_Action
             //$row->login(false);
         
             $this->_helper->flashMessenger('Profile Updated');
-            $this->render('personal');
-//            $this->_helper->redirector('index');
         }
         if (isset($row ))
         {
@@ -58,6 +56,7 @@ class Users_ProfileController extends Core_Controller_Action
         {
             $this->view->form = $form;
         }
+//        $this->render('personal');
     }
 
     public function  travelpreferencesAction()

@@ -1,350 +1,577 @@
-"1","Stay","Stay_Type",,"D","P"
-"2","Stay","Stay_Type","Luxury Hotel",,"P"
-"3","Stay","Stay_Type","Budget Hotel",,"P"
-"4","Stay","Stay_Type","Bed and Breakfast",,"P"
-"5","Stay","Stay_Type","Hotel Appeasement",,"P"
-"6","Stay","Stay_Type","Guest House",,"P"
-"7","Stay","Stay_Type","Vacation Rental",,"P"
-"8","Stay","Stay_Calssification",,"D","P"
-"9","Stay","Stay_Calssification","No Star",,"P"
-"10","Stay","Stay_Calssification","1 Star",,"P"
-"11","Stay","Stay_Calssification","2 Stars",,"P"
-"12","Stay","Stay_Calssification","3 Stars",,"P"
-"13","Stay","Stay_Calssification","4 Stars",,"P"
-"14","Stay","Stay_Calssification","5 Stars",,"P"
-"15","Stay","Stay_Calssification","6+ Stars",,"P"
-"16","Stay","Location_Type",,"D","P"
-"17","Stay","Location_Type","Beach Side",,"P"
-"18","Stay","Location_Type","City Center",,"P"
-"19","Stay","Location_Type","Desert",,"P"
-"20","Stay","Location_Type","Mountain",,"P"
-"21","Stay","Location_Type","Jungle",,"P"
-"22","Gen","Country",,"D","P"
-"23","Gen","Country","United States",,"P"
-"24","Gen","Country","United Kingdom",,"P"
-"25","Gen","Country","Australia",,"P"
-"26","Gen","Country","Canada",,"P"
-"27","Gen","Country","France",,"P"
-"28","Gen","Country","New Zealand",,"P"
-"29","Gen","Country","India",,"P"
-"30","Gen","Country","Brazil",,"P"
-"31","Gen","Country","Afghanistan",,"P"
-"32","Gen","Country","land Islands",,"P"
-"33","Gen","Country","Albania",,"P"
-"34","Gen","Country","Algeria",,"P"
-"35","Gen","Country","American Samoa",,"P"
-"36","Gen","Country","Andorra",,"P"
-"37","Gen","Country","Angola",,"P"
-"38","Gen","Country","Anguilla",,"P"
-"39","Gen","Country","Antarctica",,"P"
-"40","Gen","Country","Antigua and Barbuda",,"P"
-"41","Gen","Country","Argentina",,"P"
-"42","Gen","Country","Armenia",,"P"
-"43","Gen","Country","Aruba",,"P"
-"44","Gen","Country","Austria",,"P"
-"45","Gen","Country","Azerbaijan",,"P"
-"46","Gen","Country","Bahamas",,"P"
-"47","Gen","Country","Bahrain",,"P"
-"48","Gen","Country","Bangladesh",,"P"
-"49","Gen","Country","Barbados",,"P"
-"50","Gen","Country","Belarus",,"P"
-"51","Gen","Country","Belgium",,"P"
-"52","Gen","Country","Belize",,"P"
-"53","Gen","Country","Benin",,"P"
-"54","Gen","Country","Bermuda",,"P"
-"55","Gen","Country","Bhutan",,"P"
-"56","Gen","Country","Bolivia",,"P"
-"57","Gen","Country","Bosnia and Herzegovina",,"P"
-"58","Gen","Country","Botswana",,"P"
-"59","Gen","Country","British Indian Ocean Territory",,"P"
-"60","Gen","Country","Brunei Darussalam",,"P"
-"61","Gen","Country","Bulgaria",,"P"
-"62","Gen","Country","Burkina Faso",,"P"
-"63","Gen","Country","Burundi",,"P"
-"64","Gen","Country","Cambodia",,"P"
-"65","Gen","Country","Cameroon",,"P"
-"66","Gen","Country","Cape Verde",,"P"
-"67","Gen","Country","Cayman Islands",,"P"
-"68","Gen","Country","Central African Republic",,"P"
-"69","Gen","Country","Chad",,"P"
-"70","Gen","Country","Chile",,"P"
-"71","Gen","Country","China",,"P"
-"72","Gen","Country","Colombia",,"P"
-"73","Gen","Country","Comoros",,"P"
-"74","Gen","Country","Democratic Republic of the Congo",,"P"
-"75","Gen","Country","Republic of the Congo",,"P"
-"76","Gen","Country","Cook Islands",,"P"
-"77","Gen","Country","Costa Rica",,"P"
-"78","Gen","Country","C&ocirc;te d'Ivoire",,"P"
-"79","Gen","Country","Croatia",,"P"
-"80","Gen","Country","Cuba",,"P"
-"81","Gen","Country","Cyprus",,"P"
-"82","Gen","Country","Czech Republic",,"P"
-"83","Gen","Country","Denmark",,"P"
-"84","Gen","Country","Djibouti",,"P"
-"85","Gen","Country","Dominica",,"P"
-"86","Gen","Country","Dominican Republic",,"P"
-"87","Gen","Country","East Timor",,"P"
-"88","Gen","Country","Ecuador",,"P"
-"89","Gen","Country","Egypt",,"P"
-"90","Gen","Country","El Salvador",,"P"
-"91","Gen","Country","Equatorial Guinea",,"P"
-"92","Gen","Country","Eritrea",,"P"
-"93","Gen","Country","Estonia",,"P"
-"94","Gen","Country","Ethiopia",,"P"
-"95","Gen","Country","Faroe Islands",,"P"
-"96","Gen","Country","Fiji",,"P"
-"97","Gen","Country","Finland",,"P"
-"98","Gen","Country","Gabon",,"P"
-"99","Gen","Country","Gambia",,"P"
-"100","Gen","Country","Georgia",,"P"
-"101","Gen","Country","Germany",,"P"
-"102","Gen","Country","Ghana",,"P"
-"103","Gen","Country","Gibraltar",,"P"
-"104","Gen","Country","Greece",,"P"
-"105","Gen","Country","Grenada",,"P"
-"106","Gen","Country","Guatemala",,"P"
-"107","Gen","Country","Guinea",,"P"
-"108","Gen","Country","Guinea-Bissau",,"P"
-"109","Gen","Country","Guyana",,"P"
-"110","Gen","Country","Haiti",,"P"
-"111","Gen","Country","Honduras",,"P"
-"112","Gen","Country","Hong Kong",,"P"
-"113","Gen","Country","Hungary",,"P"
-"114","Gen","Country","Iceland",,"P"
-"115","Gen","Country","Indonesia",,"P"
-"116","Gen","Country","Iran",,"P"
-"117","Gen","Country","Iraq",,"P"
-"118","Gen","Country","Ireland",,"P"
-"119","Gen","Country","Israel",,"P"
-"120","Gen","Country","Italy",,"P"
-"121","Gen","Country","Jamaica",,"P"
-"122","Gen","Country","Japan",,"P"
-"123","Gen","Country","Jordan",,"P"
-"124","Gen","Country","Kazakhstan",,"P"
-"125","Gen","Country","Kenya",,"P"
-"126","Gen","Country","Kiribati",,"P"
-"127","Gen","Country","North Korea",,"P"
-"128","Gen","Country","South Korea",,"P"
-"129","Gen","Country","Kuwait",,"P"
-"130","Gen","Country","Kyrgyzstan",,"P"
-"131","Gen","Country","Laos",,"P"
-"132","Gen","Country","Latvia",,"P"
-"133","Gen","Country","Lebanon",,"P"
-"134","Gen","Country","Lesotho",,"P"
-"135","Gen","Country","Liberia",,"P"
-"136","Gen","Country","Libya",,"P"
-"137","Gen","Country","Liechtenstein",,"P"
-"138","Gen","Country","Lithuania",,"P"
-"139","Gen","Country","Luxembourg",,"P"
-"140","Gen","Country","Macedonia",,"P"
-"141","Gen","Country","Madagascar",,"P"
-"142","Gen","Country","Malawi",,"P"
-"143","Gen","Country","Malaysia",,"P"
-"144","Gen","Country","Maldives",,"P"
-"145","Gen","Country","Mali",,"P"
-"146","Gen","Country","Malta",,"P"
-"147","Gen","Country","Marshall Islands",,"P"
-"148","Gen","Country","Mauritania",,"P"
-"149","Gen","Country","Mauritius",,"P"
-"150","Gen","Country","Mexico",,"P"
-"151","Gen","Country","Micronesia",,"P"
-"152","Gen","Country","Moldova",,"P"
-"153","Gen","Country","Monaco",,"P"
-"154","Gen","Country","Mongolia",,"P"
-"155","Gen","Country","Montenegro",,"P"
-"156","Gen","Country","Morocco",,"P"
-"157","Gen","Country","Mozambique",,"P"
-"158","Gen","Country","Myanmar",,"P"
-"159","Gen","Country","Namibia",,"P"
-"160","Gen","Country","Nauru",,"P"
-"161","Gen","Country","Nepal",,"P"
-"162","Gen","Country","Netherlands",,"P"
-"163","Gen","Country","Netherlands Antilles",,"P"
-"164","Gen","Country","Nicaragua",,"P"
-"165","Gen","Country","Niger",,"P"
-"166","Gen","Country","Nigeria",,"P"
-"167","Gen","Country","Norway",,"P"
-"168","Gen","Country","Oman",,"P"
-"169","Gen","Country","Pakistan",,"P"
-"170","Gen","Country","Palau",,"P"
-"171","Gen","Country","Palestine",,"P"
-"172","Gen","Country","Panama",,"P"
-"173","Gen","Country","Papua New Guinea",,"P"
-"174","Gen","Country","Paraguay",,"P"
-"175","Gen","Country","Peru",,"P"
-"176","Gen","Country","Philippines",,"P"
-"177","Gen","Country","Poland",,"P"
-"178","Gen","Country","Portugal",,"P"
-"179","Gen","Country","Puerto Rico",,"P"
-"180","Gen","Country","Qatar",,"P"
-"181","Gen","Country","Romania",,"P"
-"182","Gen","Country","Russia",,"P"
-"183","Gen","Country","Rwanda",,"P"
-"184","Gen","Country","Saint Kitts and Nevis",,"P"
-"185","Gen","Country","Saint Lucia",,"P"
-"186","Gen","Country","Saint Vincent and the Grenadines",,"P"
-"187","Gen","Country","Samoa",,"P"
-"188","Gen","Country","San Marino",,"P"
-"189","Gen","Country","Sao Tome and Principe",,"P"
-"190","Gen","Country","Saudi Arabia",,"P"
-"191","Gen","Country","Senegal",,"P"
-"192","Gen","Country","Serbia and Montenegro",,"P"
-"193","Gen","Country","Seychelles",,"P"
-"194","Gen","Country","Sierra Leone",,"P"
-"195","Gen","Country","Singapore",,"P"
-"196","Gen","Country","Slovakia",,"P"
-"197","Gen","Country","Slovenia",,"P"
-"198","Gen","Country","Solomon Islands",,"P"
-"199","Gen","Country","Somalia",,"P"
-"200","Gen","Country","South Africa",,"P"
-"201","Gen","Country","Spain",,"P"
-"202","Gen","Country","Sri Lanka",,"P"
-"203","Gen","Country","Sudan",,"P"
-"204","Gen","Country","Suriname",,"P"
-"205","Gen","Country","Swaziland",,"P"
-"206","Gen","Country","Sweden",,"P"
-"207","Gen","Country","Switzerland",,"P"
-"208","Gen","Country","Syria",,"P"
-"209","Gen","Country","Taiwan",,"P"
-"210","Gen","Country","Tajikistan",,"P"
-"211","Gen","Country","Tanzania",,"P"
-"212","Gen","Country","Thailand",,"P"
-"213","Gen","Country","Togo",,"P"
-"214","Gen","Country","Tonga",,"P"
-"215","Gen","Country","Trinidad and Tobago",,"P"
-"216","Gen","Country","Tunisia",,"P"
-"217","Gen","Country","Turkey",,"P"
-"218","Gen","Country","Turkmenistan",,"P"
-"219","Gen","Country","Tuvalu",,"P"
-"220","Gen","Country","Uganda",,"P"
-"221","Gen","Country","Ukraine",,"P"
-"222","Gen","Country","United Arab Emirates",,"P"
-"223","Gen","Country","United States Minor Outlying Islands",,"P"
-"224","Gen","Country","Uruguay",,"P"
-"225","Gen","Country","Uzbekistan",,"P"
-"226","Gen","Country","Vanuatu",,"P"
-"227","Gen","Country","Vatican City",,"P"
-"228","Gen","Country","Venezuela",,"P"
-"229","Gen","Country","Vietnam",,"P"
-"230","Gen","Country","Virgin Islands - British",,"P"
-"231","Gen","Country","Virgin Islands - U.S.",,"P"
-"232","Gen","Country","Yemen",,"P"
-"233","Gen","Country","Zambia",,"P"
-"234","Gen","Country","Zimbabwe",,"P"
-"236","Stay","Amenities","Restaurant",,"P"
-"237","Stay","Amenities","Bar/Lounge",,"P"
-"238","Stay","Amenities","indoor pool",,"P"
-"239","Stay","Amenities","outdoor pool",,"P"
-"240","Stay","Amenities","private pool",,"P"
-"241","Stay","Amenities","SPA",,"P"
-"242","Stay","Amenities","private Jagoozi",,"P"
-"243","Stay","Amenities","Room Service",,"P"
-"244","Stay","Amenities","Business Center",,"P"
-"245","Stay","Amenities","Fitness Center",,"P"
-"246","Stay","Amenities","Free Internet",,"P"
-"247","Stay","Amenities","Room Service",,"P"
-"248","Stay","Amenities","Bathroom",,"P"
-"249","Stay","Amenities","Kitchenette",,"P"
-"250","Stay","Amenities","Free Parking",,"P"
-"251","Stay","Amenities","Kids Activities",,"P"
-"252","Stay","Amenities","Wheelchair access",,"P"
-"253","Stay","Amenities","Shuttle Bus service",,"P"
-"254","Stay","Amenities","DVD library ",,"P"
-"255","Stay","Amenities","DVD Player",,"P"
-"256","Stay","Amenities","TV",,"P"
-"257","Stay","Amenities","Safety Box",,"P"
-"258","Stay","Amenities","Lundary",,"P"
-"259","Gen","Travel_Style",,"D","P"
-"260","Gen","Travel_Style","Traveling in Style",,"P"
-"261","Gen","Travel_Style","Backpack on the road",,"P"
-"262","Gen","Travel_Style","Travel in Dudget",,"P"
-"263","Gen","Travel_With",,"D","P"
-"264","Gen","Travel_With","Myself",,"P"
-"265","Gen","Travel_With","My Spouse",,"P"
-"266","Gen","Travel_With","Family with young children",,"P"
-"267","Gen","Travel_With","Family with teenagers",,"P"
-"268","Gen","Travel_With","Extended family",,"P"
-"269","Gen","Travel_With","Some of my friends",,"P"
-"270","Gen","Travel_With","Large Group of People",,"P"
-"271","Gen","Good_For",,"D","P"
-"272","Gen","Good_For","Adventure",,"P"
-"273","Gen","Good_For","Beach and sun",,"P"
-"274","Gen","Good_For","Gambling / Casinos",,"P"
-"275","Gen","Good_For","Family Fun",,"P"
-"276","Gen","Good_For","Historical  and cultural",,"P"
-"277","Gen","Good_For","Romance",,"P"
-"278","Gen","Good_For","Relaxation",,"P"
-"279","Gen","Good_For","Business",,"P"
-"280","Gen","Good_For","Religious",,"P"
-"281","Gen","Good_For","Educational",,"P"
-"282","Gen","Good_For","Nature",,"P"
-"283","Gen","Good_For","Shopping",,"P"
-"284","Gen","Good_For","Sport",,"P"
-"285","Gen","Good_For","Concerts / Music festivals",,"P"
-"287","Gen","Travel_Objective",,"D","P"
-"288","Gen","Travel_Objective","Business",,"P"
-"289","Gen","Travel_Objective","Vacation",,"P"
-"290","Gen","Travel_Objective","Religious",,"P"
-"292","Eat","Restaurant_Type",,"D","P"
-"293","Eat","Restaurant_Type","Fast food",,"P"
-"294","Eat","Restaurant_Type","Casual Dining",,"P"
-"295","Eat","Restaurant_Type","Fine Dining",,"P"
-"296","Eat","Restaurant_Type","Cafeteria",,"P"
-"297","Eat","Restaurant_Type","Pub",,"P"
-"298","Eat","Restaurant_Type","Bakery",,"P"
-"299","Eat","Restaurant_Type","Food court",,"P"
-"300","Eat","Restaurant_Type","street food",,"P"
-"301","Eat","Restaurant_Type","Add new",,"P"
-"303","Eat","Cuisine","American",,"P"
-"304","Eat","Cuisine","Asian",,"P"
-"305","Eat","Cuisine","Bakery",,"P"
-"306","Eat","Cuisine","Barbecue",,"P"
-"307","Eat","Cuisine","Brithish",,"P"
-"308","Eat","Cuisine","Caf?",,"P"
-"309","Eat","Cuisine","Cajun",,"P"
-"310","Eat","Cuisine","Chiness",,"P"
-"311","Eat","Cuisine","Continental",,"P"
-"312","Eat","Cuisine","French ",,"P"
-"313","Eat","Cuisine","International",,"P"
-"314","Eat","Cuisine","Indian",,"P"
-"315","Eat","Cuisine","Irish",,"P"
-"316","Eat","Cuisine","Italian",,"P"
-"317","Eat","Cuisine","Japanese",,"P"
-"318","Eat","Cuisine","Mediterranean",,"P"
-"319","Eat","Cuisine","Mexican/Southwestern",,"P"
-"320","Eat","Cuisine","Middle Eastern",,"P"
-"321","Eat","Cuisine","Pizza",,"P"
-"322","Eat","Cuisine","Pub",,"P"
-"323","Eat","Cuisine","Seafood",,"P"
-"324","Eat","Cuisine","Soups",,"P"
-"325","Eat","Cuisine","South American",,"P"
-"326","Eat","Cuisine","Spanish",,"P"
-"327","Eat","Cuisine","Steakhouse",,"P"
-"328","Eat","Cuisine","Sushi",,"P"
-"329","Eat","Cuisine","Thai",,"P"
-"330","Eat","Cuisine","Vegetarian",,"P"
-"331","Eat","Cuisine","Persian",,"P"
-"332","Eat","Cuisine","Arabic",,"P"
-"333","Eat","Cuisine","Add new",,"P"
-"335","Eat","Dining_Options","Entertaining",,"P"
-"336","Eat","Dining_Options","Local cuisine",,"P"
-"337","Eat","Dining_Options","Outdoor seating",,"P"
-"338","Eat","Dining_Options","Bar scene",,"P"
-"339","Eat","Dining_Options","Breakfast/ Brunch",,"P"
-"340","Eat","Dining_Options","private dining",,"P"
-"341","Eat","Dining_Options","Live Music",,"P"
-"342","Eat","Dining_Options","Take away",,"P"
-"343","Eat","Dining_Options","Add new",,"P"
-"344","Things","TDO_Type","Bars and night clubs",,"P"
-"345","Things","Bars and night clubs","Bar Club",,"P"
-"346","Things","Bars and night clubs","Jazz Bar",,"P"
-"347","Things","Bars and night clubs","Nightclub",,"P"
-"348","Things","Bars and night clubs","Dance Bar",,"P"
-"349","Things","Bar Club","Live Music",,"P"
-"350","Things","Bar Club","DJ Band",,"P"
-"351","Things","Bar Club","Dining option",,"P"
-"352","Things","Bar Club","See View",,"P"
-"353","Things","Bar Club__Act","Drinking",,"P"
-"354","Things","Bar Club__Act","Dancing",,"P"
-"355","Things","Bar Club__Act","socializing",,"P"
+1,Stay,Stay_Type,,D,P,0
+2,Stay,Stay_Type,Luxury Hotel,,P,0
+3,Stay,Stay_Type,Budget Hotel,,P,0
+4,Stay,Stay_Type,Bed and Breakfast,,P,0
+5,Stay,Stay_Type,Hotel Appeasement,,P,0
+6,Stay,Stay_Type,Guest House,,P,0
+7,Stay,Stay_Type,Vacation Rental,,P,0
+8,Stay,Stay_Calssification,,D,P,0
+9,Stay,Stay_Calssification,No Star,,P,0
+10,Stay,Stay_Calssification,1 Star,,P,0
+11,Stay,Stay_Calssification,2 Stars,,P,0
+12,Stay,Stay_Calssification,3 Stars,,P,0
+13,Stay,Stay_Calssification,4 Stars,,P,0
+14,Stay,Stay_Calssification,5 Stars,,P,0
+15,Stay,Stay_Calssification,6+ Stars,,P,0
+16,Stay,Location_Type,,D,P,0
+17,Stay,Location_Type,Beach Side,,P,0
+18,Stay,Location_Type,City Center,,P,0
+19,Stay,Location_Type,Desert,,P,0
+20,Stay,Location_Type,Mountain,,P,0
+21,Stay,Location_Type,Jungle,,P,0
+22,Gen,Country,,D,P,0
+23,Gen,Country,United States,,P,0
+24,Gen,Country,United Kingdom,,P,0
+25,Gen,Country,Australia,,P,0
+26,Gen,Country,Canada,,P,0
+27,Gen,Country,France,,P,0
+28,Gen,Country,New Zealand,,P,0
+29,Gen,Country,India,,P,0
+30,Gen,Country,Brazil,,P,0
+31,Gen,Country,Afghanistan,,P,0
+32,Gen,Country,land Islands,,P,0
+33,Gen,Country,Albania,,P,0
+34,Gen,Country,Algeria,,P,0
+35,Gen,Country,American Samoa,,P,0
+36,Gen,Country,Andorra,,P,0
+37,Gen,Country,Angola,,P,0
+38,Gen,Country,Anguilla,,P,0
+39,Gen,Country,Antarctica,,P,0
+40,Gen,Country,Antigua and Barbuda,,P,0
+41,Gen,Country,Argentina,,P,0
+42,Gen,Country,Armenia,,P,0
+43,Gen,Country,Aruba,,P,0
+44,Gen,Country,Austria,,P,0
+45,Gen,Country,Azerbaijan,,P,0
+46,Gen,Country,Bahamas,,P,0
+47,Gen,Country,Bahrain,,P,0
+48,Gen,Country,Bangladesh,,P,0
+49,Gen,Country,Barbados,,P,0
+50,Gen,Country,Belarus,,P,0
+51,Gen,Country,Belgium,,P,0
+52,Gen,Country,Belize,,P,0
+53,Gen,Country,Benin,,P,0
+54,Gen,Country,Bermuda,,P,0
+55,Gen,Country,Bhutan,,P,0
+56,Gen,Country,Bolivia,,P,0
+57,Gen,Country,Bosnia and Herzegovina,,P,0
+58,Gen,Country,Botswana,,P,0
+59,Gen,Country,British Indian Ocean Territory,,P,0
+60,Gen,Country,Brunei Darussalam,,P,0
+61,Gen,Country,Bulgaria,,P,0
+62,Gen,Country,Burkina Faso,,P,0
+63,Gen,Country,Burundi,,P,0
+64,Gen,Country,Cambodia,,P,0
+65,Gen,Country,Cameroon,,P,0
+66,Gen,Country,Cape Verde,,P,0
+67,Gen,Country,Cayman Islands,,P,0
+68,Gen,Country,Central African Republic,,P,0
+69,Gen,Country,Chad,,P,0
+70,Gen,Country,Chile,,P,0
+71,Gen,Country,China,,P,0
+72,Gen,Country,Colombia,,P,0
+73,Gen,Country,Comoros,,P,0
+74,Gen,Country,Democratic Republic of the Congo,,P,0
+75,Gen,Country,Republic of the Congo,,P,0
+76,Gen,Country,Cook Islands,,P,0
+77,Gen,Country,Costa Rica,,P,0
+78,Gen,Country,C&ocirc;te d'Ivoire,,P,0
+79,Gen,Country,Croatia,,P,0
+80,Gen,Country,Cuba,,P,0
+81,Gen,Country,Cyprus,,P,0
+82,Gen,Country,Czech Republic,,P,0
+83,Gen,Country,Denmark,,P,0
+84,Gen,Country,Djibouti,,P,0
+85,Gen,Country,Dominica,,P,0
+86,Gen,Country,Dominican Republic,,P,0
+87,Gen,Country,East Timor,,P,0
+88,Gen,Country,Ecuador,,P,0
+89,Gen,Country,Egypt,,P,0
+90,Gen,Country,El Salvador,,P,0
+91,Gen,Country,Equatorial Guinea,,P,0
+92,Gen,Country,Eritrea,,P,0
+93,Gen,Country,Estonia,,P,0
+94,Gen,Country,Ethiopia,,P,0
+95,Gen,Country,Faroe Islands,,P,0
+96,Gen,Country,Fiji,,P,0
+97,Gen,Country,Finland,,P,0
+98,Gen,Country,Gabon,,P,0
+99,Gen,Country,Gambia,,P,0
+100,Gen,Country,Georgia,,P,0
+101,Gen,Country,Germany,,P,0
+102,Gen,Country,Ghana,,P,0
+103,Gen,Country,Gibraltar,,P,0
+104,Gen,Country,Greece,,P,0
+105,Gen,Country,Grenada,,P,0
+106,Gen,Country,Guatemala,,P,0
+107,Gen,Country,Guinea,,P,0
+108,Gen,Country,Guinea-Bissau,,P,0
+109,Gen,Country,Guyana,,P,0
+110,Gen,Country,Haiti,,P,0
+111,Gen,Country,Honduras,,P,0
+112,Gen,Country,Hong Kong,,P,0
+113,Gen,Country,Hungary,,P,0
+114,Gen,Country,Iceland,,P,0
+115,Gen,Country,Indonesia,,P,0
+116,Gen,Country,Iran,,P,0
+117,Gen,Country,Iraq,,P,0
+118,Gen,Country,Ireland,,P,0
+119,Gen,Country,Israel,,P,0
+120,Gen,Country,Italy,,P,0
+121,Gen,Country,Jamaica,,P,0
+122,Gen,Country,Japan,,P,0
+123,Gen,Country,Jordan,,P,0
+124,Gen,Country,Kazakhstan,,P,0
+125,Gen,Country,Kenya,,P,0
+126,Gen,Country,Kiribati,,P,0
+127,Gen,Country,North Korea,,P,0
+128,Gen,Country,South Korea,,P,0
+129,Gen,Country,Kuwait,,P,0
+130,Gen,Country,Kyrgyzstan,,P,0
+131,Gen,Country,Laos,,P,0
+132,Gen,Country,Latvia,,P,0
+133,Gen,Country,Lebanon,,P,0
+134,Gen,Country,Lesotho,,P,0
+135,Gen,Country,Liberia,,P,0
+136,Gen,Country,Libya,,P,0
+137,Gen,Country,Liechtenstein,,P,0
+138,Gen,Country,Lithuania,,P,0
+139,Gen,Country,Luxembourg,,P,0
+140,Gen,Country,Macedonia,,P,0
+141,Gen,Country,Madagascar,,P,0
+142,Gen,Country,Malawi,,P,0
+143,Gen,Country,Malaysia,,P,0
+144,Gen,Country,Maldives,,P,0
+145,Gen,Country,Mali,,P,0
+146,Gen,Country,Malta,,P,0
+147,Gen,Country,Marshall Islands,,P,0
+148,Gen,Country,Mauritania,,P,0
+149,Gen,Country,Mauritius,,P,0
+150,Gen,Country,Mexico,,P,0
+151,Gen,Country,Micronesia,,P,0
+152,Gen,Country,Moldova,,P,0
+153,Gen,Country,Monaco,,P,0
+154,Gen,Country,Mongolia,,P,0
+155,Gen,Country,Montenegro,,P,0
+156,Gen,Country,Morocco,,P,0
+157,Gen,Country,Mozambique,,P,0
+158,Gen,Country,Myanmar,,P,0
+159,Gen,Country,Namibia,,P,0
+160,Gen,Country,Nauru,,P,0
+161,Gen,Country,Nepal,,P,0
+162,Gen,Country,Netherlands,,P,0
+163,Gen,Country,Netherlands Antilles,,P,0
+164,Gen,Country,Nicaragua,,P,0
+165,Gen,Country,Niger,,P,0
+166,Gen,Country,Nigeria,,P,0
+167,Gen,Country,Norway,,P,0
+168,Gen,Country,Oman,,P,0
+169,Gen,Country,Pakistan,,P,0
+170,Gen,Country,Palau,,P,0
+171,Gen,Country,Palestine,,P,0
+172,Gen,Country,Panama,,P,0
+173,Gen,Country,Papua New Guinea,,P,0
+174,Gen,Country,Paraguay,,P,0
+175,Gen,Country,Peru,,P,0
+176,Gen,Country,Philippines,,P,0
+177,Gen,Country,Poland,,P,0
+178,Gen,Country,Portugal,,P,0
+179,Gen,Country,Puerto Rico,,P,0
+180,Gen,Country,Qatar,,P,0
+181,Gen,Country,Romania,,P,0
+182,Gen,Country,Russia,,P,0
+183,Gen,Country,Rwanda,,P,0
+184,Gen,Country,Saint Kitts and Nevis,,P,0
+185,Gen,Country,Saint Lucia,,P,0
+186,Gen,Country,Saint Vincent and the Grenadines,,P,0
+187,Gen,Country,Samoa,,P,0
+188,Gen,Country,San Marino,,P,0
+189,Gen,Country,Sao Tome and Principe,,P,0
+190,Gen,Country,Saudi Arabia,,P,0
+191,Gen,Country,Senegal,,P,0
+192,Gen,Country,Serbia and Montenegro,,P,0
+193,Gen,Country,Seychelles,,P,0
+194,Gen,Country,Sierra Leone,,P,0
+195,Gen,Country,Singapore,,P,0
+196,Gen,Country,Slovakia,,P,0
+197,Gen,Country,Slovenia,,P,0
+198,Gen,Country,Solomon Islands,,P,0
+199,Gen,Country,Somalia,,P,0
+200,Gen,Country,South Africa,,P,0
+201,Gen,Country,Spain,,P,0
+202,Gen,Country,Sri Lanka,,P,0
+203,Gen,Country,Sudan,,P,0
+204,Gen,Country,Suriname,,P,0
+205,Gen,Country,Swaziland,,P,0
+206,Gen,Country,Sweden,,P,0
+207,Gen,Country,Switzerland,,P,0
+208,Gen,Country,Syria,,P,0
+209,Gen,Country,Taiwan,,P,0
+210,Gen,Country,Tajikistan,,P,0
+211,Gen,Country,Tanzania,,P,0
+212,Gen,Country,Thailand,,P,0
+213,Gen,Country,Togo,,P,0
+214,Gen,Country,Tonga,,P,0
+215,Gen,Country,Trinidad and Tobago,,P,0
+216,Gen,Country,Tunisia,,P,0
+217,Gen,Country,Turkey,,P,0
+218,Gen,Country,Turkmenistan,,P,0
+219,Gen,Country,Tuvalu,,P,0
+220,Gen,Country,Uganda,,P,0
+221,Gen,Country,Ukraine,,P,0
+222,Gen,Country,United Arab Emirates,,P,0
+223,Gen,Country,United States Minor Outlying Islands,,P,0
+224,Gen,Country,Uruguay,,P,0
+225,Gen,Country,Uzbekistan,,P,0
+226,Gen,Country,Vanuatu,,P,0
+227,Gen,Country,Vatican City,,P,0
+228,Gen,Country,Venezuela,,P,0
+229,Gen,Country,Vietnam,,P,0
+230,Gen,Country,Virgin Islands - British,,P,0
+231,Gen,Country,Virgin Islands - U.S.,,P,0
+232,Gen,Country,Yemen,,P,0
+233,Gen,Country,Zambia,,P,0
+234,Gen,Country,Zimbabwe,,P,0
+259,Gen,Travel_Style,,D,P,0
+260,Gen,Travel_Style,Traveling in Style,,P,0
+261,Gen,Travel_Style,Backpack on the road,,P,0
+262,Gen,Travel_Style,Travel in Dudget,,P,0
+263,Gen,Travel_With,,D,P,0
+264,Gen,Travel_With,Myself,,P,0
+265,Gen,Travel_With,My Spouse,,P,0
+266,Gen,Travel_With,Family with young children,,P,0
+267,Gen,Travel_With,Family with teenagers,,P,0
+268,Gen,Travel_With,Extended family,,P,0
+269,Gen,Travel_With,Some of my friends,,P,0
+270,Gen,Travel_With,Large Group of People,,P,0
+271,Gen,Good_For,,D,P,0
+272,Gen,Good_For,Adventure,,P,0
+273,Gen,Good_For,Beach and sun,,P,0
+274,Gen,Good_For,Gambling / Casinos,,P,0
+275,Gen,Good_For,Family Fun,,P,0
+276,Gen,Good_For,Historical  and cultural,,P,0
+277,Gen,Good_For,Romance,,P,0
+278,Gen,Good_For,Relaxation,,P,0
+279,Gen,Good_For,Business,,P,0
+280,Gen,Good_For,Religious,,P,0
+281,Gen,Good_For,Educational,,P,0
+282,Gen,Good_For,Nature,,P,0
+283,Gen,Good_For,Shopping,,P,0
+284,Gen,Good_For,Sport,,P,0
+285,Gen,Good_For,Concerts / Music festivals,,P,0
+287,Gen,Travel_Objective,,D,P,0
+288,Gen,Travel_Objective,Business,,P,0
+289,Gen,Travel_Objective,Vacation,,P,0
+290,Gen,Travel_Objective,Religious,,P,0
+292,Eat,Restaurant_Type,,D,P,0
+293,Eat,Restaurant_Type,Fast food,,P,0
+294,Eat,Restaurant_Type,Casual Dining,,P,0
+295,Eat,Restaurant_Type,Fine Dining,,P,0
+296,Eat,Restaurant_Type,Cafeteria,,P,0
+297,Eat,Restaurant_Type,Pub,,P,0
+298,Eat,Restaurant_Type,Bakery,,P,0
+299,Eat,Restaurant_Type,Food court,,P,0
+300,Eat,Restaurant_Type,street food,,P,0
+301,Eat,Restaurant_Type,Add new,,P,0
+303,Eat,Cuisine,American,,P,0
+304,Eat,Cuisine,Asian,,P,0
+305,Eat,Cuisine,Bakery,,P,0
+306,Eat,Cuisine,Barbecue,,P,0
+307,Eat,Cuisine,Brithish,,P,0
+308,Eat,Cuisine,Caf?,,P,0
+309,Eat,Cuisine,Cajun,,P,0
+310,Eat,Cuisine,Chiness,,P,0
+311,Eat,Cuisine,Continental,,P,0
+312,Eat,Cuisine,French ,,P,0
+313,Eat,Cuisine,International,,P,0
+314,Eat,Cuisine,Indian,,P,0
+315,Eat,Cuisine,Irish,,P,0
+316,Eat,Cuisine,Italian,,P,0
+317,Eat,Cuisine,Japanese,,P,0
+318,Eat,Cuisine,Mediterranean,,P,0
+319,Eat,Cuisine,Mexican/Southwestern,,P,0
+320,Eat,Cuisine,Middle Eastern,,P,0
+321,Eat,Cuisine,Pizza,,P,0
+322,Eat,Cuisine,Pub,,P,0
+323,Eat,Cuisine,Seafood,,P,0
+324,Eat,Cuisine,Soups,,P,0
+325,Eat,Cuisine,South American,,P,0
+326,Eat,Cuisine,Spanish,,P,0
+327,Eat,Cuisine,Steakhouse,,P,0
+328,Eat,Cuisine,Sushi,,P,0
+329,Eat,Cuisine,Thai,,P,0
+330,Eat,Cuisine,Vegetarian,,P,0
+331,Eat,Cuisine,Persian,,P,0
+332,Eat,Cuisine,Arabic,,P,0
+333,Eat,Cuisine,Add new,,P,0
+335,Eat,Dining_Options,Entertaining,,P,0
+336,Eat,Dining_Options,Local cuisine,,P,0
+337,Eat,Dining_Options,Outdoor seating,,P,0
+338,Eat,Dining_Options,Bar scene,,P,0
+339,Eat,Dining_Options,Breakfast/ Brunch,,P,0
+340,Eat,Dining_Options,private dining,,P,0
+341,Eat,Dining_Options,Live Music,,P,0
+342,Eat,Dining_Options,Take away,,P,0
+343,Eat,Dining_Options,Add new,,P,0
+344,Things,TDO_Type,Bars and night clubs,,P,0
+345,Things,Bars and night clubs,Bar Club,,P,0
+346,Things,Bars and night clubs,Jazz Bar,,P,0
+347,Things,Bars and night clubs,Nightclub,,P,0
+348,Things,Bars and night clubs,Dance Bar,,P,0
+349,Things,Bar Club,Live Music,,P,0
+350,Things,Bar Club,DJ Band,,P,0
+351,Things,Bar Club,Dining option,,P,0
+352,Things,Bar Club,See View,,P,0
+353,Things,Bar Club__Act,Drinking,,P,0
+354,Things,Bar Club__Act,Dancing,,P,0
+355,Things,Bar Club__Act,socializing,,P,0
+356,Stay,Amenities,Business Center,,P,1
+357,Stay,Amenities,Room Service,,P,2
+358,Stay,Amenities,High-speed Internet,,P,3
+359,Stay,Amenities,Fitness Room/Gym,,P,4
+360,Stay,Amenities,Restaurant,,P,5
+361,Stay,Amenities,Parking,,P,6
+362,Stay,Amenities,Swimming pool,,P,7
+363,Stay,Amenities,Pet Friendly,,P,8
+364,Stay,Amenities,Airport shuttle,,P,9
+365,Stay,Amenities,Disabled Access,,P,10
+366,Stay,Amenities,Concierge,,P,11
+367,Stay,Amenities,Valet Parking,,P,12
+368,Stay,Amenities,Tour Desk,,P,13
+369,Stay,Amenities,Massage / Beauty Centre,,P,14
+370,Stay,Amenities,Bar / Lounge,,P,15
+371,Stay,Amenities,Elevator / Lift,,P,16
+372,Stay,Amenities,24 Hour Reception,,P,17
+373,Stay,Amenities,Dry Cleaning,,P,18
+374,Stay,Amenities,Babysitting / Child Services,,P,19
+375,Stay,Amenities,Air Conditioned,,P,20
+376,Stay,Amenities,Non-Smoking Rooms,,P,21
+377,Stay,Amenities,Tennis Courts,,P,22
+378,Stay,Amenities,Convention Center,,P,23
+379,Stay,Amenities,Golf Course,,P,24
+380,Stay,Amenities,Housekeeping,,P,25
+381,Stay,Amenities,Banquet Facilities,,P,26
+382,Stay,Amenities,Conference Room(s),,P,27
+383,Stay,Amenities,Currency Exchange,,P,28
+384,Stay,Amenities,Medical Assistance Available,,P,29
+385,Stay,Amenities,Multilingual Staff,,P,30
+386,Stay,Amenities,Safe-Deposit Box,,P,31
+387,Stay,Amenities,Sauna,,P,32
+388,Stay,Amenities,Security Guard,,P,33
+389,Stay,Amenities,News Stand,,P,34
+390,Stay,Amenities,ATM / Cash Machine,,P,35
+391,Stay,Amenities,Mini Bar,,P,36
+392,Stay,Amenities,Refrigerator,,P,37
+393,Stay,Amenities,Cable / Satellite TV,,P,38
+394,Stay,Amenities,Secretarial Service,,P,39
+395,Stay,Amenities,In Room Movies,,P,40
+396,Stay,Amenities,Connecting Rooms,,P,41
+397,Stay,Amenities,Bath / Hot Tub,,P,42
+398,Stay,Amenities,Porters,,P,43
+399,Stay,Amenities,Wake-up Service,,P,44
+400,Stay,Amenities,Florist,,P,45
+401,Stay,Amenities,Meeting Rooms,,P,46
+402,Stay,Amenities,Kitchenette,,P,47
+403,Stay,Amenities,Coffee / Tea Maker,,P,48
+404,Stay,Amenities,Microwave,,P,49
+405,Stay,Amenities,Hair Dryer,,P,50
+406,Stay,Amenities,Complimentary Toiletries,,P,51
+407,Stay,Amenities,Modem / Data Port,,P,52
+408,Stay,Amenities,TV,,P,53
+409,Stay,Amenities,CD Player,,P,54
+410,Stay,Amenities,DVD Player,,P,55
+411,Stay,Amenities,Private beach,,P,56
+412,Stay,Amenities,Laundry service,,P,57
+413,Stay,Amenities,Spa bath / Jacuzzi,,P,58
+414,Stay,Amenities,Bicycle Rental,,P,59
+415,Stay,Amenities,Casino,,P,60
+416,Stay,Amenities,Shops,,P,61
+417,Stay,Amenities,Excursions,,P,62
+418,Stay,Amenities,Garden,,P,63
+419,Stay,Amenities,Golf Course (on site),,P,64
+420,Stay,Amenities,Golf Course (nearby),,P,65
+421,Stay,Amenities,Squash Courts,,P,66
+422,Stay,Amenities,Water Sports (motorized),,P,67
+423,Stay,Amenities,Water Sports (non-motorized),,P,68
+424,Stay,Amenities,Beach (Direct Access),,P,69
+425,Stay,Amenities,Beach (Nearby),,P,70
+426,Stay,Amenities,Boating,,P,71
+427,Stay,Amenities,Dog Racing,,P,72
+428,Stay,Amenities,Gym off-site,,P,73
+429,Stay,Amenities,Jet-Ski,,P,74
+430,Stay,Amenities,Mountain Biking,,P,75
+431,Stay,Amenities,Nature Trail,,P,76
+432,Stay,Amenities,Scuba Diving,,P,77
+433,Stay,Amenities,Skating Rink,,P,78
+434,Stay,Amenities,Walking,,P,79
+435,Stay,Amenities,Windsurfing,,P,80
+436,Stay,Amenities,Cycling,,P,81
+437,Stay,Amenities,Fine Dining,,P,82
+438,Stay,Amenities,Football Field,,P,83
+439,Stay,Amenities,Horse Racing,,P,84
+440,Stay,Amenities,Karaoke,,P,85
+441,Stay,Amenities,Mountain Climbing,,P,86
+442,Stay,Amenities,Nightclubs,,P,87
+443,Stay,Amenities,Shopping (outlet),,P,88
+444,Stay,Amenities,Tennis Courts (indoor),,P,89
+445,Stay,Amenities,Water Activities,,P,90
+446,Stay,Amenities,Wine Tasting,,P,91
+447,Stay,Amenities,Billiards,,P,92
+448,Stay,Amenities,Dart Board,,P,93
+449,Stay,Amenities,Fishing,,P,94
+450,Stay,Amenities,Golf (miniature),,P,95
+451,Stay,Amenities,Horse Riding,,P,96
+452,Stay,Amenities,Playground,,P,97
+453,Stay,Amenities,Cricket Pitch,,P,98
+454,Stay,Amenities,Dancing,,P,99
+455,Stay,Amenities,Bowling Alley,,P,100
+456,Stay,Amenities,Volleyball,,P,101
+457,Stay,Amenities,Tennis Courts (outdoor),,P,102
+458,Stay,Amenities,Rock Climbing,,P,103
+459,Stay,Amenities,Animal Watching,,P,104
+460,Stay,Amenities,Canoeing,,P,105
+461,Stay,Amenities,Surfing,,P,106
+462,Stay,Amenities,Bird Watching,,P,107
+463,Stay,Amenities,Kayaking,,P,108
+464,Stay,Amenities,Clay Pigeon Shooting,,P,109
+465,Stay,Amenities,Hiking,,P,110
+466,Stay,Amenities,Jogging and exercise trail,,P,111
+467,Stay,Amenities,Ice skating,,P,112
+468,Stay,Amenities,Beach Soccer and Volleyball,,P,113
+469,Stay,Amenities,Pool Games,,P,114
+470,Stay,Amenities,Diving Centre,,P,115
+471,Stay,Amenities,Easel,,P,116
+472,Stay,Amenities,Scooter/Moped Rentals on site,,P,117
+473,Stay,Amenities,Ecotours on Site,,P,118
+474,Stay,Amenities,Motor Boating on site,,P,119
+475,Stay,Amenities,Aerobics on site,,P,120
+476,Stay,Amenities,Lake,,P,121
+477,Stay,Amenities,Museums/Galleries,,P,122
+478,Stay,Amenities,Shopping (antiques),,P,123
+479,Stay,Amenities,Sightseeing Tours,,P,124
+480,Stay,Amenities,Water-skiing,,P,125
+481,Stay,Amenities,Computer,,P,126
+482,Stay,Amenities,Laptop,,P,127
+483,Stay,Amenities,Photocopier,,P,128
+484,Stay,Amenities,Desk,,P,129
+485,Stay,Amenities,Direct dial phone,,P,130
+486,Stay,Amenities,Ticket Service,,P,131
+487,Stay,Amenities,Office Supplies,,P,132
+488,Stay,Amenities,Courier,,P,133
+489,Stay,Amenities,Colour Printing,,P,134
+490,Stay,Amenities,Binding,,P,135
+491,Stay,Amenities,Dictaphone,,P,136
+492,Stay,Amenities,Facsimile,,P,137
+493,Stay,Amenities,Lamination,,P,138
+494,Stay,Amenities,Laser printing,,P,139
+495,Stay,Amenities,Blackboard,,P,140
+496,Stay,Amenities,Posting,,P,141
+497,Stay,Amenities,Scanning,,P,142
+498,Stay,Amenities,Ballroom,,P,143
+499,Stay,Amenities,Function Rooms,,P,144
+500,Stay,Amenities,Meeting Coordinator,,P,145
+501,Stay,Amenities,Audio/Visual Equipment,,P,146
+502,Stay,Amenities,Video Conferencing,,P,147
+503,Stay,Amenities,Conference Manager,,P,148
+504,Stay,Amenities,Flip chart,,P,149
+505,Stay,Amenities,LCD Projector,,P,150
+506,Stay,Amenities,Microphone and Wireless Microphone,,P,151
+507,Stay,Amenities,Podium,,P,152
+508,Stay,Amenities,Screen and Moveable Screen,,P,153
+509,Stay,Amenities,Stage,,P,154
+510,Stay,Amenities,TV set cabinet,,P,155
+511,Stay,Amenities,White board,,P,156
+512,Stay,Amenities,Mini-cassette Recorder,,P,157
+513,Stay,Amenities,Portable Phone,,P,158
+514,Stay,Amenities,Slide Projector,,P,159
+515,Stay,Amenities,Full-service catering,,P,160
+516,Stay,Amenities,Bridal Showers,,P,161
+517,Stay,Amenities,Ceremonies,,P,162
+518,Stay,Amenities,Engagement Parties,,P,163
+519,Stay,Amenities,Rehearsal Dinners,,P,164
+520,Stay,Amenities,Custom event planning available,,P,165
+521,Stay,Amenities,Exhibit Space,,P,166
+522,Stay,Amenities,Flowers and Gift Arrangements,,P,167
+523,Stay,Amenities,Disabled Accessible Rooms,,P,168
+524,Stay,Amenities,Disabled Parking,,P,169
+525,Stay,Amenities,Wheel Chair Access,,P,170
+526,Stay,Amenities,Knock Light (Hearing Impaired),,P,171
+527,Stay,Amenities,Salon,,P,172
+528,Stay,Amenities,Fitness Facilities,,P,173
+529,Stay,Amenities,Jacuzzi,,P,174
+530,Stay,Amenities,Steam Room,,P,175
+531,Stay,Amenities,Massage,,P,176
+532,Stay,Amenities,Solarium,,P,177
+533,Stay,Amenities,Spa & Wellness Centre,,P,178
+534,Stay,Amenities,Steam Bath,,P,179
+535,Stay,Amenities,Barber/Beauty Shop,,P,180
+536,Stay,Amenities,Beauty Salon,,P,181
+537,Stay,Amenities,Health Centre,,P,182
+538,Stay,Amenities,Body Treatments,,P,183
+539,Stay,Amenities,Facial Treatments,,P,184
+540,Stay,Amenities,Analogue dial-up data port,,P,185
+541,Stay,Amenities,Internet Connection (wireless),,P,186
+542,Stay,Amenities,Bathrobes,,P,187
+543,Stay,Amenities,Towels,,P,188
+544,Stay,Amenities,Shared Bathroom,,P,189
+545,Stay,Amenities,Shower,,P,190
+546,Stay,Amenities,En suite,,P,191
+547,Stay,Amenities,Private Bathroom,,P,192
+548,Stay,Amenities,Private Toilet,,P,193
+549,Stay,Amenities,Bathtub/Shower Combination,,P,194
+550,Stay,Amenities,Bidet,,P,195
+551,Stay,Amenities,Grab bars in bathroom,,P,196
+552,Stay,Amenities,Bath Menu,,P,197
+553,Stay,Amenities,Jetted Tub,,P,198
+554,Stay,Amenities,Spa/Jetted Tub,,P,199
+555,Stay,Amenities,Child Pool,,P,200
+556,Stay,Amenities,Pool Indoor,,P,201
+557,Stay,Amenities,Pool Outdoor,,P,202
+558,Stay,Amenities,Outdoor heated pool,,P,203
+559,Stay,Amenities,Kids Club,,P,204
+560,Stay,Amenities,Cots,,P,205
+561,Stay,Amenities,Baby Listening/Monitoring,,P,206
+562,Stay,Amenities,Family Friendly Menu,,P,207
+563,Stay,Amenities,Games Available,,P,208
+564,Stay,Amenities,Highchairs,,P,209
+565,Stay,Amenities,Supervised child care/activities,,P,210
+566,Stay,Amenities,Disco,,P,211
+567,Stay,Amenities,Live Music,,P,212
+568,Stay,Amenities,Theatre,,P,213
+569,Stay,Amenities,Pub,,P,214
+570,Stay,Amenities,Poolside Bar,,P,215
+571,Stay,Amenities,Coffee Shop/Cafeteria,,P,216
+572,Stay,Amenities,Picnic Area/Tables,,P,217
+573,Stay,Amenities,Packed Lunches,,P,218
+574,Stay,Amenities,Breakfast in the Room,,P,219
+575,Stay,Amenities,Doorman/doorwoman,,P,220
+576,Stay,Amenities,Personal Shopper Service,,P,221
+577,Stay,Amenities,Security and video surveillance in public areas,,P,222
+578,Stay,Amenities,Executive Floor,,P,223
+579,Stay,Amenities,Luggage Storage,,P,224
+580,Stay,Amenities,Allergy-Free Room Available,,P,225
+581,Stay,Amenities,Designated Smoking Area,,P,226
+582,Stay,Amenities,Shops in Hotel,,P,227
+583,Stay,Amenities,Souvenirs/Gift Shop,,P,228
+584,Stay,Amenities,Ice Machine,,P,229
+585,Stay,Amenities,Vending Machines,,P,230
+586,Stay,Amenities,Cell phone/mobile rental,,P,231
+587,Stay,Amenities,Smoking Room,,P,232
+588,Stay,Amenities,Family Room,,P,233
+589,Stay,Amenities,Express Check-In/Check-Out,,P,234
+590,Stay,Amenities,Separate check-in and check-out,,P,235
+591,Stay,Amenities,Late check-out (subject to availability),,P,236
+592,Stay,Amenities,Gay/Lesbian Friendly,,P,237
+593,Stay,Amenities,Designer Hotel,,P,238
+594,Stay,Amenities,Shoe Shine,,P,239
+595,Stay,Amenities,Forgotten items service,,P,240
+596,Stay,Amenities,Self Laundry,,P,241
+597,Stay,Amenities,No Parking,,P,242
+598,Stay,Amenities,Bus Parking,,P,243
+599,Stay,Amenities,Paid Parking,,P,244
+600,Stay,Amenities,Free Parking,,P,245
+601,Stay,Amenities,Fireplace,,P,246
+602,Stay,Amenities,Pillow Top Mattress,,P,247
+603,Stay,Amenities,Bedding/Pillow Choices,,P,248
+604,Stay,Amenities,Doctor on call,,P,249
+605,Stay,Amenities,Private pool,,P,250
