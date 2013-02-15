@@ -25,6 +25,7 @@ class Users_Form_Users_Base extends Core_Form
                 'Users_Form_Users_Validate',
                 dirname(__FILE__) . "/Validate",
                 'validate');
+        $country = $this->getcountrylist();
         $this->addElement($this->_username($user_id));
         $this->addElement($this->_firstname());
         $this->addElement($this->_lastname());
@@ -35,10 +36,9 @@ class Users_Form_Users_Base extends Core_Form
 //        $this->addElement($this->_tweeterid());
 //        $this->addElement($this->_googleid());
         $this->addElement($this->_birthdate());
-        $this->addElement($this->_nationality());
-        $this->addElement($this->_currentlocation());
+        $this->addElement($this->_nationality($country));
+        $this->addElement($this->_currentlocation($country));
         $this->addElement($this->_aboutme());
-        $this->addElement($this->_traveltype());
         $this->addElement($this->_travelstyle());
         
         $this->addElement($this->_submit());
@@ -48,6 +48,7 @@ class Users_Form_Users_Base extends Core_Form
                 $element->removeDecorator('Label');
             }        
         return $this;
+        
     }        
     
     protected function _username($user_id)
@@ -93,21 +94,27 @@ class Users_Form_Users_Base extends Core_Form
         return $birth_date;
     }
     
-    protected function _nationality()
+    protected function _nationality(&$country)
     {
         $nationality = new Zend_Form_Element_Select('nationality');
         $nationality ->setLabel('Nationality')->setRequired('false');
-        $this->_addoptions ( $nationality, 'Gen', 'Country');
-        
+        foreach ($country as $data)
+        {
+            $nationality->addMultiOption($data->country_id,
+                    $data->country_name);
+        }
         return $nationality;
     }
     
-    protected function _currentlocation()
+    protected function _currentlocation(&$country)
     {
         $currentlocation  = new Zend_Form_Element_Select('currentlocation ');
         $currentlocation ->setLabel('Current Location ')->setRequired('false');
-        $this->_addoptions ( $currentlocation, 'Gen', 'Country' );
-        
+        foreach ($country as $data)
+            {
+               $currentlocation->addMultiOption($data->country_id,
+               $data->country_name);
+            }
         return $currentlocation ;
     }
     
@@ -140,20 +147,17 @@ class Users_Form_Users_Base extends Core_Form
         return $aboutme;
     }
     
-    protected function _traveltype()
-    {
-        $travel_type = new Zend_Form_Element_Select('travel_type');
-        $travel_type ->setLabel('Your Travel Type')->setRequired('false');
-        $this->_addoptions ( $travel_type , 'Gen', 'Travel_Objective');
-        
-        return $travel_type;
-    }
-    
     protected function _travelstyle()
     {
         $travel_style = new Zend_Form_Element_Select('travel_style');
         $travel_style->setLabel('Your Travel Style')->setRequired('false');
-        $this->_addoptions ( $travel_style, 'Gen', 'Travel_Style');
+        $table = new Params_Model_Params_Manager();
+        $rows=$table->getTravelStyleAll();
+        foreach ($rows as $data)
+            {
+               $travel_style->addMultiOption($data->param_id,
+               $data->param_desc);
+            }
         
         return $travel_style;
     }
@@ -218,21 +222,15 @@ class Users_Form_Users_Base extends Core_Form
         return $element;
     }
     
+    protected function getcountrylist()
+    {
+        $table = new Params_Model_Params_Manager();
+        return  $table->getcountryAll();
+    }
+    
     protected function _addoptions (Zend_Form_Element_Select $element, $param_type,
             $param_classification)
     {
-        if ($param_classification=='Country')
-        {
-            $data_model = new Params_Model_Countries_Table();
-            $datas= $data_model->getcountryAll();
-            foreach ($datas as $data)
-            {
-               $element->addMultiOption($data->param_id,
-               $data->param_desc);
-            }
-            return ;
-            
-        }
         $data_model = new Users_Model_Param_Table();
         $datas = $data_model->getParamList($param_type, $param_classification);
         foreach ($datas as $data) 

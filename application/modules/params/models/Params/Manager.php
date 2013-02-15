@@ -9,10 +9,10 @@
 class Params_Model_Params_Manager extends Core_Model_Manager
 
 {
-
-	public function getcountryId($param_id) {
+    
+	public function getcountryId($country_id) {
 	    $table=new Params_Model_Countries_Table();
-		return $table->getcountryId($param_id);
+		return $table->getcountryId($country_id);
 	}
 	public function getcountryList($searchstring) {
 	    $table=new Params_Model_Countries_Table();
@@ -34,6 +34,61 @@ class Params_Model_Params_Manager extends Core_Model_Manager
 	public function getcityList($searchstring,$code) {
 	    $table = new Params_Model_Cities_Table();
 	    return $table->getcityList($searchstring, $code);
+	}
+
+	public function getPoiParambyType($type)
+	{
+	    $table = new Params_Model_Poitype_Table();
+	    return $table->getparamListbytype($type);
+	}
+
+	public function getPoiParambygroup($group_id)
+	{
+	    $table = new Params_Model_Poitype_Table();
+	    return $table->getparamListbygroup($group_id);
+	}
+	
+	public function getTdolist()
+	{
+	    $table = new Params_Model_Tdotype_Table();
+	    return $table->getTdoList();
+	}
+	
+	public function getTravelStyleAll()
+	{
+	    $table = new Params_Model_Travelstyle_Table();
+	    return $table->getparamList();
+	}
+	public function getTravelwithAll()
+	{
+	    $table = new Params_Model_Travelwith_Table();
+	    return $table->getparamList();
+	}
+	public function getTravelOpjectiveAll()
+	{
+	    $table = new Params_Model_Travelobjective_Table();
+	    return $table->getparamList();
+	}
+	public function getGoodForAll()
+	{
+	    $table = new Params_Model_Goodfor_Table();
+	    return $table->getparamList();
+	}
+	
+	public function getLocationtypeAll()
+	{
+	    $table = new Params_Model_Locationtype_Table();
+	    return $table->getLocationtypeAll();
+	}
+	public function getStayClassificationAll()
+	{
+	    $table = new Params_Model_Stayclassification_Table();
+	    return $table->getStayClassificationAll();
+	}
+	public function getPoiOptionTypes($option_type)
+	{
+	    $table = new Params_Model_Poioptions_Table();
+	    return $table->getparamListbyType($option_type);
 	}
 	
 }

@@ -125,7 +125,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	{
 	    $element= new Zend_Form_Element_Select ( 'poi_stay_type' );
 		$element->class = 'field select medium';
-		$this->_addoptions ( $element, 'Stay', 'Stay_Type' );
+		$this->_addTypeoptions($element, 'Stay');
 		return $element;
 	}
 
@@ -133,7 +133,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	{
 	    $element= new Zend_Form_Element_Select ( 'poi_restaurant_type' );
 		$element->class = 'field select medium';
-		$this->_addoptions ( $element, 'Eat', 'Restaurant_type' );
+		$this->_addTypeoptions($element, 'Eat');
 		return $element;
 	}
 	
@@ -208,28 +208,28 @@ class Poi_Form_Poi_Base extends Core_Form
 	{
 	    $element= new Zend_Form_Element_Select ( 'poi_things_type' );
 	    $element->class = 'poi_things_type';
-	    $param_default_id =$this->_addoptions ( $element, 'Things', 'TDO_Type' );
+	    $this->_addTypeoptions($element, 'Things');
 	    return $element;
 	}
 	
 	protected function _amenities()
 	{
 	    $element= new Zend_Form_Element_MultiCheckbox ( 'poi_amenities' );
-		$this->_addoptions ( $element, 'Stay', 'Amenities' );
+		$this->_addpoioptions( $element, 'Amenities' );
 	    return $element;
 	}
 	
 	protected function _poi_dining_options()
 	{
 	    $element= new Zend_Form_Element_MultiCheckbox ( 'poi_dining_options' );
-		$this->_addoptions ( $element, 'Eat', 'Dining_Options' );
+		$this->_addpoioptions ( $element, 'Dining_Options' );
 	    return $element;
 	}
 	
 	protected function _Cuisine()
 	{
 	    $element= new Zend_Form_Element_MultiCheckbox ( 'Cuisine' );
-		$this->_addoptions ( $element, 'Eat', 'Cuisine' );
+		$this->_addpoioptions( $element,  'Cuisine' );
 	    return $element;
 	}
 	
@@ -261,14 +261,14 @@ class Poi_Form_Poi_Base extends Core_Form
     protected function _poi_things_options($param_desc_id )
     {
         $element= new Zend_Form_Element_MultiCheckbox ( 'poi_things_options' );
-        $this->_addoptions ( $element, 'Things', $param_desc_id );
+//        $this->_addoptions ( $element, 'Things', $param_desc_id );
         return $element;
     }
     
     protected function _poi_things_activity($param_desc_id )
     {
         $element= new Zend_Form_Element_MultiCheckbox ( 'poi_things_activity' );
-        $this->_addoptions ( $element, 'Things', $param_desc_id.'__Act' );
+//        $this->_addoptions ( $element, 'Things', $param_desc_id.'__Act' );
         return $element;
     }
     
@@ -288,44 +288,78 @@ class Poi_Form_Poi_Base extends Core_Form
 	protected function _addoptions (Zend_Form_Element $element, $param_type,
 	        $param_classification)
 	{
-	    $data_model = new Users_Model_Param_Table();
-	    $datas = $data_model->getParamList($param_type, $param_classification);
-	    if ($param_classification=='TDO_Type')
+	    $table = new Params_Model_Params_Manager();
+	    if ($param_classification=='Stay_Calssification')
 	    {
+	        $rows = $table->getStayClassificationAll();
+	    }
+		if ($param_classification=='Location_Type')
+	    {
+	        $rows = $table->getLocationtypeAll();
+	    }
+		if ($param_classification=='Country')
+	    {
+	        $rows = $table->getcountryAll();
+	        foreach ($rows as $row)
+	        {
+	            $element->addMultiOption($row->country_id,
+	                    $row->country_name);
+	        }
+	        return;
+	    }
+	    foreach ($rows as $row)
+	        {
+	            $element->addMultiOption($row->param_id,
+	                    $row->param_desc);
+	        }
+	}
+		
+	protected function _addpoioptions (Zend_Form_Element $element, $option_type)
+	{
+	    $table = new Params_Model_Params_Manager();
+	    $rows = $table->getPoiOptionTypes($option_type);
+	    foreach ($rows as $row)
+	    {
+	        $element->addMultiOption($row->param_id,
+	                $row->param_desc);
+	    }
+	}
+	
+	protected function _addTypeoptions (Zend_Form_Element $element, $param_type)
+	{
+	    $data_model = new Params_Model_Params_Manager();
+	    if ($param_type=='Things')
+	    {
+	        $datas = $data_model->getTdolist();
 	        $result=array();
 	        $breaker = false;
 	        foreach ($datas as $data)
 	        {
-	            $temps=$data_model->getParamList($param_type, $data->param_category_desc);
+	            $temps=$data_model->getPoiParambygroup($data->param_id);
 	            foreach ($temps as $temp)
 	            {
-	            $result[$data->param_category_desc][$temp->param_id]=$temp->param_category_desc;
-	            if (!$breaker)
-	            {
-	                $default_value=$temp->param_category_desc;
-	                $breaker=true;
-	            }
-	             
+	                $result[$data->param_desc][$temp->param_id]=$temp->param_desc;
+	                if (!$breaker)
+	                {
+	                    $default_value=$temp->param_desc;
+	                    $breaker=true;
+	                }
+	
 	            }
 	        }
 	        $element->setMultiOptions($result);
 	        return $default_value;
 	    }
-	    else 
+	    else
 	    {
+	        $datas = $data_model->getPoiParambyType($param_type);
 	        foreach ($datas as $data)
 	        {
-	            if ($data->param_published == 'P') {
 	                $element->addMultiOption($data->param_id,
-	                    $data->param_category_desc);
-	            }
-	            if ($data->param_action == 'D') {
-	            $element->setValue($data->param_id);
-	            }
-	        }
+	                        $data->param_desc);
+            }
 	    }
 	}
-		
 	
 	public function _setfaclvalue(array $value = null,$name) {
 	

@@ -23,10 +23,9 @@ class Users_Model_Param_Table extends Core_Db_Table_Abstract
 		                    ->where('param_published = ?', 'P');
 		return 	$this->fetchAll ( $select );
 	}
-	
 	public function getusertavelinterestbyuserId($user_id,$cat = null)
 	{
-	     
+	
 	    $select = $this->select ();
 	    if ($cat == null)
 	    {
@@ -44,7 +43,7 @@ class Users_Model_Param_Table extends Core_Db_Table_Abstract
 	        //		    $select->joinLeft($name, $cond)
 	        $select->where ( "a.param_category_id = ?", $cat );
 	        $select->where ( "a.param_category_desc <> ? ", '');
-	         
+	
 	    }
 	    $rows = $this->fetchAll ( $select );
 	    $rows=$rows->toArray();
@@ -57,9 +56,10 @@ class Users_Model_Param_Table extends Core_Db_Table_Abstract
 	        }
 	        if (is_null($row['trvint_cat'])) $rows[$i]['trvint_cat']=$rows[$i]['param_category_id'];
 	        if (is_null($row['trvint_user_id'])) $rows[$i]['trvint_user_id']=$user_id;
-	        $i++; 
+	        $i++;
 	    }
 	    return $rows;
 	}
+	
 	
 }

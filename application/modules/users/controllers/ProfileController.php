@@ -64,11 +64,12 @@ class Users_ProfileController extends Core_Controller_Action
         $identity = Zend_Auth::getInstance()->getIdentity();
         $user_id=$identity->id;
         $travel_preferences= new Users_Model_User_Manager();
+            
         if (!$this->_request->isPost())
         {
-            $travel_with = $travel_preferences->getusertravelinterestlist($user_id, 'Travel_With');
-            $good_for = $travel_preferences->getusertravelinterestlist($user_id, 'Good_For');
-            $travel_objective = $travel_preferences->getusertravelinterestlist($user_id, 'Travel_Objective');
+            $travel_with = $travel_preferences->getusertravelinterestWithlist($user_id);
+            $good_for = $travel_preferences->getusertravelinterestgoodforlist($user_id);
+            $travel_objective = $travel_preferences->getusertravelinterestObjectiveslist($user_id);
             $this->view->title='My Travel Preferences';
             $this->view->assign ( array (
                 'travel_with' => $travel_with,'good_for'=>$good_for,'Travel_Objective'=>$travel_objective ));
@@ -86,7 +87,7 @@ class Users_ProfileController extends Core_Controller_Action
                         $insert=true;
                 }
                 else $insert=false;
-                $row = new Users_Model_TravelPreferences_Table();
+                $row = new Users_Model_Travelprfncstravelwith_Table();
                 if ($insert)
                 {
                     $row_id=$row->insert($myrow);
@@ -107,7 +108,7 @@ class Users_ProfileController extends Core_Controller_Action
                 }
                 else $insert=false;
                 
-                $row = new Users_Model_TravelPreferences_Table();
+                $row = new Users_Model_Travelprfncsgoodfor_Table();
                 if ($insert)
                 {
                     $row_id=$row->insert($myrow);
@@ -127,7 +128,7 @@ class Users_ProfileController extends Core_Controller_Action
                 }
                 else $insert=false;
                 
-                $row = new Users_Model_TravelPreferences_Table();
+                $row = new Users_Model_TravelPrfncsObjective_Table();
                 $row->setFromArray($myrow);
                 if ($insert)
                 {

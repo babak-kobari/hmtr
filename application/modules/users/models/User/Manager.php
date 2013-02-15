@@ -265,6 +265,31 @@ class Users_Model_User_Manager extends Core_Model_Manager
         $useraddedrows=$resource->getusertavelinterestbyuserId($user_id,$cat);
         return $useraddedrows;
     }
+
+    public function getusertravelinterestgoodforlist($user_id)
+    {
+    
+        $resource = new Users_Model_Travelprfncsgoodfor_Table();
+        $useraddedrows=$resource->getuserinterestgoodforbyuserId($user_id);
+        return $useraddedrows;
+    }
+    
+    public function getusertravelinterestObjectiveslist($user_id)
+    {
+    
+        $resource = new Users_Model_TravelPrfncsObjective_Table();
+        $useraddedrows=$resource->getuserinterestobjectivesbyuserId($user_id);
+        return $useraddedrows;
+    }
+    
+    public function getusertravelinterestWithlist($user_id)
+    {
+    
+        $resource = new Users_Model_Travelprfncstravelwith_Table();
+        $useraddedrows=$resource->getuserinterestWithbyuserId($user_id);
+        return $useraddedrows;
+    }
+
     protected function _value_is_in_array($find,array  $rows, $key)
     {
         foreach ($rows as $row)
