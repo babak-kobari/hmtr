@@ -5,7 +5,7 @@
 $form = $this->form;
 $exp_user_id=$this->exp_user_id;
 $row=$this->row;
-$exp_id=$this->exp_id;
+$exp_id=$this->exp_id;$disabledSlider = "";if($exp_id > 0) {	$disabledSlider = "disabled";}
 ?>
     
 <div class="main-container col1-layout">
@@ -43,11 +43,10 @@ $exp_id=$this->exp_id;
                      <p>Days/ Nights</p>
                      </div>
                      </div>
-                     <div class = "col-main">
+                     <div class = "col-main">					<?php 						if ($exp_id > 0 ) {							echo " <input type='hidden' name='exp_days' value='".$row['exp_days']."'/>";							echo " <input type='hidden' name='exp_adults' value='".$row['exp_adults']."'/>";							echo " <input type='hidden' name='exp_childs' value='".$row['exp_childs']."'/>";						}					?>
                     <input type="hidden" name="<?php echo 'exp_user_id';?>" 
                         value="<?php echo $exp_user_id;?>" >
-                     <input type="range" name="<?php echo 'exp_days';?>" 
-                        min="1" max="10" value="<?php echo $row['exp_days'];?>" 
+                     <input type="range" name="<?php echo 'exp_days';?>"   <?php echo $disabledSlider;?> min="1" max="10" value="<?php echo $row['exp_days'];?>" 
                          step="1" size = "5"/>
                          </div>
                  </div>
@@ -55,25 +54,23 @@ $exp_id=$this->exp_id;
                  <div class="col2-set">
                      <div class="col-1">
                      <p>Adults</p>
-                     <input type="range" name="<?php echo 'exp_adults';?>" 
-                        min="1" max="10" value="<?php echo $row['exp_adults'];?>" 
+                     <input type="range" name="<?php echo 'exp_adults';?>"     <?php echo $disabledSlider;?>   min="1" max="10" value="<?php echo $row['exp_adults'];?>" 
                          step="1" size = "5"/>
                                           </div>
                      <div class="col-2">
                      <p>Childs</p>
-                     <input type="range" name="<?php echo 'exp_childs';?>" 
-                        min="0" max="4" value="<?php echo $row['exp_childs'];?>" 
+                     <input type="range" name="<?php echo 'exp_childs';?>" <?php echo $disabledSlider;?> min="0" max="4" value="<?php echo $row['exp_childs'];?>" 
                          step="1" size = "5"/>
                                           </div>
                      </div>
                  <hr>
                      <div class="col2-set">
                      <div class="col-1">
-                     <p>City</p>
+                     <p>City</p>         <?php           if($exp_id > 0) {         	$form->getElement('exp_city')->setAttrib('readonly', 'readonly');         }         	         ?>
         <?php echo $form->getElement('exp_city');?>
-                     </div>
+                     </div>	
                      <div class="col-2">
-                     <p>Country</p>
+                     <p>Country</p>		<?php           if($exp_id > 0) {         	$form->getElement('exp_country')->setAttrib('readonly', 'readonly');         }         	         ?>
         <?php echo $form->getElement('exp_country');?>
                                           </div>
                      </div>

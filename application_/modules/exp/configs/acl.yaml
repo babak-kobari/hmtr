@@ -1,0 +1,6 @@
+mvc:
+ exp:
+  shareexp:
+	allow: guest
+    allow: user
+      

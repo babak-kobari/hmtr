@@ -1,0 +1,10 @@
+mvc:
+ social:
+  index:
+	allow: guest
+    allow: user
+  getmywall:
+	allow: guest
+    allow: user
+  
+      

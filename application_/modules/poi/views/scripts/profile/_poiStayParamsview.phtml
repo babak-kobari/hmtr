@@ -1,0 +1,56 @@
+
+<?php
+$datas = $form->getElement ( 'poi_amenities' )->getMultiOptions ();
+$setvalues= $form->getElement ( 'poi_amenities' )->getValue();
+if (is_null($setvalues))
+        $setvalues=array();
+elseif (!is_array($setvalues))
+        $setvalues=explode(' ', $setvalues);
+if (isset ( $datas )) {
+	$newrow = true;
+	$colnum = 1;
+	$doit = true;
+}?>
+
+<div class="box-info">
+<div class="box-head ">
+    <h2 class='add'><?php echo $form->getValue('poi_name').' Amenities and Facilities';?>:<a href="http://hm2t/usertrvelinterest">Add New</a></h2>
+</div>
+
+<?php 
+foreach ( $datas as $key => $value ) {
+    if(!in_array($key, $setvalues))
+    {
+        continue;
+    }
+
+	if ($newrow) {
+		$newrow = false;
+		?>
+    <div class="col4-set">
+	<?php
+	}
+	?>
+    <div class="<?php echo 'col-'.$colnum++; ?>">
+      <div class="box">
+         <div class="box-content">
+	        <label for="poi_amenities-<?php echo $key;?>"><?php echo $value;?></label>
+         </div>
+      </div>
+    </div>
+    <?php if ($colnum==5)
+        {
+                    $colnum=1;
+                    $newrow=true;?>
+                    </div><br><?php 
+                    
+        }
+            }?>
+    </div>
+            <?php if (!$newrow)
+        {?>
+         </div><br><?php 
+        }?>
+    
+    
+		

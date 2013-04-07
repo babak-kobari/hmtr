@@ -34,10 +34,28 @@ class Poi_Model_Poi_Table extends Core_Db_Table_Abstract
 	}
 	public function getPoiList(array $poi_criteria, $paged = null, $shoert = false) {
 		$select = $this->select ();
-		$select->from ( 'hm_poi' );
+		$select->setIntegrityCheck(false);
+		$select->from ( array("poi" => "hm_poi") );
+		$select->join ( array("type" => "hm_param_poi_type"),'type.param_id=poi.poi_stay_type' ,array("stayname" => "type.param_desc"));
+		$select->join ( array("htgroup" => "hm_param_hotel_chain"),'htgroup.param_id=poi.poi_group_name',array("groupname" => "htgroup.param_desc") );
+		//$select->joinLeft(array("hmimage" => "hm_poi_images"),'hmimage.poiimg_poi_id=poi.poi_id',array("imagepath" => "hmimage.poiimg_path"));
+		if(count($poi_criteria) > 0){
+			
+			if (isset($poi_criteria['filterval'])) {
+				$filterval = $poi_criteria['filterval'];
+				//$select->where("poi_area LIKE '%$filterval%'");
+				$select->where("poi_name LIKE '%$filterval%'");
+			}
+			if (isset($poi_criteria['poi_id'])) {
+				$select->where("poi_id  = ?",$poi_criteria['poi_id']);
+			}
+		}
 		
+		//$select->where('hmimage.poiimg_default = ?', '1');
+		//print $select->__toString();exit;
 		if (null !== $paged) {
 			$adapter = new Zend_Paginator_Adapter_DbTableSelect ( $select );
+			//var_dump($adapter);exit;
 			$count = clone $select;
 			$count->reset ( Zend_Db_Select::COLUMNS );
 			$count->reset ( Zend_Db_Select::FROM );

@@ -1,0 +1,26 @@
+<?php 
+if ($this->pageCount == 1){
+	return;
+}
+// previous
+
+if(isset($this->previous)) 
+{
+        echo '<a href="/poi/profile/index/page/'.$this->previous.'">< Previous</a> ';
+}else {
+	echo " < Previous ";
+}
+foreach($this->pagesInRange as $page) {
+	if($page != $this->current) {
+		 echo ' <a href="/poi/profile/index/page/'.$page.'">'.$page.'</a> ';
+	}else {
+		echo " $page  ";
+	}
+}
+if(isset($this->next)) {
+	 echo ' <a href="/poi/profile/index/page/'.$this->next.'">Next ></a> ';
+}else {
+	echo " Next >";
+}
+
+?>

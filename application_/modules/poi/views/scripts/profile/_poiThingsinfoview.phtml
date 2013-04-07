@@ -1,0 +1,121 @@
+
+<div class="box-info">
+<ul class="form-list">
+   <li class="fields">
+    <div class="field ">
+         <label for="poi_name">Name</label>
+         <div class="input-box">
+    	    <?php echo $form->getElement('poi_name');?>
+    	    <?php echo $form->getElement('poi_id');?>
+         </div>
+    </div>
+   </li>
+   
+   
+   
+   
+   <li class="fields">
+    <div class="field ">
+            <label for="poi_web_site">Web Site</label>
+        <div class="input-box">
+	        <?php echo $form->getElement('poi_web_site');?>
+        </div>
+    </div>
+    <div class="field">
+        <label for="poi_contact detail">Contact Detail</label>
+        <div class="input-box">
+            <?php echo $form->getElement('poi_contact_detail');?>
+        </div>
+    </div>
+   </li>
+   
+   
+   <li class="fields">
+    <div class="field ">
+		    <label for="poi_things_type">Type of Restaurant</label>
+            <div class="input-box">
+        <?php if (isset($poi_id) and !is_null($poi_id))
+        {
+            $listNameOptions = 
+                $form->getElement('poi_things_type')->getMultiOptions();
+            foreach ($listNameOptions as $key)
+            {
+                foreach ($key as $value=>$lable)
+                {
+                    if ($value == $form->getValue('poi_things_type'))
+                    {?>
+                        <input type="text" name="poi_things_type" id="poi_things_type" value="<?php echo $lable;?>" size="35" maxlength="200" class="input-text disabled" disabled>
+                        
+                       <?php  break;
+                    }
+                }
+            }
+                
+//                echo $form->getValue('poi_things_type');
+        } else
+		        echo $form->getElement('poi_things_type');?>
+                    </div>
+    </div>
+   </li>
+   
+
+   
+   <li class="fields">
+    <div class="field">
+                <label for="poi_country">Country</label>
+        <div class="input-box">
+                <?php echo $form->getElement('poi_country');?>
+            </div>
+    </div>
+   </li>
+   
+   
+
+      <li class="fields">
+    <div class="field ">
+                <label for="poi_city">City</label>
+    <div class="input-box">
+                <?php echo $form->getElement('poi_city');?>
+                <input id="poi_lat" name = "poi_lat" type="hidden" value="<?php echo $form->getElement('poi_lat')->getValue();?>">
+                <input id="poi_lon" name = "poi_lon" type="hidden" value="<?php echo $form->getElement('poi_lon')->getValue();?>">
+    </div>
+    </div>
+   </li>
+   
+      <li class="wide">
+    <div>
+                <label for="poi_area">Area</label>
+        <div class="input-box">
+                <?php $lat='';
+                      $lon='';?>
+                <?php echo $form->getElement('poi_area');?>
+            </div>
+    </div>
+   </li>
+   </ul>
+</div>
+<div id="map_canvas"></div>
+
+
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+	
+	jQuery('#poi_things_type').change(function() {
+		var id = jQuery(this).attr("value");
+		if (typeof document.getElementsByName("poi_id")[0] != 'undefined') {
+		    var poi_id = document.getElementById('poi_id').value;
+		} else {
+			var poi_id='undefined';
+		}
+		var a = 'http://myapp/poi/thngsparam/'+poi_id+'/'+id;
+		jQuery.ajax({
+	        url: a,
+	        success: function(data){
+	            var divtab2 = document.getElementById("tab-2");
+	            divtab2.innerHTML = data;}
+	    });	
+	});
+});
+//-->
+</script>

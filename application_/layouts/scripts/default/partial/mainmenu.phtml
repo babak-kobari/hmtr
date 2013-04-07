@@ -1,0 +1,7 @@
+<?php
+echo $this->navigation($this->menuContainer('header'))
+    ->menu()
+    ->setPartial('/default/partial/mainmenuLayout.phtml')
+    ->setMaxDepth(10)
+    ->setMinDepth(0);
+?>

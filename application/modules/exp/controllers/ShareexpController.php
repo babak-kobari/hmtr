@@ -117,9 +117,9 @@ class Exp_ShareexpController extends Core_Controller_Action
 	  				$responseString .= "<td>";
 	  				if ($result['exp_status'] == 'WIP'){
 	  					
-	  						$responseString.= "<a href='shareexp/tripsummary/".$result['exp_id']."'>Edit</a>";
+	  						$responseString.= "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Delete\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
 	  							
-	  				}
+	  				}	  				$responseString.= "<a  class = 'deleterec' href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
 	  				$responseString .="</td>";
 	  				
 	  			$responseString .= "</tr>";
@@ -164,7 +164,7 @@ class Exp_ShareexpController extends Core_Controller_Action
 	    $exp_id=$this->_getParam('exp_id');
         $this->view->title='Let Share your Travel';
         $form = new Exp_Form_Exp_Intro(array('exp_user_id'=>$identity));        
-        $this->exp_id=$exp_id;
+        $this->exp_id=$exp_id;		$this->view->exp_id = $exp_id;		$this->view->exp_user_id = $identity;
         if ($exp_id==0)
         {
             $row=$this->_expmodel->getDbTable()->toarray();
@@ -183,7 +183,7 @@ class Exp_ShareexpController extends Core_Controller_Action
         
 	    if ($this->_request->isPost())
         {
-            $info= $this->_getAllParams();
+            $info= $this->_getAllParams();			//echo "<pre>";print_r($info);exit;
             $info['exp_user_id']=$identity;
             $this->_expmodel->savetripsummary($info);
             $Stay=$this->_setParam('intro_param', $info);
@@ -192,7 +192,7 @@ class Exp_ShareexpController extends Core_Controller_Action
             
             $this->_forward('shareexp');
             
-        }
+        }		
     }
    public function shareexpAction()
    {
@@ -488,6 +488,93 @@ class Exp_ShareexpController extends Core_Controller_Action
             
        }
    
-   }
+   }      /*    * @author Subash    * @function deleteexp    * @use   Delete record from  share experience grid    * @date 19 March 2013    */      public function deleteexpAction () {   		$this->_helper->viewRenderer->setNoRender(true);   		$request = $this->getRequest();   		if ($request->isXmlHttpRequest()) {   			$user_id=$this->_identity;
+   			
+   			$temp_array = array();
+   			
+   			$temp_array= $this->_parammodel->getParamList('Gen','Country')->toArray();
+   			
+   			foreach ($temp_array as $key=>$value)
+   			
+   			{
+   			
+   				$countris[$value['param_id']]=$value['param_category_desc'];
+   			
+   			}
+   			
+   			unset($temp_array);
+   			
+   			$temp_array= $this->_parammodel->getParamList('Gen','Travel_Objective')->toArray();
+   			
+   			foreach ($temp_array as $key=>$value)
+   			
+   			{
+   			
+   				$travel_objective[$value['param_id']]=$value['param_category_desc'];
+   			
+   			}
+   			
+   			
+   			unset($temp_array);
+   			
+   			$temp_array= $this->_parammodel->getParamList('Gen','Travel_With')->toArray();
+   			
+   			foreach ($temp_array as $key=>$value)
+   			
+   			{
+   			
+   				$travel_with[$value['param_id']]=$value['param_category_desc'];
+   			
+   			}
+   			
+   			
+   			
+   			$resultSet = $this->_expmodel->getexpdetail($user_id,$request->getParams(),$countris,$travel_with,$travel_objective);
+   			
+   			$responseString = "<tr><td colspan='17' align='center'>No Data Found !!!!</td></tr>";
+   			
+   			if(count($resultSet) > 0 ) {
+   			
+   				$responseString ="";
+   			
+   				$slno = 1;
+   			
+   				foreach ($resultSet as $result) {
+   			
+   					$responseString .= "<tr>";
+   			
+   					$responseString .= "<td>".($result['exp_title'])."</td>";
+   			
+   					$responseString .= "<td>".($result['country_name'])."</td>";
+   			
+   					$responseString .= "<td>".($result['exp_mount'])."</td>";
+   			
+   					$responseString .= "<td>".($result['exp_days'])."</td>";
+   			
+   					$responseString .= "<td>".($result['travel_With'])."</td>";
+   			
+   					$responseString .= "<td>".($result['travel_Objective'])."</td>";
+   			
+   					$responseString .= "<td>".($result['exp_total_cost'])."</td>";
+   			
+   					$responseString .= "<td>".($result['exp_status'])."</td>";
+   			
+   					$responseString .= "<td>";
+   			
+   					if ($result['exp_status'] == 'WIP'){
+   			
+   						$responseString.= "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Delete\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
+   			
+   					}
+   					$responseString.= "<a  class = 'deleterec' href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+   			
+   					$responseString .="</td>";
+   			
+   					$responseString .= "</tr>";
+   			
+   				}
+   			}
+   			echo $responseString;   		}else {   			
+   			   		}   		   	   }   
    
 }

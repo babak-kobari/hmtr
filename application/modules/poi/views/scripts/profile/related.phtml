@@ -258,7 +258,7 @@ foreach ($related_list as $related)
 	    });
 	    function viewItem($item) {
 			    var id = $item;
-			    var a = 'http://myapp/poi/view/'+id;
+			    var a = '/poi/profile/quickview/id/'+id;
 			    $.ajax({
 			        url: a,
 			        success: function(data){
@@ -344,7 +344,7 @@ foreach ($related_list as $related)
 		    };
 		    $.ajax({
 	    	  type: 'POST',
-	    	  url:'http://myapp/poi/related/'+poi_id,
+	    	  url:'http://myapp:90/poi/related/'+poi_id,
 	    	  data: tobeposted,
 		      success: function(retdata){}
 			});

@@ -1,0 +1,117 @@
+<?php
+$form = $this->form;
+?>
+<form id="<?php echo $form->getName();?>"
+		name="<?php echo $form->getName();?>" 
+		enctype="multipart/form-data"
+		method="<?php echo $form->getMethod();?>"
+		action="<?php echo $form->getAction();?>">
+
+<div class="main-container col2-left-layout">
+    <div class="main">
+    <!-- Left Side Bar Starts Here -->	 
+<div class="col-left sidebar">
+    <div class="block block-sidebar">
+    <div class="block-title">
+        <strong><span><?php echo $this->leftbartitle;?></span></strong>
+    </div>
+    <div class="block-content">
+    <ul>
+    <?php 
+    $leftbarcontainer=$this->menuContainer('leftbar');
+    $leftsidebar=$this->navigation($leftbarcontainer);
+    foreach ($leftbarcontainer as $pages) {
+        foreach ($pages as $uid => $page) {
+            $liClass = $page->getClass();
+            if ($page->getLabel() !== null && $page->isVisible(true)) {
+                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
+        }
+    }
+}
+?>
+    </ul>
+    </div>
+</div>
+</div>
+<!-- Left Side Bar ends Here -->	 
+    
+        <div class="col-main">
+        <div class="col-main-container">
+        <div class="dashboard">
+         <div class="page-title">
+                    <h2><?php echo $this->title;?></h2>
+         </div>
+        <div class="box-account box-info">
+<ul class="form-list">
+   <li class="fields">
+    <div class="field ">
+        <label for="firstname">First Name</label>
+        <div class="input-box">
+        <?php echo $form->getElement('firstname');?>
+        </div>
+    </div>
+    <div class="field">
+        <label for="lastname">Last Name</label>
+    <div class="input-box">
+        <?php echo $form->getElement('lastname');?>
+        </div>
+    </div>
+    </li>
+    <li class="fields">
+    <div class="field">
+        <label for="Gender">Gender</label>
+        <div class="input-box">
+        <?php echo $form->getElement('gender');?>
+        </div>
+    </div>
+    <div class="field">
+        <label for="birth_date">Birth Date</label>
+    <div class="input-box">
+        <?php echo $form->getElement('birth_date');?>
+        </div>
+    </div>
+    </li>
+    <li class="fields">
+    <div class="field">
+        <label for="nationality">Nationality</label>
+        <div class="input-box">
+        <?php echo $form->getElement('nationality');?>
+        </div>
+    </div>
+    <div class="field">
+        <label for="currentlocation">Current Location </label>
+    <div class="input-box">
+        <?php echo $form->getElement('currentlocation');?>
+        </div>
+    </div>
+    </li>
+    <li class="wide">
+    <div>
+        <label for="about_me">About Me:</label>
+        <div class="input-box">
+        <?php echo $form->getElement('about_me');?>
+        </div>
+    </div>
+    </li>
+    <li class="fields">
+    <div class="field">
+        <label for="travel_style">Your Travel Style</label>
+    <div class="input-box">
+        <?php echo $form->getElement('travel_style');?>
+        </div>
+    </div>
+    </li>
+    
+</ul>
+  <div class="buttons-set">
+       <?php echo $form->getElement('submit');?>
+  </div>
+ </div>
+    </div>
+ </div>
+</div>
+
+
+</div>
+</div>
+</form>

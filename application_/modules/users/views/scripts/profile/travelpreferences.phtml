@@ -1,0 +1,215 @@
+<form id="usertravelinterest" name="usertravelinterest"  
+    enctype="multipart/form-data" method="post" action="travelpreferences">
+
+
+<div class="main-container col2-left-layout">
+<div class="main">
+<!-- Left Side Bar Starts Here -->	 
+<div class="col-left sidebar">
+    <div class="block block-sidebar">
+    <div class="block-title">
+        <strong><span><?php echo $this->leftbartitle;?></span></strong>
+    </div>
+    <div class="block-content">
+    <ul>
+    <?php 
+    $leftbarcontainer=$this->menuContainer('leftbar');
+    $leftsidebar=$this->navigation($leftbarcontainer);
+    foreach ($leftbarcontainer as $pages) {
+        foreach ($pages as $uid => $page) {
+            $liClass = $page->getClass();
+            if ($page->getLabel() !== null && $page->isVisible(true)) {
+                echo '<li class="'.$liClass .'">' . $leftsidebar->menu()->htmlify($page) . '</li>', PHP_EOL;
+        }
+    }
+}
+?>
+    </ul>
+    </div>
+</div>
+</div>
+
+<div class="col-main">
+<div class="dashboard">
+<div class="page-title">
+    <h2><?php echo $this->title;?></h2>
+</div>
+
+<!--  set 1 -->
+
+<div class="box-account box-info">
+<div class="box-head ">
+    <h2 class='add'>Who do you like to travel with:<a href="http://hm2t/usertrvelinterest">Add New</a></h2>
+</div>
+<?php 
+$i=0;
+$newrow = true;
+$colnum = 1;
+foreach ($this->travel_with as $row)
+{
+    if ($newrow) 
+    {?>
+    <div class="col4-set">
+    <?php  $newrow=false;
+    }
+?>
+        <div class="<?php echo 'col-'.$colnum++; ?>">
+            <div class="box">
+                <div class="box-content">
+                    <label ><?php echo $row['param_desc'];?></label>
+                </div>
+            </div>
+        </div>
+        <div class="<?php echo 'col-'.$colnum++; ?>">
+            <div class="box">
+                <div class="box-content">
+                    <?php if (is_null($row['trvint_rate']))$row['trvint_rate']=0;?>
+                    <input type="hidden" name="<?php echo 'travel_with['.$i.'][trvint_id]';?>" 
+                        value="<?php echo $row['trvint_id'];?>" >
+                    <input type="hidden" name="<?php echo 'travel_with['.$i.'][trvint_user_id]';?>" 
+                        value="<?php echo $row['trvint_user_id'];?>" >
+                    <input type="hidden" name="<?php echo 'travel_with['.$i.'][trvint_param_id]';?>" 
+                        value="<?php echo $row['trvint_param_id'];?>" >
+                    <input type="range" name="<?php echo 'travel_with['.$i.'][trvint_rate]';?>" 
+                        min="1" max="10" value="<?php echo $row['trvint_rate'];?>" 
+                         step="1" size = "10"/>
+                </div>
+            </div>
+        </div>
+        <?php if ($colnum==5)
+        {
+                    $colnum=1;
+                    $newrow=true;
+                    ?>
+                    </div><br><?php 
+                    
+        } $i=$i+1;
+            }?>
+    </div>
+</div>
+    
+ <!--  set 2 -->
+<br> 
+<div class="dashboard">
+    <div class="box-account box-info">
+<div class="box-head ">
+    <h2 class='add'>What should be included in a great trip:<a href="http://hm2t/usertrvelinterest">Add New</a></h2>
+</div>
+<?php 
+$i=0;
+$newrow = true;
+$colnum = 1;
+
+foreach ($this->good_for as $row)
+{
+    if ($newrow) 
+    {?>
+    <div class="col4-set">
+    <?php  $newrow=false;
+    }
+?>
+        <div class="<?php echo 'col-'.$colnum++; ?>">
+            <div class="box">
+                <div class="box-content">
+                    <label ><?php echo $row['param_desc'];?></label>
+                </div>
+            </div>
+        </div>
+        <div class="<?php echo 'col-'.$colnum++; ?>">
+            <div class="box">
+                <div class="box-content">
+        <?php if (is_null($row['trvint_rate']))$row['trvint_rate']=0;?>
+        <input type="hidden" name="<?php echo 'good_for['.$i.'][trvint_id]';?>" 
+                value="<?php echo $row['trvint_id'];?>" >
+        <input type="hidden" name="<?php echo 'good_for['.$i.'][trvint_user_id]';?>" 
+                value="<?php echo $row['trvint_user_id'];?>" >
+        <input type="hidden" name="<?php echo 'good_for['.$i.'][trvint_param_id]';?>" 
+                value="<?php echo $row['trvint_param_id'];?>" >
+        <input type="range" name="<?php echo 'good_for['.$i.'][trvint_rate]';?>" 
+            min="1" max="10" value="<?php echo $row['trvint_rate'];?>" 
+             step="1" size = "10" />
+                                </div>
+            </div>
+        </div>
+        <?php if ($colnum==5)
+        {
+                    $colnum=1;
+                    $newrow=true;?>
+                    </div><br><?php 
+                    
+        } $i=$i+1;
+                                }?>
+    </div>
+</div>    
+    
+ <!--  set 3 -->
+<br> 
+<div class="dashboard">
+    <div class="box-account box-info">
+<div class="box-head ">
+    <h2 class='add'>I mainly travel for:<a href="http://hm2t/usertrvelinterest">Add New</a></h2>
+</div>
+<?php 
+$i=0;
+$newrow = true;
+$colnum = 1;
+
+foreach ($this->Travel_Objective as $row)
+{
+    if ($newrow) 
+    {?>
+    <div class="col4-set">
+    <?php  $newrow=false;
+    }
+?>
+        <div class="<?php echo 'col-'.$colnum++; ?>">
+            <div class="box">
+                <div class="box-content">
+                    <label ><?php echo $row['param_desc'];?></label>
+                </div>
+            </div>
+        </div>
+        <div class="<?php echo 'col-'.$colnum++; ?>">
+            <div class="box">
+                <div class="box-content">
+        <?php if (is_null($row['trvint_rate']))$row['trvint_rate']=0;?>
+        <input type="hidden" name="<?php echo 'Travel_Objective['.$i.'][trvint_id]';?>" 
+                value="<?php echo $row['trvint_id'];?>" >
+        <input type="hidden" name="<?php echo 'Travel_Objective['.$i.'][trvint_user_id]';?>" 
+                value="<?php echo $row['trvint_user_id'];?>" >
+        <input type="hidden" name="<?php echo 'Travel_Objective['.$i.'][trvint_param_id]';?>" 
+                value="<?php echo $row['trvint_param_id'];?>" >
+        <input type="range" name="<?php echo 'Travel_Objective['.$i.'][trvint_rate]';?>" 
+            min="1" max="10" value="<?php echo $row['trvint_rate'];?>" 
+             step="1" size = "10"/>
+                </div>
+            </div>
+        </div>
+        <?php if ($colnum==5)
+        {
+                    $colnum=1;
+                    $newrow=true;?>
+                    </div><br><?php 
+                    
+        } $i=$i+1;
+                                }?>
+    </div>
+</div>    
+<script>
+    $(":range").rangeinput();
+</script>
+
+<div class="buttons-set">
+<input type="submit" name="submit" id="submit" value="Update" class = 'button'>
+</div>
+
+</div>
+
+
+
+</div>
+</div>
+</form>
+
+
+

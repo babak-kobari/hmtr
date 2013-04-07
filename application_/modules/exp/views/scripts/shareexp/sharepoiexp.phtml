@@ -1,0 +1,56 @@
+<?php
+$form = $this->form;
+$poi_id=$this->poi_id;
+$poi_type=$this->poi_type;
+$exp_id=$this->exp_id;
+$params=$this->params;
+?>
+
+<form id="<?php echo $form->getName();?>"
+		name="<?php echo $form->getName();?>" class="overlay topLabel page"
+		enctype="multipart/form-data"
+		method="<?php echo $form->getMethod();?>"
+		action="<?php echo $form->getAction();?>">
+
+		
+<div class="main-container">
+<div class = "accord">
+<div id = "accordion" class="col-main-container">
+<!-- Tab 1-->	 
+<h3>Overall Feedback</h3>
+<div class="container">
+        <?php 
+        if ($poi_type=='Stay')
+        {
+            include '_expStayinfo.phtml';
+        }
+        if ($poi_type=='Eat')
+        {
+            include '_expEatinfo.phtml';
+        }
+        if ($poi_type=='Things')
+        {
+            include '_expThingsinfo.phtml';
+        }
+        ?>
+</div> <!--  container-->
+<h3>Your exp on </h3>
+<div id="tab-2" class="container">
+        <?php 
+        include '_expPoiParams.phtml';
+        ?>
+</div>
+<!-- Tab 3-->	 
+<h3>Photos</h3>
+<div class="container">
+        <?php //include '_poiImages.phtml';?>
+</div> <!--  container-->
+
+</div> <!--  col main container -->
+
+</div>
+
+
+</div>
+</form>
+

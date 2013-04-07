@@ -1,0 +1,184 @@
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/wall/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/wall/css/style.css" />
+<script type="text/javascript" src="<?php echo $this->baseUrl();?>/wall/js/common.js"></script>
+<!-- HTML 5 FIX -->
+<!--[if IE]>  
+    <script src="<?php echo $this->baseUrl();?>/wall/js/html5.js"></script><![endif]-->
+<!-- HTML 5 FIX -->
+
+<!-- PNG FIX -->
+<!--[if IE 6]>
+<SCRIPT src="<?php echo $this->baseUrl();?>/wall/js/DD_belatedPNG_0.0.8a-min.js"></SCRIPT>
+<SCRIPT>
+      DD_belatedPNG.fix('div,h1,a,p,li,blockquote,img,span');
+</SCRIPT>
+<![endif]-->
+<!-- PNG FIX -->
+<!-- CSS Gradient Fix for IE9 -->
+<!--[if gte IE 9]>
+  <style type="text/css">
+    .gradient {
+       filter: none;
+    }
+  </style>
+<![endif]-->
+
+<div class="outer">
+	<div class="page-left01">
+       <!--   <div class="titbit-frame">
+                    <div class="tit-frame-inr">     
+						<div class="shr-box-tgle">
+                    		<fieldset class="msg-hldr" style="display:block;">
+                    			<textarea name="sharebox" id="sharebox"  cols="" rows="" class="commentBox"></textarea>
+                    		</fieldset>
+                     	</div>
+                     	<div class="share-setting-hldr">
+                    		<div class="shr-btn-hldr">  
+                     			<span>characters remaining: <span id="rem_sharebox" title="1000">200</span></span>                  
+                            		
+                            	<input name="" type="button" class="post-btn" value="Share">  
+                            	<span class="clr"></span>
+                    		</div> 
+                    	</div>                 
+                    </div>
+            
+        </div> -->
+        
+        <!--  Share to wall starts here -->
+        
+       
+        
+        
+        <!-- share to wall ends here -->
+        
+   </div>
+   
+      <div class="page-right01">
+    
+    <div class="profile-you-know close-selector"> 
+    <div class="profile-head01">
+    <h4 class="head-01">Who to follow</h4>
+   <a href="#" class="refresh-02">Refresh</a>
+    <a href="#" class="view-btn-02">View all</a>
+     </div> 
+        <ul>
+          <li>
+            <div class="profile-pic-2"><a href="info-other.html"> <img src="wall/images/smll-img-02.jpg" ></a></div>
+            <div class="profile-detail-2">
+              <h4><a href="#">Stuart Robson</a></h4>
+              <span class="text-01"><a href="#" class="mutual-frnd">22 mutual friends</a></span> 
+              <a href="#" class="add-btn-01">Follow</a> 
+              <a href="#" class="close-btn-01">x</a></div>
+          </li>
+          <li>
+            <div class="profile-pic-2"> <a href="info-other.html"><img src="wall/images/smll-img-03.jpg" ></a></div>
+            <div class="profile-detail-2">
+              <h4><a href="info-other.html">Stuart Robson</a></h4>
+              <span class="caption"><a href="#" class="mutual-frnd">22 mutual friends</a></span> 
+              <a href="#" class="add-btn-01">Follow</a> 
+              <a class="close-btn-01" href="#">x</a></div>
+          </li>
+          
+         
+        </ul>
+        <span class="clr"></span>
+      </div>
+    
+    </div>
+</div>
+ <script type="text/javascript">
+ $(document).ready(function (){
+
+	 $(".commentBox").keyup(function () {
+		  var cmax = 200;
+
+		  if ($(this).val().length >= cmax) {
+		    $(this).val($(this).val().substr(0, cmax));
+		  }
+
+		  $("#rem_" + $(this).attr("id")).text(cmax - $(this).val().length);
+
+		});
+		/*
+		* Get My Wall
+		*/
+
+	 $.ajax({
+			url : "social/index/getmywall",
+			type : "post",
+			dataType :'html',
+			//data : 'smtpName='+server_name.val()+"&smtpid="+smtpid,
+			success:function (data){
+
+				$(".page-left01").append(data);
+			
+			},
+			 error:function (xhr, ajaxOptions, thrownError){
+          alert(xhr.status);
+          alert(thrownError);
+      }    
+		});
+
+
+	 $.ajax({
+			url : "social/index/loadunfollowusers",
+			type : "post",
+			dataType :'html',
+			//data : 'smtpName='+server_name.val()+"&smtpid="+smtpid,
+			success:function (data){
+				//$(".profile-you-know close-selector ul")
+
+				strappnd = "<li>";
+					strappnd += "<div class=\"profile-pic-2\"> <a href=\"info-other.html\"><img src=\"wall/images/smll-img-03.jpg\" ></a></div>";
+				strappnd += "</li>";
+				console.log(strappnd);	
+				$(".profile-you-know ul").append(strappnd);										
+														
+				
+			
+			},
+			 error:function (xhr, ajaxOptions, thrownError){
+    alert(xhr.status);
+    alert(thrownError);
+}    
+		});
+		
+		/*
+		Post a comment
+		*/
+		$(".autogrow").live("keyup",function (evt){
+			typedKey = evt.keyCode;
+			
+			if(typedKey == 13) {
+				commentText = $(this).val();
+				wallId = $(this).attr("id");
+				wallId = wallId.split("_");
+				wallId = wallId[2];
+				console.log(wallId);
+				
+				$(this).val('Post your comment');
+				 $("#wall_"+wallId+" ul").focus(); 
+				 $(this).animate({ 'height': '18px' });
+				 $.ajax({
+						url : "social/index/postcomment",
+						type : "post",
+						dataType :'html',
+						data : 'cmt='+commentText+"&w="+wallId,
+						success:function (data){
+
+							$("#wall_"+wallId+" ul").append(data);
+							// $(this).val('Post your comment');
+							//$(this).animate({ 'height': '18px' });
+							 
+						
+						},
+						 error:function (xhr, ajaxOptions, thrownError){
+			          alert(xhr.status);
+			          alert(thrownError);
+			      }    
+					});
+			}
+		});
+	 });
+ </script>
+ 

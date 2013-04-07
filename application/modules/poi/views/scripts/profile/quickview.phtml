@@ -1,0 +1,47 @@
+<style>
+#listcontainer {
+	width : 725px;
+	border :0px solid red;
+	min-height: 200px;	
+}
+.itemlisting {
+	width : 700px;
+	border :1px dotted green;
+	min-height: 200px;
+	padding : 10px;
+	margin:10px;
+}
+.hotelimg {
+	float:left;
+}
+.hoteldesc {
+	padding-left : 20px;
+}
+h3,p{
+	margin : 0px;
+}
+</style>
+<?php 
+$imagePath = '/uploads/';
+$poi = $this->poi;
+?>
+<div class="itemlisting">
+				<ul>
+					<li class="hotelimg">
+					<?php if($poi['default_image']){?>
+					
+					<img src="<?php echo $imagePath.$poi['poi_id']."/".$poi['default_image']?>" alt="no image" height="160px"width="155px"/>
+					<?php } else {?>
+					<img src="/images/no_image.gif" alt="no image" height="160px"width="155px"/>
+					<?php }?>
+					</li>
+					<li class="hoteldesc" >
+						<h3><?php echo $this->escape($poi['poi_name']);?></h3>
+						<p><?php echo $this->escape($poi['groupname']);?></p>
+						<p><?php echo $this->escape($poi['stayname']);?></p>
+						<p><?php echo $this->escape($poi['poi_area']);?></p>
+						<p><?php echo $this->escape($poi['poi_web_site']);?></p>
+						
+					</li>
+				</ul>
+			</div>

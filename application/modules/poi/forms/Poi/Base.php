@@ -90,13 +90,10 @@ class Poi_Form_Poi_Base extends Core_Form
 	}
 	protected function _poigroupname()
 	{
-	    $element= new Zend_Form_Element_Text ( 'poi_group_name' );
-//		$element->setLabel ( 'Group Name' );
-		$element->size = '35';
-		$element->maxlength = '200';
-		$element->class = 'field text gf';
-		// $poi_group_name->addValidator('Alnum');
-		$element->class='input-text';
+	    $element= new Zend_Form_Element_Select ( 'poi_group_name' );
+	    $element->class = 'field select medium';
+	    $this->_addoptions ( $element, 'Gen', 'chain');
+	     
 		
 		return $element;
 	}
@@ -236,8 +233,9 @@ class Poi_Form_Poi_Base extends Core_Form
 	protected function _images($poi_id)
 	{
 		$element= new Zend_Form_Element_File ( 'poi_images' );
-		$path=APPLICATION_PATH . IMAGE_PATH.$poi_id.'/';
-		
+		//$path=APPLICATION_PATH . IMAGE_PATH."/".$poi_id.'/';
+		$path=IMAGE_PATH."/".$poi_id.'/';
+		//print $path;exit;
 		$a=is_dir($path);
 		if (!is_dir($path))
 		{
@@ -254,6 +252,11 @@ class Poi_Form_Poi_Base extends Core_Form
 		$element->addValidator ( 'Extension', false, array (
 				'jpg,png,gif' 
 		) );
+		$element->addFilter(new Ajab_Filter_File_Resize(array(
+    'width' => 400,
+    'height' => 300,
+    'keepRatio' => true,
+)));
 	    return $element;
     }
 	
@@ -297,7 +300,11 @@ class Poi_Form_Poi_Base extends Core_Form
 	    {
 	        $rows = $table->getLocationtypeAll();
 	    }
-		if ($param_classification=='Country')
+		if ($param_classification=='chain')
+	    {
+	        $rows = $table->gethotelchainAll();
+	    }
+	    if ($param_classification=='Country')
 	    {
 	        $rows = $table->getcountryAll();
 	        foreach ($rows as $row)

@@ -1,0 +1,65 @@
+<div class="box-info">
+<div class="box-head ">
+    <h2 ><?php echo $form->getValue('poi_name').' Photos';?></h2>
+</div>
+</div>
+<?php $path='/uploads/poi/'.$this->poi_id.'/';?>
+
+<div class="gallery"><a id="prev" href="javascript:void(0)">prev</a> 
+<ul>
+<?php 
+foreach ($this->images as $image)
+{?>
+<li><img title "" src="<?php echo $path.$image['poiimg_path'];?>"></li>
+<?php }?>
+
+</ul>
+<a id="next" href="javascript:void(0)">next</a>
+<div class="nav-wrapper">
+<h2>myownbike</h2>
+<p>Impressionen unseres Ladens</p>
+<div id="gallery-nav">&nbsp;</div>
+</div>
+</div>
+<hr />
+
+
+
+
+
+
+
+<script type="text/javascript">
+<!--
+$(document).ready(function() {
+
+	$('.gallery ul').cycle({ 
+			fx:			'all', 
+			speed:	'500', 
+			slideResize:'1',
+			timeout: '5000', 
+			pager:	'#gallery-nav' ,
+			next: '#next',
+			prev: '#prev',
+			after: onAfter 
+	});
+
+
+	function onAfter() {
+		var title = $('.gallery ul li:visible img').attr('title');
+		var alt = $('.gallery ul li:visible img').attr('alt');
+		if(title) {
+			$('.nav-wrapper h2').text(title);
+		} else {
+			$('.nav-wrapper h2').text('myownbike');
+		}
+		if(alt) {
+			$('.nav-wrapper p').text(alt);
+		} else {
+			$('.nav-wrapper p').text('Photo Gallery');
+		}
+	};
+	
+});
+//-->
+</script>

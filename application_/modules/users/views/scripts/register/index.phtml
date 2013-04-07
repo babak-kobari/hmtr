@@ -1,0 +1,67 @@
+<?php
+$form = $this->form;
+?>
+<form id="<?php echo $form->getName();?>"
+		name="<?php echo $form->getName();?>" 
+		enctype="multipart/form-data"
+		method="<?php echo $form->getMethod();?>"
+		action="<?php echo $form->getAction();?>">
+
+<div class="main-container col2-left-layout">
+    <div class="main">
+        <div class="col-main">
+        <div class="col-main-container">
+        <div class="dashboard">
+         <div class="page-title">
+                    <h2><?php echo $this->title;?></h2>
+         </div>
+        <div class="box-account box-info">
+<ul class="form-list">
+   <li class="fields">
+    <div class="field ">
+        <label for="login">User Name</label>
+        <div class="input-box">
+        <?php echo $form->getElement('login');?>
+        </div>
+    </div>
+    <div class="field">
+        <label for="email">E-mail Address</label>
+    <div class="input-box">
+        <?php echo $form->getElement('email');?>
+        </div>
+    </div>
+    </li>
+    <li class="fields">
+    <div class="field">
+        <label for="password">Password</label>
+    <div class="input-box">
+        <?php echo $form->getElement('password');?>
+        </div>
+    </div>
+    <div class="field">
+        <label for="password2">Reconfirm the Password</label>
+        <div class="input-box">
+        <?php echo $form->getElement('password2');?>
+        </div>
+    </div>
+    </li>
+    <li class="fields">
+    <div class="field">
+        <label for="captcha">Please verify you're a human</label>
+        <div class="input-box">
+        <?php echo $form->getElement('captcha');?>
+        </div>
+    </div>
+    </li>
+    
+</ul>
+  <div class="buttons-set">
+       <?php echo $form->getElement('submit');?>
+  </div>
+ </div>
+    </div>
+ </div>
+</div>
+    </div>
+</div>
+</form>

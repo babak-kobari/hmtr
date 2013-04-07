@@ -140,9 +140,10 @@ select {
 	  				<td><?php echo $this->escape($result['exp_status']);?></td>
 	  				<td>
 	  					<?php if ($result['exp_status'] == 'WIP'){
-	  						 echo "<a href='shareexp/tripsummary/".$result['exp_id']."'>Edit</a>";
-	  						 
+	  						 echo "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Delete\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
+	  						
 	  					}
+	  					echo "<a  class = 'deleterec' href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
 	  					?>
 	  				</td>
 	  				

@@ -1,0 +1,41 @@
+
+<link rel="stylesheet" href="<?php echo $this->baseUrl();?>/css/poi/thumbnailviewer.css" type="text/css"></script>
+<div class="box-info">
+<div class="box-head ">
+    <h2 ><?php echo $form->getValue('poi_name').' Photos';?></h2>
+</div>
+<ul class="form-list">
+   <li class="fields">
+    <div class="field ">
+         <div class="input-box">
+                <?php echo $form->getElement('poi_images');?>
+<?php echo $form->getElement('submit');?>
+                </div>
+    </div>
+</li>
+</ul>
+</div>
+
+
+<div class="gallery">
+
+<?php 
+$imagePath = '/uploads/poi/'.$this->poi_id.'/';
+if(count($this->images) > 0) {
+	foreach ($this->images as $image) {
+		print "<div style='float:left;padding:5px;'>";
+			print "<a href='".$imagePath.$image['poiimg_path']."' alt='".$image['poiimg_title']."' width='70px' height='100px' rel='thumbnail'>";
+			 print "<img src='".$imagePath.$image['poiimg_path']."' alt='".$image['poiimg_title']."' width='70px' height='100px'/>";
+			print "</a>";
+		print "</div>";
+	}
+}
+?>
+
+
+
+
+</div>
+<hr />
+<script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/poi/thumbnailviewer.js"></script>
+
