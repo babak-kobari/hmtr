@@ -36,7 +36,12 @@ class Social_IndexController extends Zend_Controller_Action {
 					$outStr .= " <div class='artcle-bx  brd-01 to-padd-05'> ";
 						$outStr .= "<div class='profile-img to-left'>";
 							$outStr .= "<a href='profile-other.html'>";
-								$outStr .= "<img src='wall/images/smll-no-photo.jpg' width='48' height='48' alt='photo'/>";
+								if ($mywall['avatar'] !=""){
+									$outStr .= "<img src='".$mywall['avatar']."' width='48' height='48' alt='photo'/>";
+								}else {
+									$outStr .= "<img src='wall/images/smll-no-photo.jpg' width='48' height='48' alt='photo'/>";
+								}
+								
 							$outStr .= "</a> ";
 						$outStr .= "</div> ";
 						$outStr .= "<div class=\"poll-01 to-left\">";
@@ -138,7 +143,18 @@ class Social_IndexController extends Zend_Controller_Action {
 
 	public function loadunfollowusersAction () {
 		$modelWall = new Social_Model_Wall();
-		$userList = $modelWall->getunfollowUsers();
-		echo "<pre>";print_r($userList);exit;
+		$userList = $modelWall->getunfollowUsers($this->_logedInUser);
+		echo json_encode($userList);exit;
+	}
+	public function followuserAction () {
+		
+		$request = $this->getRequest ();
+		if($request->isPost()) {
+			$followuser = $request->getParam('u');
+			$modelWall = new Social_Model_Wall();
+			$modelWall->followUser($this->_logedInUser, $followuser);
+			
+		}
+		exit;
 	}
 }

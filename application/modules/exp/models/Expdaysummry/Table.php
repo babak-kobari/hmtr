@@ -30,5 +30,17 @@ class Exp_Model_Expdaysummry_Table extends Core_Db_Table_Abstract
 	    return $row;
 	}
 	
+	public function deleteexpsummrybyexpId($exp_id)
+	{
+	    $this->delete('exp_id = '.$exp_id);
+	}
+
+	public function expchangestatusbyexpId($exp_id,$status)
+	{
+	    $data = array('exp_status'=> $status);
+	    $where = 'exp_id = '.$exp_id;
+	    $this->update($data,$where);
+	}
+	
 	
 }

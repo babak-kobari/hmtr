@@ -62,22 +62,6 @@
     <a href="#" class="view-btn-02">View all</a>
      </div> 
         <ul>
-          <li>
-            <div class="profile-pic-2"><a href="info-other.html"> <img src="wall/images/smll-img-02.jpg" ></a></div>
-            <div class="profile-detail-2">
-              <h4><a href="#">Stuart Robson</a></h4>
-              <span class="text-01"><a href="#" class="mutual-frnd">22 mutual friends</a></span> 
-              <a href="#" class="add-btn-01">Follow</a> 
-              <a href="#" class="close-btn-01">x</a></div>
-          </li>
-          <li>
-            <div class="profile-pic-2"> <a href="info-other.html"><img src="wall/images/smll-img-03.jpg" ></a></div>
-            <div class="profile-detail-2">
-              <h4><a href="info-other.html">Stuart Robson</a></h4>
-              <span class="caption"><a href="#" class="mutual-frnd">22 mutual friends</a></span> 
-              <a href="#" class="add-btn-01">Follow</a> 
-              <a class="close-btn-01" href="#">x</a></div>
-          </li>
           
          
         </ul>
@@ -123,16 +107,34 @@
 	 $.ajax({
 			url : "social/index/loadunfollowusers",
 			type : "post",
-			dataType :'html',
+			dataType :'json',
 			//data : 'smtpName='+server_name.val()+"&smtpid="+smtpid,
 			success:function (data){
 				//$(".profile-you-know close-selector ul")
 
-				strappnd = "<li>";
-					strappnd += "<div class=\"profile-pic-2\"> <a href=\"info-other.html\"><img src=\"wall/images/smll-img-03.jpg\" ></a></div>";
+				
+				$.each( data, function( key, value ) {
+					strappnd = "<li  id='li_"+value.userid+"'>";
+					if(value.avatar == null) {
+						strappnd += "<div class=\"profile-pic-2\"> <a href=\"info-other.html\"><img src=\"wall/images/smll-no-photo.jpg\" width='48' height='48'></a></div>";
+					}else {
+						strappnd += "<div class=\"profile-pic-2\"> <a href=\"info-other.html\"><img src='"+value.avatar+"' width='48' height='48'></a></div>";
+					}
+					
+
+					strappnd += " <div class=\"profile-detail-2\">";
+						strappnd +=  "<h4><a href='#'>"+value.loginName+"</a></h4>";
+						
+						strappnd += " <span class=\"text-01\"><a href=\"#\" class=\"mutual-frnd\">2 Posts</a></span>";
+						strappnd += "<a href=\"#\" class=\"add-btn-01\" id='"+value.userid+"'>Follow</a> ";
+						strappnd += "<a class=\"close-btn-01\" href=\"#\">x</a>";
+						
+					strappnd += "</div>";
 				strappnd += "</li>";
-				console.log(strappnd);	
-				$(".profile-you-know ul").append(strappnd);										
+				$(".profile-you-know ul").append(strappnd);	
+				});
+				//console.log(strappnd);	
+				//$(".profile-you-know ul").append(strappnd);										
 														
 				
 			
@@ -178,6 +180,23 @@
 			      }    
 					});
 			}
+		});
+		$(".add-btn-01").live("click",function (){
+			userid = this.id;
+			 $.ajax({
+					url : "social/index/followuser",
+					type : "post",
+					dataType :'html',
+					data : 'u='+userid,
+					success:function (data){
+
+					},
+					 error:function (xhr, ajaxOptions, thrownError){
+		          alert(xhr.status);
+		          alert(thrownError);
+		      }    
+				});
+			$("#li_"+userid).remove();
 		});
 	 });
  </script>

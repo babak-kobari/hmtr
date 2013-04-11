@@ -7,8 +7,8 @@ defined('APPLICATION_PATH') ||
                 realpath(dirname(__FILE__) . '/../application'));
 
 defined('IMAGE_PATH') ||
-        define('IMAGE_PATH',
-        realpath(dirname(__FILE__) . '../public/uploads'));
+       ( define('IMAGE_PATH',
+        $_SERVER['DOCUMENT_ROOT']."/uploads"));
         
         // Define application environment
 defined('APPLICATION_ENV')

@@ -11,7 +11,7 @@ leftbarpoi:
     route: default
     module: poi
     controller: profile
-    action: addstay
+    action: index
     class: current
     order: 10
   neweat:
@@ -19,14 +19,14 @@ leftbarpoi:
     route: default
     module: poi
     controller: profile
-    action: addeat
+    action: index
     order: 20
   newthings:
     label: Add New Things
     route: default
     module: poi
     controller: profile
-    action: addthings
+    action: index
     order: 30
   masterinfo:
     label: Edit POI

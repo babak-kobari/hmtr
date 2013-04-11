@@ -52,7 +52,7 @@ class Poi_Model_Poifacl_Table extends Core_Db_Table_Abstract
 	            	$rowdata=array (
                     'poifcl_poi_id' => $poi_id,
 	                'poifcl_param_id' => $value,
-            	    'poifcl_param_category_id'=>$cat);
+            	    'poifcl_poi_option_type'=>$cat);
     	            $row_id=$this->insert($rowdata);
 	        }
 	        else
@@ -61,7 +61,7 @@ class Poi_Model_Poifacl_Table extends Core_Db_Table_Abstract
 	                'poifcl_id'=>$poifacl_id,
                     'poifcl_poi_id' => $poi_id,
 	                'poifcl_param_id' => $value,
-            	    'poifcl_param_category_id'=>$cat);
+            	    'poifcl_poi_option_type'=>$cat);
                 $where['poifcl_id= ?'] = $rowdata['poifcl_id'];
 	            $this->update($rowdata, $where);
 	        }
@@ -84,5 +84,16 @@ class Poi_Model_Poifacl_Table extends Core_Db_Table_Abstract
 	    return $row->save ();
 	}
 	
+	public function getpoifacil($poi_id,$poi_option_type)
+	{
+	    $select = $this->select()
+	                ->from($this)
+                    ->setIntegrityCheck(false)
+                    ->join(array('hm_param_poi_options'), 'hm_param_poi_options.param_id = poifcl_param_id',
+	                  'param_desc')
+	               ->where('poifcl_poi_id = ?', $poi_id)
+	               ->where('poifcl_poi_option_type = ?', $poi_option_type);
+	    return $this->fetchAll($select);
+	}
 	
 }

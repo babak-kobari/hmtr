@@ -4,6 +4,7 @@ poiprofile:
     module: poi
     controller: profile
     action: index
+
 generalinfo:
   route: poi/profile/generalinfo/:id
    defaults:

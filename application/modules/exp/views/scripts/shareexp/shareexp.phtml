@@ -31,6 +31,7 @@ loadScript();
 <input id="thispoi_lat" name = "thispoi_lat" type="hidden" value="24.4958385">
 <input id="thispoi_lon" name = "thispoi_lon" type="hidden" value="54.60401209999998">
 <input id="thispoi_id" name = "thispoi_id" type="hidden" value="13">
+<input id="this_country" name = "this_country" type="hidden" value="<?php echo $into_param['exp_country'];?>">
 <input id="page_id" name = "page_id" type="hidden" value="#day_1 li">
 
 <div class="container">
@@ -67,9 +68,55 @@ foreach ($stay_list as $stay)
 ?>
 </ul>
 </div>
+<?php 
+if ($this->Staypageno < $this->StaylastPage )
+    {
+    echo "<input type='button' id='Stayshowmore' value= 'Show More'/>";
+	}
+?>
+<input type="hidden" id="Staypageno" value="<?php echo $this->Staypageno;?>"/>
+<input type="hidden" id="Staylastpage" value="<?php echo $this->StaylastPage;?>"/>
+
 </div>
 </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function (){
+$("#Stayshowmore").live("click",function (){
+			filterval = $("#staysearch").val ();
+			Staypage = $("#Staypageno").val ();
+			country = $("#this_country").val ();
+			$.ajax({
+				url : "/exp/shareexp/liststayajax",
+				type : "post",
+				dataType :'json',
+				async : false,
+				data : "filterval="+filterval+"&Staypage="+Staypage+"&country="+country,
+				success:function (data){
+					console.log(data);
+					if(data.error == 'true') {
+						$("#Stayshowmore").hide ();
+						$("#staylist").html ("");
+					}else {
+						if(data.Staycurrentpage < data.Staylastpage) {
+							$("#Stayshowmore").show();
+						}else{
+							$("#Stayshowmore").hide ();
+						}
+						Staypage=data.Staycurrentpage;
+						$("#Staypageno").val (Staypage);
+						$("#staylist").append (data.data);
+						
+					}
+					//alert(data['pois'][0]['poi_name']);
+				}
+			});
+		});
+});
+
+</script>
+
 <!-- ----------------------Col 2   -->
 <div class="tab tab-2">
 <p class="tab-button"><span></span>Eat, Dring and Things to do</p>
@@ -99,8 +146,53 @@ foreach ($eat_list as $eat)
 ?>
 </ul>
 </div>
+<?php 
+if ($this->Eatpageno < $this->EatlastPage )
+    {
+    echo "<input type='button' id='Eatshowmore' value= 'Show More'/>";
+	}
+?>
+<input type="hidden" id="Eatpageno" value="<?php echo $this->Eatpageno;?>"/>
+<input type="hidden" id="Eatlastpage" value="<?php echo $this->EatlastPage;?>"/>
 </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function (){
+
+$("#Eatshowmore").live("click",function (){
+			filterval = $("#Eatsearch").val ();
+			Eatpage = $("#Eatpageno").val ();
+			country = $("#this_country").val ();
+			$.ajax({
+				url : "/exp/shareexp/listeatajax",
+				type : "post",
+				dataType :'json',
+				async : false,
+				data : "filterval="+filterval+"&Eatpage="+Eatpage+"&country="+country,
+				success:function (data){
+					console.log(data);
+					if(data.error == 'true') {
+						$("#Eatshowmore").hide ();
+						$("#eatlist").html ("");
+					}else {
+						if(data.Staycurrentpage < data.Staylastpage) {
+							$("#Eatshowmore").show();
+						}else{
+							$("#Eatshowmore").hide ();
+						}
+						Eatpage=data.Eatcurrentpage;
+						$("#Eatpageno").val (Eatpage);
+						$("#eatlist").append (data.data);
+						
+					}
+					//alert(data['pois'][0]['poi_name']);
+				}
+			});
+		});
+});
+
+</script>
+
 <!-- ----------------------Col 3   -->
 <div class="col-2">
 <div class="box-info">
@@ -126,8 +218,54 @@ foreach ($things_list as $things)
 ?>
 </ul>
 </div>
+
+<?php 
+if ($this->Thingspageno < $this->ThingslastPage )
+    {
+    echo "<input type='button' id='Thingsshowmore' value= 'Show More'/>";
+	}
+?>
+<input type="hidden" id="Thingspageno" value="<?php echo $this->Thingspageno;?>"/>
+<input type="hidden" id="Thingslastpage" value="<?php echo $this->ThingslastPage;?>"/>
 </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function (){
+
+$("#Thingsshowmore").live("click",function (){
+			filterval = $("#Thingssearch").val ();
+			Thingspage = $("#Thingspageno").val ();
+			country = $("#this_country").val ();
+			$.ajax({
+				url : "/exp/shareexp/listthingsajax",
+				type : "post",
+				dataType :'json',
+				async : false,
+				data : "filterval="+filterval+"&Thingspage="+Thingspage+"&country="+country,
+				success:function (data){
+					console.log(data);
+					if(data.error == 'true') {
+						$("#Thingsshowmore").hide ();
+						$("#thingslist").html ("");
+					}else {
+						if(data.Staycurrentpage < data.Staylastpage) {
+							$("#Thingsshowmore").show();
+						}else{
+							$("#Thingsshowmore").hide ();
+						}
+						Thingspage=data.Thingscurrentpage;
+						$("#Thingspageno").val (Thingspage);
+						$("#thingslist").append (data.data);
+						
+					}
+					//alert(data['pois'][0]['poi_name']);
+				}
+			});
+		});
+});
+
+</script>
+
 </div>
 </div>
 </div>

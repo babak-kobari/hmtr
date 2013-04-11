@@ -1,6 +1,0 @@
-header:
-  expmenu:
-    label: Share your Trip
-    route: shareexp
-    class: nav-1
-    order: 40

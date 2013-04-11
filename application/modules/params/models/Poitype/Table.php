@@ -24,5 +24,11 @@ class Params_Model_Poitype_Table extends Core_Db_Table_Abstract
         ->where('param_published = ?','P');
         return 	$this->fetchAll ( $select );
     }
+    public function getparambydesc($desc) {
+        $select = $this->select ();
+        $select->where ( "param_desc LIKE '%".$desc."%'")
+        ->where('param_published = ?','P');
+        return 	$this->fetchRow( $select );
+    }
     
 }

@@ -23,10 +23,8 @@ class Poi_Form_Poi_Generalinfo extends Poi_Form_Poi_Base
     	    	
     	    if ($poi_type=='Stay')
     	    {
-    	        $this->removeElement('poi_restaurant_type');
     	        $this->removeElement('poi_dining_options');
     	        $this->removeElement('Cuisine');
-    	        $this->removeElement('poi_things_type');
     	        $this->removeElement('poi_things_options');
     	        $this->removeElement('poi_things_activity');
     	         
@@ -35,21 +33,17 @@ class Poi_Form_Poi_Generalinfo extends Poi_Form_Poi_Base
     	    {
     	        $this->removeElement('poi_amenities');
                 $this->removeElement('poi_group_name');
-                $this->removeElement('poi_stay_type');
                 $this->removeElement('poi_stay_calssification');
                 $this->removeElement('poi_location_type');
-    	        $this->removeElement('poi_things_type');
     	        $this->removeElement('poi_things_options');
     	        $this->removeElement('poi_things_activity');
     	    }
             if ($poi_type=='Things')
     	    {
-    	        $this->removeElement('poi_restaurant_type');
     	        $this->removeElement('poi_dining_options');
     	        $this->removeElement('Cuisine');
     	        $this->removeElement('poi_amenities');
                 $this->removeElement('poi_group_name');
-                $this->removeElement('poi_stay_type');
                 $this->removeElement('poi_stay_calssification');
                 $this->removeElement('poi_location_type');
     	    }

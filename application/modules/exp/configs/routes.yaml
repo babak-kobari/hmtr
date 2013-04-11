@@ -1,3 +1,9 @@
+shareexp2:
+  route: exp/shareexp
+   defaults:
+    module: exp
+    controller: shareexp
+    action: index
 shareexp:
   route: shareexp
    defaults:
@@ -49,4 +55,13 @@ tripsummary:
     controller: shareexp
     action: tripsummary
     exp_id:0
+
+changestatus:
+  route: shareexp/changestatus/:exp_id/:status
+   defaults:
+    module: exp
+    controller: shareexp
+    action: changestatus
+    exp_id:0
+    status:0
     

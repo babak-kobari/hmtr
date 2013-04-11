@@ -1,8 +1,0 @@
-mvc:
-  mail:
-    images:
-      allow: admin
-    management:
-      allow: admin
-    error:
-      allow: admin

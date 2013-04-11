@@ -254,14 +254,14 @@ class Users_Model_User_Manager extends Core_Model_Manager
         return $this->getDbTable()->fetchAll($select)->toArray();
     }
     public function getParamList($param_Type, $Param_Category_Type = null) {
-        $param = new Users_Model_Param_Table();
+//        $param = new ();
         return $param->getParamList ( $param_Type, $Param_Category_Type );
     }
     
     public function getusertravelinterestlist($user_id,$cat)
     {
 
-        $resource = new Users_Model_Param_Table();
+//        $resource = new ();
         $useraddedrows=$resource->getusertavelinterestbyuserId($user_id,$cat);
         return $useraddedrows;
     }

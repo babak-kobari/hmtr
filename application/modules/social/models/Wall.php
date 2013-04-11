@@ -11,6 +11,7 @@ class Social_Model_Wall {
 	
 	private $_commentsTable;
 	
+	private $_followTable;
 	
 	
 	public function __construct()
@@ -21,6 +22,7 @@ class Social_Model_Wall {
 			$this->_wallTable = "hm_user_wall";
 			$this->_userTable = "hm_users";
 			$this->_commentsTable = "hm_ user_comments";
+			$this->_followTable = "hm_wall_follow";
 			
 		}catch (Exception $e) {
 			
@@ -45,6 +47,13 @@ class Social_Model_Wall {
 		$result = array();
 		try {
 			
+			$subSelect = $this->_db->select ();
+			
+			$subSelect->from(array("flw" => $this->_followTable),
+					array('flw.follow_user_id as followuser')
+			);
+			$subSelect->where("flw.user_id=?",$logedinuser);
+			
 			$select = $this->_db->select();
 			$select->from(array("exp" => $this->_experienceMasterTable),
 					array('exp.exp_title as title','exp.exp_city as city_visted')
@@ -54,7 +63,7 @@ class Social_Model_Wall {
 			$select->join(
 						array('usr' => $this->_userTable),
 						'exp.exp_user_id = usr.id',
-						array('usr.login as username')
+						array('usr.login as username','usr.avatar as avatar')
 					);
 			
 			$select->join(
@@ -63,7 +72,8 @@ class Social_Model_Wall {
 					array('wall.wall_id as wall_id','wall.wall_created as post_created')
 			);
 			
-			$select->where("exp.exp_user_id = ?",$logedinuser);
+			$select->where("exp.exp_user_id IN ? ",$subSelect);
+			$select->orWhere("exp.exp_user_id = ? ",$logedinuser);
 			$select->order(array('wall.wall_id desc'));
 			//print $select->__toString();exit;
 			$stmt = $this->_db->query($select);
@@ -78,6 +88,7 @@ class Social_Model_Wall {
 					$temp['username'] = $r['username'];
 					$temp['city_visted'] = $r['city_visted'];
 					$temp['wall_id'] = $r['wall_id'];
+					$temp['avatar'] = $r['avatar'];
 					$created =  date($r['post_created']);
 					$now =  date('Y-m-d H:i:s');
 					$date_diff=strtotime($now) - strtotime($created);
@@ -144,17 +155,44 @@ class Social_Model_Wall {
 		
 	}
 
-	public function getunfollowUsers () {
+	public function getunfollowUsers ($logedinuser) {
+		
+		$subSelect = $this->_db->select ();
+		
+		$subSelect->from(array("flw" => $this->_followTable),
+				 array('flw.follow_user_id as followuser')
+				);
+		$subSelect->where("flw.user_id=?",$logedinuser);
+		
 		
 		$select = $this->_db->select();
 		
 		$select->from(
 					array("usr" => $this->_userTable),
-					array("usr.id as userid","usr.login as loginName")
+					array("usr.id as userid","usr.login as loginName","usr.avatar as avatar")
 					
 				);
+		
+		$select->where("usr.id NOT IN ? ",$subSelect);
+		$select->where("usr.id !=? ",$logedinuser);
+		//echo $select->__toString();exit;
 		$stmt = $this->_db->query($select);
 		$queryResult = $stmt->fetchAll();
 		return $queryResult;
+	}
+
+	public function followUser($logedinuser,$followuser) {
+		
+		try {
+			$tbl_comment = new Zend_Db_Table($this->_followTable);
+			$insertArray = array();
+			
+			$insertArray['user_id'] = trim($logedinuser);
+			$insertArray['follow_user_id'] = trim($followuser);
+			$tbl_comment->insert($insertArray);
+		}catch (Exception $e) {
+			
+			throw new Exception($e->getMessage());
+		}
 	}
 }

@@ -1,5 +1,0 @@
-mvc:
-  options:
-    index:
-    management:
-      allow: admin

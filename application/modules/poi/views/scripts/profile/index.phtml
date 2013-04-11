@@ -22,77 +22,28 @@
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places"></script>
 
 <script type="text/javascript">
-var component_form = {
-	    'locality': 'long_name',
-	    'country': 'long_name',
-	  };
-function initialize() 
-{
-    var input = document.getElementById('poititle');
-    var autocomplete = new google.maps.places.Autocomplete(input);
-    google.maps.event.addListener(autocomplete, 'place_changed', function() 
-            {
-    	$.ajax({
-			url : "/poi/profile/listajax",
-			type : "post",
-			dataType :'html',
-			data : "filterval="+$("#poititle").val (),
-			beforeSend : function (xhr) {
-				$("#listcontainer").html ("<span class='loading'><img src='/images/loading.gif' alt='Loading......'/></span>");
-			},
-			success:function (data){
-				
-				if(data == 'false') {
-					$("#listcontainer").html ("");
-					$("#newbut").show ();
-				}else {
-					$("#newbut").hide ();
-					$("#listcontainer").html (data);
-				}
-				//alert(data['pois'][0]['poi_name']);
-			}
-		});
-    	     var place = autocomplete.getPlace();
-              document.getElementById('place_name').value= place.name;
-              for (var j = 0; j < place.address_components.length; j++) {
-                  var att = place.address_components[j].types[0];
-                  if (component_form[att]) {
-                    var val = place.address_components[j][component_form[att]];
-                    document.getElementById(att).value = val;
-                  }
-                }
-              document.getElementById('place_phone').value= place.formatted_phone_number;
-              document.getElementById('lat').value= place.geometry.location.lat();
-              document.getElementById('lon').value= place.geometry.location.lng();
-              document.getElementById('website').value= place.website;
-              document.getElementById('type').value= place.types;
-              
-                
-});
-}
-google.maps.event.addDomListener(window, 'load', initialize);
 
-$(document).ready(function (){
-	$("#poititle").keyup(function (){
-		loc_name = $("#poititle").val ();
-	});
-});
 </script>
 <form method="post" action="/poi/profile/addnew">
 <input type="text" name="poititle" id="poititle" size="20" class = "input-text required-entry" placeholder="Enter a location" autocomplete="on"/>
-<input type="text" name="place_name" id="place_name" size="20" readonly/>
-<input type="text" name="country" id="country" size="20" readonly/>
-<input type="text" name="locality" id="locality" size="20" readonly/>
-<input type="text" name="place_phone" id="place_phone" size="20" readonly/>
-<input type="text" name="lat" id="lat" size="20" readonly/>
-<input type="text" name="lon" id="lon" size="20" readonly/>
-<input type="text" name="website" id="website" size="20" readonly/>
-<input type="text" name="type" id="type" size="20" readonly/>
+<input type="hidden" name="place_name" id="place_name" size="20" value = "none"/>
+<input type="hidden" name="country" id="country" size="20" value = "none"/>
+<input type="hidden" name="locality" id="locality" size="20" value = "none"/>
+<input type="hidden" name="place_phone" id="place_phone" size="20" value = "none"/>
+<input type="hidden" name="lat" id="lat" size="20" value = "none"/>
+<input type="hidden" name="lon" id="lon" size="20" value = "none"/>
+<input type="hidden" name="website" id="website" size="20" value = "none"/>
+<input type="hidden" name="types" id="types" size="20" value = "none"/>
+<input type="hidden" name="poi_sub_type" id="poi_sub_type" size="20" value = "none"/>
+<select name="type" id="type" class="field select medium">
+    <option value="Select">Please Select</option>
+    <option value="Stay">Stay</option>
+    <option value="Eat">Eat</option>
+    <option value="Things">Things To Do</option>
+</select>
 <br/>
 <div id="newbut" style="display:none">
-	<input type="submit" name='addnewstay' value="Add New Stay"/>
-	<input type="submit" name='addneweat' value="Add New Eat"/>
-	<input type="submit" name='addnewthings' value="Add New Things"/>
+	<input type="submit" name='addnewstay' value="Add"/>
 </div>
 </form>
 <?php 
@@ -101,7 +52,7 @@ $imagePath = '/uploads/';
 ?>
 <div id="listcontainer">
 	<?php if(count($this->pois) > 0 ) {?>
-		<?php foreach($this->paginator as $poi) {?>
+		<?php foreach($this->pois as $poi) {?>
 			<?php //echo "<pre>";print_r($poi);exit;?>
 			<div class="itemlisting">
 				<ul>
@@ -124,35 +75,247 @@ $imagePath = '/uploads/';
 				</ul>
 			</div>
 		<?php }?>
+			
+			
 	<?php }?>
+	
 </div>
-<?php echo $this->paginationControl($this->paginator, 'Sliding', 'profile/_p.phtml'); ?>
+<?php 
+				if ($this->pageno < $this->lastPage ){
+					echo "<input type='button' id='showmore' value= 'Show More'/>";
+				}
+			?>
+			<input type="hidden" id="pageno" value="<?php echo $this->pageno;?>"/>
+			<input type="hidden" id="lastpage" value="<?php echo $this->lastPage;?>"/>
+
+			
+			
 <script type="text/javascript">
-	$(document).ready(function (){
+var found = false;
+var relative = false;
+var component_form = {
+	    'locality': 'long_name',
+	    'country': 'long_name',
+	  };
+function initialize() 
+{
+    var input = document.getElementById('poititle');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    var no_result = false;
+    google.maps.event.addListener(autocomplete, 'place_changed', function() 
+        {
+        
+    	found = false;
+    	relative = false;
+        document.getElementById('place_phone').value= "";
+        document.getElementById('lat').value= "";
+        document.getElementById('lon').value= "";
+        document.getElementById('website').value= "";
+        document.getElementById('type').selectedIndex= 0;
+        
+    	var place = autocomplete.getPlace();
+    	document.getElementById('place_name').value= place.name;
+        for (var j = 0; j < place.address_components.length; j++) {
+			no_result = true;
+            var att = place.address_components[j].types[0];
+            if (component_form[att]) {
+               var val = place.address_components[j][component_form[att]];
+               document.getElementById(att).value = val;
+               }
+        }
+        document.getElementById('place_phone').value= place.formatted_phone_number;
+        document.getElementById('lat').value= place.geometry.location.lat();
+        document.getElementById('lon').value= place.geometry.location.lng();
+        document.getElementById('website').value= place.website;
+        document.getElementById('types').value= place.types;
+        var place_type = place.types;
+        filterval = $("#poititle").val ();
+        $.ajax({
+			url : "/poi/profile/listajax",
+			type : "post",
+			async : false,
+			dataType :'json',
+			data : "filterval="+filterval,
+			
+			success:function (data){
+				if(data.error == 'true') {
+					
+				}else {
+					found = true;
+					
+				}
+			}
+		});
+        $.ajax({
+    		url : "/poi/profile/findplacetype",
+    		type : "GET",
+    		dataType :'json',
+    		async : false,
+    		data : "google_place_type="+place_type,
+    		success:function (data){
+    		if(data.error == 'true')
+        		{
+  			    document.getElementById('type').selectedIndex= 0;
+    			relative = false;
+    			$("#newbut").hide ();
+    			} 
+    			else 
+    			{
+    			for(var i = 0, j = document.getElementById('type').options.length; i < j; ++i) 
+        			{
+    			    if(document.getElementById('type').options[i].value === data.placetype) 
+        			{
+    			        document.getElementById('type').selectedIndex = i;
+    					$("#poi_sub_type").val (data.placesubtype);
+    			        $("#newbut").show ();
+    			        break;
+    			    }
+    			    }
+        		}
+        	}
+    	});
+});
+
+    
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+$(document).ready(function (){
+	$("#poititle").keyup(function (){
+        place_type = $("#types").val ();
+		loc_name = $("#poititle").val ();
+		
+});
 		$("#poititle").keyup(function (){
 			filterval = $("#poititle").val ();
+			if(filterval != '') {
+				$("#newbut").show ();
+				}
 			//alert(filterval);
 			$.ajax({
 				url : "/poi/profile/listajax",
 				type : "post",
-				dataType :'html',
+				dataType :'json',
+				async : false,
 				data : "filterval="+filterval,
 				beforeSend : function (xhr) {
 					$("#listcontainer").html ("<span class='loading'><img src='/images/loading.gif' alt='Loading......'/></span>");
 				},
 				success:function (data){
-					if(data == 'false') {
+					if(data.error == 'true') {
+						$("#showmore").hide ();
 						$("#listcontainer").html ("");
-						$("#newbut").show ();
 					}else {
 						$("#newbut").hide ();
-						$("#listcontainer").html (data);
+						if(data.currentpage < data.lastpage) {
+							$("#showmore").hide ();
+						}else{
+							$("#showmore").show ();
+							found = true;
+						}
+						
+						$("#listcontainer").append (data.data);
+						
+					}
+				}
+			});
+	        $.ajax({
+	    		url : "/poi/profile/findplacetype",
+	    		type : "GET",
+	    		dataType :'json',
+	    		async : false,
+	    		data : "google_place_type="+place_type,
+	    		success:function (data){
+	    		if(data.error == 'true')
+	        		{
+	  			    document.getElementById('type').selectedIndex= 0;
+	    			relative = false;
+	    			$("#newbut").hide ();
+	    			} 
+	    			else 
+	    			{
+	    			for(var i = 0, j = document.getElementById('type').options.length; i < j; ++i) 
+	        			{
+	    			    if(document.getElementById('type').options[i].value === data.placetype) 
+	        			{
+	    			        document.getElementById('type').selectedIndex = i;
+	    					$("#poi_sub_type").val (data.placesubtype);
+	    			        $("#newbut").show ();
+	    			        break;
+	    			    }
+	    			    }
+	        		}
+	        	}
+	    	});
+		});
+
+		$("#type").change(function (){
+			filterval = $("#poititle").val ();
+			selectval = $("#type").val ();
+			page = $("#pageno").val ();
+			if(selectval == 'Select') {
+				return false;
+			}else {
+				$.ajax({
+					url : "/poi/profile/listajax",
+					type : "post",
+					dataType :'json',
+					async : false,
+					data : "filterval="+filterval+"&page="+page,
+					success:function (data){
+						console.log(data);
+						if(data.error == 'true') {
+							$("#showmore").hide ();
+							$("#listcontainer").html ("");
+							 $("#newbut").show ();
+						}else {
+							 $("#newbut").hide ();
+							if(data.currentpage < data.lastpage) {
+								$("#showmore").hide ();
+							}else{
+								$("#showmore").show ();
+							}
+							page++;
+							$("#pageno").val (page);
+							$("#listcontainer").html (data.data);
+							
+						}
+						//alert(data['pois'][0]['poi_name']);
+					}
+				});
+			}
+		});
+		$("#showmore").live("click",function (){
+			$("#newbut").hide ();
+			filterval = $("#poititle").val ();
+			page = $("#pageno").val ();
+			//alert(filterval);
+			$.ajax({
+				url : "/poi/profile/listajax",
+				type : "post",
+				dataType :'json',
+				async : false,
+				data : "filterval="+filterval+"&page="+page,
+				success:function (data){
+					console.log(data);
+					if(data.error == 'true') {
+						$("#showmore").hide ();
+						$("#listcontainer").html ("");
+					}else {
+						if(data.currentpage < data.lastpage) {
+							$("#showmore").show ();
+						}else{
+							$("#showmore").hide ();
+						}
+						page=data.currentpage ;
+						$("#pageno").val (page);
+						$("#listcontainer").append (data.data);
+						
 					}
 					//alert(data['pois'][0]['poi_name']);
 				}
 			});
 		});
-		
 	});
 </script>
 	

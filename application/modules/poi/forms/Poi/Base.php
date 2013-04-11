@@ -8,8 +8,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	    $this->setName('PoiBaseForm')->setMethod('post');
 	    $poi_id = $this->getAttrib('poi_id');
 	    $poi_type = $this->getAttrib('poi_type');
-	    $param_desc_id = $this->getAttrib('param_desc_id');
-	    $param_default_id = 0;
+	    $poi_sub_type = $this->getAttrib('poi_sub_type');
 	     
 	     
 	    $this->addElementPrefixPath(
@@ -20,7 +19,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	    $this->addElement($this->_poiname($poi_id));
 	    $this->addElement($this->_poigroupname());
 	    $this->addElement($this->_locationtype());
-	    $this->addElement($this->_stay_type());
+	    $this->addElement($this->_sub_type($poi_type));
 	    $this->addElement($this->_stay_classification());
 	    $this->addElement($this->_website());
 	    $this->addElement($this->_contact_detail());
@@ -31,19 +30,11 @@ class Poi_Form_Poi_Base extends Core_Form
 	    $this->addElement($this->_lon());
 	    $this->addElement($this->_latlon());
 	    
-	    $this->addElement($this->_poi_restaurant_type());
 	    $this->addElement($this->_poi_dining_options());
 	    $this->addElement($this->_Cuisine());
 	    $this->addElement($this->_poi_halal_yn());
-	    $this->addElement($this->_poi_things_type($param_default_id));
-	    if ($param_desc_id== '')
-	    {
-	        $this->addElement($this->_poi_things_options($param_default_id ));
-	        $this->addElement($this->_poi_things_activity($param_default_id ));
-	    } else {
-	        $this->addElement($this->_poi_things_options($param_desc_id ));
-	        $this->addElement($this->_poi_things_activity($param_desc_id ));
-	    }
+	    $this->addElement($this->_poi_things_options($poi_sub_type));
+	    $this->addElement($this->_poi_things_activity($poi_sub_type));
 	        
 	     
 	    
@@ -118,25 +109,14 @@ class Poi_Form_Poi_Base extends Core_Form
 		return $element;
 	}	
 	
-	protected function _stay_type()
+	protected function _sub_type($type)
 	{
-	    $element= new Zend_Form_Element_Select ( 'poi_stay_type' );
+	    $element= new Zend_Form_Element_Select ( 'poi_sub_type' );
 		$element->class = 'field select medium';
-		$this->_addTypeoptions($element, 'Stay');
+		$this->_addTypeoptions($element, $type);
 		return $element;
 	}
 
-	protected function _poi_restaurant_type()
-	{
-	    $element= new Zend_Form_Element_Select ( 'poi_restaurant_type' );
-		$element->class = 'field select medium';
-		$this->_addTypeoptions($element, 'Eat');
-		return $element;
-	}
-	
-	
-
-	
 	protected function _stay_classification()
 	{
 		$element= new Zend_Form_Element_Select ( 'poi_stay_calssification' );
@@ -201,13 +181,6 @@ class Poi_Form_Poi_Base extends Core_Form
 		return $element;
 	}
 
-	protected function _poi_things_type(&$param_default_id )
-	{
-	    $element= new Zend_Form_Element_Select ( 'poi_things_type' );
-	    $element->class = 'poi_things_type';
-	    $this->_addTypeoptions($element, 'Things');
-	    return $element;
-	}
 	
 	protected function _amenities()
 	{
@@ -261,17 +234,17 @@ class Poi_Form_Poi_Base extends Core_Form
     }
 	
 ///////////////////
-    protected function _poi_things_options($param_desc_id )
+    protected function _poi_things_options($poi_sub_type )
     {
         $element= new Zend_Form_Element_MultiCheckbox ( 'poi_things_options' );
-//        $this->_addoptions ( $element, 'Things', $param_desc_id );
+        $this->_addpoioptions( $element,  'Things_Options',$poi_sub_type );
         return $element;
     }
     
-    protected function _poi_things_activity($param_desc_id )
+    protected function _poi_things_activity($poi_sub_type  )
     {
         $element= new Zend_Form_Element_MultiCheckbox ( 'poi_things_activity' );
-//        $this->_addoptions ( $element, 'Things', $param_desc_id.'__Act' );
+        $this->_addpoioptions( $element,  'Activity_Type',$poi_sub_type );
         return $element;
     }
     
@@ -307,6 +280,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	    if ($param_classification=='Country')
 	    {
 	        $rows = $table->getcountryAll();
+	        $element->addMultiOption("-1","-- Please Select a Country--");
 	        foreach ($rows as $row)
 	        {
 	            $element->addMultiOption($row->country_id,
@@ -314,6 +288,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	        }
 	        return;
 	    }
+	    $element->addMultiOption("-1","-- Please Select--");
 	    foreach ($rows as $row)
 	        {
 	            $element->addMultiOption($row->param_id,
@@ -321,10 +296,10 @@ class Poi_Form_Poi_Base extends Core_Form
 	        }
 	}
 		
-	protected function _addpoioptions (Zend_Form_Element $element, $option_type)
+	protected function _addpoioptions (Zend_Form_Element $element, $option_type,$poi_sub_type = null)
 	{
 	    $table = new Params_Model_Params_Manager();
-	    $rows = $table->getPoiOptionTypes($option_type);
+	    $rows = $table->getPoiOptionTypes($option_type,$poi_sub_type);
 	    foreach ($rows as $row)
 	    {
 	        $element->addMultiOption($row->param_id,
@@ -338,7 +313,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	    if ($param_type=='Things')
 	    {
 	        $datas = $data_model->getTdolist();
-	        $result=array();
+	        $result=array("-1" =>"-- Please Select--");
 	        $breaker = false;
 	        foreach ($datas as $data)
 	        {
@@ -360,6 +335,7 @@ class Poi_Form_Poi_Base extends Core_Form
 	    else
 	    {
 	        $datas = $data_model->getPoiParambyType($param_type);
+	        $element->addMultiOption("-1","-- Please Select--");
 	        foreach ($datas as $data)
 	        {
 	                $element->addMultiOption($data->param_id,
@@ -375,5 +351,9 @@ class Poi_Form_Poi_Base extends Core_Form
     	    $element = $this->getElement ( $name );
 	    	$element->setValue ( $value);
 		}
+	}
+	public function _setValue($name,$val) {
+		$element = $this->getElement ( $name );
+		$element->setValue ( $val);
 	}
 }

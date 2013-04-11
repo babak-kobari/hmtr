@@ -1,0 +1,7 @@
+social:
+  route: social
+   defaults:
+    module: social
+    controller: index
+    action: index
+    

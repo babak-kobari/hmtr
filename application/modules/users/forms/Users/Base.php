@@ -231,7 +231,7 @@ class Users_Form_Users_Base extends Core_Form
     protected function _addoptions (Zend_Form_Element_Select $element, $param_type,
             $param_classification)
     {
-        $data_model = new Users_Model_Param_Table();
+        $data_model = new Params_Model_Params_Manager();
         $datas = $data_model->getParamList($param_type, $param_classification);
         foreach ($datas as $data) 
         {

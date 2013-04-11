@@ -52,7 +52,14 @@ class Exp_Form_Exp_Intro extends Core_Form
 	{
 	    $element= new Zend_Form_Element_Select ( 'exp_country' );
 	    $element->class = 'field select medium';
-	    $this->_addoptions ( $element, 'Gen', 'Country');
+
+	    $table = new Params_Model_Params_Manager();
+        $rows=$table->getcountryAll();
+        foreach ($rows as $data)
+            {
+               $element->addMultiOption($data->country_id,
+               $data->country_name);
+            }
 	    return $element;
 	}
 	protected function _expcity()
@@ -96,14 +103,28 @@ class Exp_Form_Exp_Intro extends Core_Form
 	{
 	    $element= new Zend_Form_Element_Select ( 'exp_travel_with' );
 	    $element->class = 'field select medium';
-	    $this->_addoptions ( $element, 'Gen', 'Travel_With' );
+	    $table = new Params_Model_Params_Manager();
+	    $rows=$table->getTravelwithAll();
+	    foreach ($rows as $data)
+	    {
+	        $element->addMultiOption($data->param_id,
+	                $data->param_desc);
+	    }
+	     
 	    return $element;
 	}
 	protected function _exptravel_objective()
 	{
 	    $element= new Zend_Form_Element_Select ( 'exp_travel_objective' );
 	    $element->class = 'field select medium';
-	    $this->_addoptions ( $element, 'Gen', 'travel_objective' );
+	    $table = new Params_Model_Params_Manager();
+	    $rows=$table->getTravelOpjectiveAll();
+	    foreach ($rows as $data)
+	    {
+	        $element->addMultiOption($data->param_id,
+	                $data->param_desc);
+	    }
+	     
 	    return $element;
 	}
 	protected function _expmount()
@@ -139,7 +160,7 @@ class Exp_Form_Exp_Intro extends Core_Form
 	protected function _addoptions (Zend_Form_Element $element, $param_type,
 	        $param_classification)
 	{
-	    $data_model = new Users_Model_Param_Table();
+	    $data_model = new Params_Model_Param_Table();
 	    $datas = $data_model->getParamList($param_type, $param_classification);
 	    if ($param_classification=='TDO_Type')
 	    {

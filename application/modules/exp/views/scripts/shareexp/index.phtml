@@ -88,7 +88,7 @@ select {
 				<option value="">------</option>
 				<?php if (count($this->travel_with) > 0) {?>
 					<?php foreach ($this->travel_with as $types) { ?>
-						<option value="<?php echo $types['param_id']?>"><?php echo $types['param_category_desc']?></option>
+						<option value="<?php echo $types['param_id']?>"><?php echo $types['param_desc']?></option>
 					<?php }?>
 				<?php }?>
 					
@@ -99,7 +99,7 @@ select {
 				<option value="">------</option>
 				<?php if (count($this->travel_objectives) > 0) {?>
 					<?php foreach ($this->travel_objectives as $obj) { ?>
-						<option value="<?php echo $obj['param_id']?>"><?php echo $obj['param_category_desc']?></option>
+						<option value="<?php echo $obj['param_id']?>"><?php echo $obj['param_desc']?></option>
 					<?php }?>
 				<?php }?>
 					
@@ -114,6 +114,7 @@ select {
 				<option value= "WIP">WIP</option>
 				<option value= "Completed">Completed</option>
 				<option value= "Published">Published</option>
+				<option value= "Deleted">Published</option>
 				
 			</select>
 		</td>
@@ -133,17 +134,26 @@ select {
 	  				
 	  				<td><?php echo $this->escape($result['exp_days']);?></td>
 	  				
-	  				<td><?php echo $this->escape($result['travel_With']);?></td>
-	  				<td><?php echo $this->escape($result['travel_Objective']);?></td>
+	  				<td><?php echo $this->escape($result['travel_with']);?></td>
+	  				<td><?php echo $this->escape($result['travel_objective']);?></td>
 	  				<td><?php echo $this->escape($result['exp_total_cost']);?></td>
 	  				
 	  				<td><?php echo $this->escape($result['exp_status']);?></td>
 	  				<td>
-	  					<?php if ($result['exp_status'] == 'WIP'){
-	  						 echo "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Delete\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
-	  						
-	  					}
-	  					echo "<a  class = 'deleterec' href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+	  					<?php 
+	  					    if ($result['exp_status'] == 'WIP')
+	  					    {
+	  						echo "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Edit\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
+                            echo "<a  class = 'tempdeleterec' id = "."'TD_".$result['exp_id']."'"."><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+	  					    } 
+	  					    if ($result['exp_status'] == 'Published' or  $result['exp_status'] == 'Completed') 
+	  					        echo "<a  class = 'makewiprec' id = "."'MW_".$result['exp_id']."'"."><img src=\"/images/redo.png\" alt=\"Convert to WIP\" title = 'Make it WIP' height=\"20px\"width=\"20px\"  /></a>";
+	  					    if ($result['exp_status'] == 'Deleted') 
+	  					      {
+	  					        echo "<a  class = 'deleterec' id = "."'PD_".$result['exp_id']."'"."><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+                                echo "<a  class = 'makewiprec' id = "."'MW_".$result['exp_id']."'"."><img src=\"/images/redo.png\" alt=\"Convert to WIP\" title = 'Make it WIP' height=\"20px\"width=\"20px\"  /></a>";
+                              }
+                                                                    
 	  					?>
 	  				</td>
 	  				

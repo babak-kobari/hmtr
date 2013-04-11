@@ -1,0 +1,6 @@
+header:
+  socialmenu:
+    label: Friendds
+    route: social
+    class: friends
+    order: 20

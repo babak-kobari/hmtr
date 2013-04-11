@@ -15,18 +15,21 @@ class Poi_Model_Poi_Manager extends Core_Model_Manager
 	}
 	public function getPoiList(array $poicriteri, $pager, $short = false) {
 		$poi_table = new Poi_Model_Poi_Table ();
-		return $poi_table->getPoiList ( $poicriteri, $pager, $short = false );
+		return $poi_table->getPoiList ( $poicriteri, $pager, $short);
 	}
-	
+	public function getTotalPois(array $poicriteri) {
+		$poi_table = new Poi_Model_Poi_Table ();
+		return $poi_table->getTotalPois ( $poicriteri);
+	}
 	public function getrelatedPoibyType($poi_id, $poi_type = null) {
 		$table = new Poi_Model_Relatedpoi_Table ();
 		$rows = $table->getPoibyType ( $poi_id, $poi_type );
 		return $rows;
 	}
 	
-	public function getPoiListbyType($poi_tpye, $paged = null, $shoert = false) {
+	public function getPoiListbyType($poi_tpye, $paged = null, $shoert = false, $country = null) {
 		$table = new Poi_Model_Poi_Table ();
-		$rows = $table->getPoiListbyType ( $poi_tpye );
+		$rows = $table->getPoiListbyType ( $poi_tpye,$paged,$shoert,$country );
 		return $rows;
 	}
 	
@@ -47,9 +50,9 @@ class Poi_Model_Poi_Manager extends Core_Model_Manager
 		if ($poi_type == 'Eat' and isset ( $info ['Cuisine'] ))
 			$facl_table->savefaclrows ( $info ['Cuisine'], $poi_id, $params ['Cuisine'], 'Cuisine' );
 		if ($poi_type == 'Things' and isset ( $info ['poi_things_options'] ))
-			$facl_table->savefaclrows ( $info ['poi_things_options'], $poi_id, $params ['Things_options'], 'Things_options' );
+			$facl_table->savefaclrows ( $info ['poi_things_options'], $poi_id, $params ['Things_Options'], 'Things_Options' );
 		if ($poi_type == 'Things' and isset ( $info ['poi_things_activity'] ))
-			$facl_table->savefaclrows ( $info ['poi_things_activity'], $poi_id, $params ['poi_things_activity'], 'Things_activity' );
+			$facl_table->savefaclrows ( $info ['poi_things_activity'], $poi_id, $params ['Activity_Type'], 'Activity_Type' );
 			/*			 * Image renaming			 */
 		if ($form->getElement ( 'poi_images' )->isUploaded ()) {
 			$image_extension = pathinfo ( $form->getElement ( 'poi_images' )->getValue (), PATHINFO_EXTENSION );
@@ -99,5 +102,9 @@ class Poi_Model_Poi_Manager extends Core_Model_Manager
 		$imageTable = new Poi_Model_Poiimages_Table();
 		return $imageTable->deleteImage($imgid);
 	}
-
+	public function getpoifact($poi_id,$poi_option_type) {
+	    $Table = new Poi_Model_Poifacl_Table();
+	    return $Table->getpoifacil($poi_id, $poi_option_type);
+	}
+	
 }

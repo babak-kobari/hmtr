@@ -14,8 +14,8 @@ production:
   appnamespace: Application
   autoloadernamespaces:
     - Core
-    - SF
     - Facebook
+    - Ajab_  
   uploadDir: uploads
   resources:
     frontController:

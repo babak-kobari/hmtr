@@ -15,7 +15,11 @@ class Poi_ProfileController extends Core_Controller_Action
 	protected $_poimodel;
 	
 	//protected $_poiImageModel;
-
+	private  $_totalPOIRecords = 0;
+	
+	private $_currentPage = 1;
+	
+	private $_lastPage ;
 	public function init() 
 	{
         $this->view->leftbar1title='Points of Interest';
@@ -49,7 +53,7 @@ class Poi_ProfileController extends Core_Controller_Action
 	    $poi['poi_ranking']=$row['overall_rating'];
 	    $poi['poi_trip_advisor_ranking']=0;
 	        $poi['poi_type']='Stay';
-	        $poi['poi_stay_type']=$row['property_type_id']+1;
+	        $poi['poi_sub_type']=$row['property_type_id']+1;
 	    	                $poi['poi_stay_calssification']=$row['hotelstar'];
 	    	                $country_id= $this->_parammodel->getcountrybyCode($row['country_code'])->toArray();
 	    	                $poi['poi_country']=$country_id['country_id'];
@@ -60,11 +64,8 @@ class Poi_ProfileController extends Core_Controller_Action
 	    	                                $poi['poi_location_type']=1;
 	        $poi['poi_web_site']='website';
 	        $poi['poi_contact detail']='website';
-	        $poi['poi_restaurant_type']=null;
 	        $poi['poi_dining option']=null;
 	        $poi['poi_halal_yn']=null;
-	        $poi['poi_things_type']=null;
-	        $poi['poi_things_type']=null;
 	        $poi['poi_activity_type']=null;
 	        $poi['poi_working_Time']=null;
 	        $poi['poi_average_cost']=null;
@@ -99,11 +100,25 @@ public function listajaxAction()
 		$this->_helper->layout()->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);
 	    $request = $this->getRequest();
+	    
 	    //echo "<pre>";print_r($request->getParams());exit;
 		$criteria = array ('filterval' => $request->getParam ('filterval'));
-		$pois = $this->_poimodel->getPoiList ( $criteria, $request->getParam ('page', 1 ), false );
-	    $pois = $pois->toArray();
-	    $imagePath = '/uploads/';
+
+		$totalCount = $this->_poimodel->getTotalPois($criteria);
+		$totalCount = $totalCount->toArray();
+
+		$this->_totalPOIRecords= $totalCount[0]['totalRecods'];
+		$this->_lastPage = ceil($this->_totalPOIRecords/10);
+
+		$this->view->lastPage = $this->_lastPage;
+		
+		$poi_page = $request->getParam ('page', 0 )+1;
+		$this->view->pageno = $this->_currentPage =  $poi_page;
+		
+		$pois = $this->_poimodel->getPoiList ( $criteria,  $poi_page, false );
+		$pois = $pois->toArray();
+
+		$imagePath = '/uploads/';
 	    if(count($pois) > 0 ){
 	    	for ($count = 0; $count < count($pois);$count++) {
 	    		$t =  $this->_poimodel->getDefaultImage($pois[$count]['poi_id']);
@@ -137,20 +152,88 @@ public function listajaxAction()
 	    				$str .= "<p> <a href='/poi/profile/generalinfo/".$poi['poi_id']."' class ='testaj'>Edit</a></p>";
 	    				$str .="</li></ul></div>";
 	    	}
-	    	print $str;exit;
+	    	if ($this->_currentPage < $this->_lastPage) {
+	    		
+	    		
+	    	}
+	    	$data = array();
+	    	$data['error'] = 'false';
+	    	$data['currentpage'] = $this->_currentPage;
+	    	$data['lastpage'] = $this->_lastPage;
+	    	$data['data'] = $str;
+	    	echo json_encode($data);exit;
 	    }else {
-	    	echo "false";
+	    	$data = array();
+	    	$data['error'] = 'true';
+	    	$data['currentpage'] = $this->_currentPage;
+	    	$data['lastpage'] = $this->_lastPage;
+	    	echo json_encode($data);exit;
 	    }
-	    	
-	    
-	   
-        
 	}
+
+
+	public function findplacetypeAction()
+	{
+	    $this->_helper->layout()->disableLayout();
+	    $this->_helper->viewRenderer->setNoRender(true);
+	    $request = $this->getRequest();
+	    if($request->getParam ('google_place_type') == '') {
+	    	echo json_encode("false");
+	    }else {
+	    	$google_place_types=explode(",", $request->getParam ('google_place_type'));
+	    	 
+	    	 
+	    	$sw = false;
+	    	foreach ($google_place_types as $google_place_type)
+	    	{
+	    		$place = $this->_parammodel->gettypebygooglecode($google_place_type);
+	    		if(isset($place)) {
+	    			$place = $place->toArray();
+	    		}
+	    		if (isset($place['place_type']))
+	    		{
+	    			$sw = true;
+	    			break;
+	    		}
+	    	}
+	    	$google_place_type=str_replace("_", " ", $google_place_type);
+    	    $place_subtype=$this->_parammodel->getPoiParambydesc($google_place_type);
+	    	if (isset($place_subtype))
+	    	    $place_subtype=$place_subtype->toArray();
+            $data = array();
+	    	if ($sw)
+	    	{
+                $data['error'] = 'false';
+	    	    $data['placetype'] = $place['place_type'];
+	    	    $data['placesubtype'] = $place_subtype['param_id'];
+	    	}
+	    	else
+	    	    $data['error'] = 'true';
+	    	    
+	    	echo json_encode($data);exit;
+	    	
+	    	}
+	    }
+	
 	public function indexAction() 
 	{
-	    $request = $this->getRequest();
+		
+		$request = $this->getRequest();
 		$criteria = array ();
-	    $pois = $this->_poimodel->getPoiList ( $criteria, $request->getParam ('page', 1 ), false );
+		$totalCount = $this->_poimodel->getTotalPois($criteria);
+		$totalCount = $totalCount->toArray();
+
+		$this->_totalPOIRecords= $totalCount[0]['totalRecods'];
+		$this->_lastPage = ceil($this->_totalPOIRecords/10);
+		$this->view->lastPage = $this->_lastPage;
+		
+		$this->view->pageno = $this->_currentPage;
+		
+		$poipage = $request->getParam ('page', 0 )+1;
+		
+	    $this->view->pageno = $this->_currentPage =  $poipage;
+
+	    $pois = $this->_poimodel->getPoiList ( $criteria,$poipage , false );
 	    $pois = $pois->toArray();
 	    
 	    if(count($pois) > 0 ){
@@ -164,7 +247,10 @@ public function listajaxAction()
 	    		
 	    	}
 	    }
+	    $this->view->pois = $pois;
 	    //echo "<pre>";print_r($pois);exit;
+/* to be removed as we dont use paginator any more 
+	    
 	    $paginator = Zend_Paginator::factory($pois);
 	    $paginator->setCurrentPageNumber($this->getRequest ()->getParam ( 'page', 1 ));
 	    $paginator->setItemCountPerPage(10);
@@ -176,25 +262,10 @@ public function listajaxAction()
 	    	 $this->view->paginator = $paginator;
 	    	 $this->view->assign ( array ('pois' => $pois));
 	    }
-	   
+*/	   
         
 	}
 	
-	public function addstayAction()
-	{
-	    $Stay=$this->_setParam('poi_type', 'Stay');
-	     $this->_forward('generalinfo');
-	}
-	public function addeatAction()
-	{
-	    $Eat=$this->_setParam('poi_type', 'Eat');
-	    $this->_forward('generalinfo');
-	}
-	public function addthingsAction()
-	{
-	    $Things=$this->_setParam('poi_type', 'Things');
-	    $this->_forward('generalinfo');
-	}
 	
 	
 	
@@ -202,17 +273,14 @@ public function listajaxAction()
 	public function thngsparamAction()
 	{
 	    $poi_id=$this->_getParam('id');
-	    $thingsparam=$this->_getParam('param_id');
-	    $paramtable= new Users_Model_Param_Table();
-	    $thingsparam=$paramtable->getparambyId($thingsparam);
+	    $param_id=$this->_getParam('param_id');
 	    $params=array(
-	            'Things_options'=>array(),
-	            'Things_activity'=>array());
+	            'Things_Options'=>array(),
+	            'Activity_Type'=>array());
 	    if (!$poi_id=='undefined')
 	    {
-	        $row = $this->_poimodel->getPoibyId ( $poi_id );
-	        $params['Things_options']=$row->getFacl($thingsparam->param_category_id)->toarray();
-	        $params['Things_activity']=$row->getFacl($thingsparam->param_category_id.'__Act')->toarray();
+	        $params['Things_Options']=$this->_poimodel->getpoifact($poi_id, 'Things_Options');
+	        $params['Activity_Type']=$this->_poimodel->getpoifact($poi_id, 'Activity_Type');
 	    }
 	    $facl_value = array();
 	    foreach ($params as $key => $value)
@@ -226,104 +294,223 @@ public function listajaxAction()
 	    }
 	    
 	     
-	    $form = new Poi_Form_Poi_Things(array('param_desc_id' => $thingsparam->param_category_desc));
+	    $form = new Poi_Form_Poi_Things(array('poi_sub_type' => $param_id));
 	    $this->view->form = $form;
-	    $form->_setfaclvalue ($facl_value['Things_options'],'poi_things_options');
-        $form->_setfaclvalue ($facl_value['Things_activity'],'poi_things_activity');
+	    $form->_setfaclvalue ($facl_value['Things_Options'],'poi_things_options');
+        $form->_setfaclvalue ($facl_value['Activity_Type'],'poi_things_activity');
 	    $this->_helper->layout->disableLayout();
 	    $this->render('poithingsparams');
         	}
 
-	
+
+        public function addnewAction () {
+            $request = $this->getRequest();
+            $param = $this->checkParamValid($request->getParam('place_name'));
+            if (isset($param) and !is_null($param) and $param!="")
+            {
+               $request->setParam("poi_name", $this->checkParamValid($request->getParam('place_name')));
+            }
+            unset($param);
+            $param = $this->checkParamValid($request->getParam('website'));
+            if (isset($param) and !is_null($param) and $param!="")
+                        {
+                
+                $request->setParam("poi_web_site", $this->checkParamValid($request->getParam('website')));
+            }
+            unset($param);
+            $param = $this->checkParamValid($request->getParam('place_phone'));
+            if (isset($param) and !is_null($param) and $param!="")
+            
+               {
+                $request->setParam("poi_contact_detail", $this->checkParamValid($request->getParam('place_phone')));
+               }                    
+            unset($param);
+            $param = $this->checkParamValid($request->getParam('country'));
+            if (isset($param) and !is_null($param) and $param!="")
+            {
+                $poi_country_code = $this->checkParamValid($request->getParam('country'));
+                $poi_country_id = $this->_parammodel->getcountrybyCode($poi_country_code)->toArray();
+                $request->setParam("poi_country",$poi_country_id['country_id'] );
+            }
+            unset($param);
+            $param = $this->checkParamValid($request->getParam('locality'));
+            if (isset($param) and !is_null($param) and $param!="")
+                        {
+                $request->setParam("poi_city", $this->checkParamValid($request->getParam('locality')));
+            }
+            unset($param);
+            $param = $this->checkParamValid($request->getParam('poititle'));
+            if (isset($param) and !is_null($param) and $param!="")
+            
+            {
+                $request->setParam("poi_area", $this->checkParamValid($request->getParam('poititle')));
+            }
+            unset($param);
+            $param = $this->checkParamValid($request->getParam('lat'));
+            if (isset($param) and !is_null($param) and $param!="")
+            
+            {
+                $request->setParam("poi_lat", $this->checkParamValid($request->getParam('lat')));
+            }
+            unset($param);
+            $param = $this->checkParamValid($request->getParam('lon'));
+            if (isset($param) and !is_null($param) and $param!="")
+            
+            {
+                $request->setParam("poi_lon", $this->checkParamValid($request->getParam('lon')));
+            }
+            unset($param);
+            $param = $this->checkParamValid($request->getParam('type'));
+            if (isset($param) and !is_null($param) and $param!="")
+            
+            {
+                $request->setParam("poi_type", $this->checkParamValid($request->getParam('type')));
+            }
+            unset($param);
+            $param = $this->checkParamValid($request->getParam('poi_sub_type'));
+            if (isset($param) and !is_null($param) and $param!="")
+            
+            {
+                $request->setParam("poi_sub_type", $this->checkParamValid($request->getParam('poi_sub_type')));
+            }
+            $this->_forward ( 'generalinfo' );
+        	}
+        	 
+        	
 	public function generalinfoAction() 
 	{
 	   	$request = $this->getRequest();
-	   	//echo "<pre>";print_r($request->getParams());exit;
+	   	$data=$request->getPost ();
 		$poi_id=$this->_getParam('id');
-	    $poi_type=$this->_getParam('poi_type');
-	    $params=array('Amenities'=>array(),
-	                  'Dining_Options'=>array(),
-	                  'Cuisine'=>array(),
-	                  'Things_options'=>array(),
-	                  'Things_activity'=>array());
-	    $images=array();
-	    $thingsparam = array();
-	    $thingsparam['param_category_desc']='';
-	     
-// ----------------- Get Params Filled in	    
-	    
-	    
-	    if (!is_null($poi_id))
-	    {
+		$params=array('Amenities'=>array(),
+		        'Dining_Options'=>array(),
+		        'Cuisine'=>array(),
+		        'Things_Options'=>array(),
+		        'Activity_Type'=>array());
+		$images=array();
+		$thingsparam = array();
+		$thingsparam['param_category_desc']='';
+		
+		
+	   	if (isset($data['locality']) and $poi_id == 0)
+	   	{
+	   	    $pre_add = true;
+	   	    $save_new = false;
+	   	    $pre_edit = false;
+	   	    $update_rec = false;
+	   	}
+	   	if (!isset($data['locality']) and $poi_id == 0)
+	   	{
+	   	    $pre_add = false;
+	   	    $save_new = true;
+	   	    $pre_edit = false;
+	   	    $update_rec = false;
+//	   	echo "<pre>";print_r('add new');exit;
+	   	}
+	   	if (!$this->_request->isPost() and $poi_id != 0)
+	   	    {
+	   	    $pre_add = false;
+	   	    $save_new = false;
+	   	    $pre_edit = true;
+	   	    $update_rec = false;
+	   	    }
+	   	if ($this->_request->isPost() and $poi_id != 0)
+	   	{
+	   	    $pre_add = false;
+	   	    $save_new = false;
+	   	    $pre_edit = false;
+	   	    $update_rec = true;
+	   	}
+	   	 
+	   		  
+// ---------------- user clicked on add new in index view	   	 
+        if ($pre_add)
+        {
+         $poi_type=$this->_getParam('poi_type');
+         $poi_sub_type =$this->_getParam('poi_sub_type');
+        }   
+// ---------------- user clicked on update in generalinfo to add the record
+        if ($save_new)
+        {
+            $poi_type=$data['poi_type'];
+            $poi_sub_type =$data['poi_sub_type'];
+        }
+// ---------------- user clicked on update in generalinfo to edit the record
+        if ($pre_edit)
+        {
 	        $row = $this->_poimodel->getPoibyId ( $poi_id );
 	        $poi_type=$row['poi_type'];
+	        $poi_sub_type =$row['poi_sub_type'];
+        }
+        // ---------------- user clicked on update in generalinfo to edit the record
+        if ($update_rec)
+        {
+            $row = $this->_poimodel->getPoibyId ( $poi_id );
+            $poi_type=$row['poi_type'];
+	        $poi_sub_type =$row['poi_sub_type'];
+        }
+        
+        $poi_sub_type = null;
+// ----------------- Get Params Filled in	and editing the record
+	    
+	    
+	    if ($pre_edit or $update_rec)
+	    {
 	        $images=$row->getImages()->toarray();
 	        if ($poi_type=='Stay')
 	        {
-    	        $params['Amenities']=$row->getFacl('Amenities');
+    	        $params['Amenities']=$this->_poimodel->getpoifact($poi_id, 'Amenities');
 	        }
 	    	if ($poi_type=='Eat')
 	        {
-    	        $params['Dining_Options']=$row->getFacl('Dining_Options');
-	            $params['Cuisine']=$row->getFacl('Cuisine');
+    	        $params['Dining_Options']=$this->_poimodel->getpoifact($poi_id, 'Dining_Options');
+	            $params['Cuisine']=$this->_poimodel->getpoifact($poi_id, 'Cuisine');
 	        }
 	    	if ($poi_type=='Things')
 	        {
-	            $paramtable= new Users_Model_Param_Table();
-	            $thingsparam=$paramtable->getparambyId($row->poi_things_type);
-    	        $params['Things_options']=$row->getFacl('Things_options');
-	            $params['Things_activity']=$row->getFacl('Things_activity');
+    	        $params['Things_Options']=$this->_poimodel->getpoifact($poi_id, 'Things_Options');
+	            $params['Activity_Type']=$this->_poimodel->getpoifact($poi_id, 'Activity_Type');
+	        } 
+	        $facl_value = array();
+	        foreach ($params as $key => $value)
+	            {
+	            $facl_temp = array();
+	            foreach ($value as $key2 => $value2)
+	                {
+	                $facl_temp=array_merge($facl_temp,explode(' ',$value2['poifcl_param_id']));
+	                }
+	            $facl_value[$key]=$facl_temp;
 	        }
 	    }
 	    
 	    
-	    
-	    
-	    
-	    $facl_value = array();
-	    foreach ($params as $key => $value)
-	    {
-	        $facl_temp = array();
-	        foreach ($value as $key2 => $value2)
-	        {
-	            $facl_temp=array_merge($facl_temp,explode(' ',$value2['poifcl_param_id']));
-	        }
-	        $facl_value[$key]=$facl_temp;
-	    }
-
-	    
-	    $form = new Poi_Form_Poi_Generalinfo(array('poi_id'=>$poi_id,'poi_type'=>$poi_type,    
-	            'param_desc_id' => $thingsparam['param_category_desc']));
+	    $form = new Poi_Form_Poi_Generalinfo(
+	            array('poi_id'=>$poi_id,
+	                  'poi_type'=>$poi_type,    
+	                  'poi_sub_type' => $poi_sub_type));
 	     
 	    if (isset($row )){
-	    	//echo "<pre>";print_r($row->toarray());exit;
 	        $this->view->form= $form->populate($row->toarray());
 	    }
 	    else
 	    {
-            $defaultsArray = array ();
-            //if ($request->getParam(""))
-            //$defaultsArray['poi_web_site'] = "http://google.com";
 	    	$this->view->form =  $form->populate($request->getParams());
 	    }
 	    
 	    
-	    
+	    if ($pre_edit or $update_rec)
+	    {
 	    if ($poi_type=='Stay' and isset($facl_value['Amenities']))
     	    $form->_setfaclvalue ($facl_value['Amenities'],'poi_amenities');
 	    if ($poi_type=='Eat' and isset($facl_value['Dining_Options']))
 	        $form->_setfaclvalue ($facl_value['Dining_Options'],'poi_dining_options');
 	    if ($poi_type=='Eat' and isset($facl_value['Cuisine']))
     	    $form->_setfaclvalue ($facl_value['Cuisine'],'Cuisine');
-	    if ($poi_type=='Things' and isset($facl_value['Things_options']))
-	        $form->_setfaclvalue ($facl_value['Things_options'],'poi_things_options');
-	    if ($poi_type=='Things' and isset($facl_value['Things_activity']))
-	        $form->_setfaclvalue ($facl_value['Things_activity'],'poi_things_activity');
-		
-	    if ($poi_type == "Stay") {
-	    	//$form->_setValue("","http://ggoel.com");
+	    if ($poi_type=='Things' and isset($facl_value['Things_Options']))
+	        $form->_setfaclvalue ($facl_value['Things_Options'],'poi_things_options');
+	    if ($poi_type=='Things' and isset($facl_value['Activity_Type']))
+	        $form->_setfaclvalue ($facl_value['Activity_Type'],'poi_things_activity');
 	    }
-	    
 	    
 	    
 	    $this->view->headScript()->appendFile('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');
@@ -340,18 +527,17 @@ public function listajaxAction()
 	    
 	    
 	    
-	    if ($this->_request->isPost())
+	    if ($update_rec or $save_new)
 	    {
-	    
 	        $info= $this->_getAllParams();
 		    $request = $this->getRequest ();
 	        $row=$request->getPost (); 
 	        $poi_id=$this->_poimodel->savePoi($form, $row,$poi_id,$poi_type,$params,$images);
 
-	        
-	        
 	        $this->_helper->flashMessenger('Profile Updated');
 	        $row = $this->_poimodel->getPoibyId ( $poi_id );
+	        $this->view->form= $form->populate($row->toarray());
+	         
 	    	if ($poi_type=='Stay')
     	        $form->_setfaclvalue ($info ['poi_amenities'],'poi_amenities');
 	        if ($poi_type=='Eat')
@@ -359,12 +545,18 @@ public function listajaxAction()
 	            $form->_setfaclvalue ($info ['poi_dining_options'],'poi_dining_options');
 	            $form->_setfaclvalue ($info ['Cuisine'],'Cuisine');
 	        }
+	        if ($poi_type=='Things')
+	        {
+	            $form->_setfaclvalue ($facl_value['Things_Options'],'poi_things_options');
+	            $form->_setfaclvalue ($facl_value['Activity_Type'],'poi_things_activity');
+	        }
 	        $a=$row->getImages()->toarray();
 	        $this->view->images=$a;
-//	        $this->_helper->redirector('index');
-	        $this->render('generalinfo');
-	         
-	    
+//            if ($save_new)
+//	            $this->render('addnew');
+//            else 
+               $this->render('generalinfo');
+                
 	    }
 	     
 	}
@@ -376,9 +568,12 @@ public function listajaxAction()
 	    if (!$this->_request->isPost())
 	    {
 	    $poi_type=$this->_getParam('poi_type');
-	    $staylist=$this->_poimodel->getPoiListbyType('Stay')->toArray();
-	    $eatlist=$this->_poimodel->getPoiListbyType('Eat')->toArray();
-	    $thingslist=$this->_poimodel->getPoiListbyType('Things')->toArray();
+	    $poicriteri['poi_type']='Stay';
+	    $staylist=$this->_poimodel->getPoiList($poicriteri,null,true)->toArray();
+	    $poicriteri['poi_type']='Eat';
+	    $eatlist=$this->_poimodel->getPoiList($poicriteri,null,true)->toArray();
+	    $poicriteri['poi_type']='Things';
+	    $thingslist=$this->_poimodel->getPoiList($poicriteri,null,true)->toArray();
 	    $relatedlist=$this->_poimodel->getrelatedPoibyType($poi_id);
 	    $thispoi = $this->_poimodel->getPoibyId($poi_id)->toArray();
 
@@ -432,12 +627,12 @@ public function listajaxAction()
 	    $images=$row->getImages()->toarray();
 	        if ($poi_type=='Stay')
 	        {
-	            $params['Amenities']=$row->getFacl('Amenities')->toarray();
+	            $params['Amenities']=$this->_poimodel->getpoifact($poi_id, 'Amenities')->toArray();
 	        }
 	        if ($poi_type=='Eat')
 	        {
-	            $params['Dining_Options']=$row->getFacl('Dining_Options')->toarray();
-	            $params['Cuisine']=$row->getFacl('Cuisine')->toarray();
+	            $params['Dining_Options']=$this->_poimodel->getpoifact($poi_id, 'Dining_Options')->toArray();
+	            $params['Cuisine']=$this->_poimodel->getpoifact($poi_id, 'Cuisine')->toArray();
 	        }
 	    $facl_value = array();
 	    foreach ($params as $key => $value)
@@ -519,27 +714,6 @@ public function listajaxAction()
     	}
 	} 
 	
-	public function addnewAction () {
-		$request = $this->getRequest();
-		if ($request->isPost ()) {
-			if ($request->getParam("Stay")) {
-				
-			}else if($request->getParam("Eat")) {
-				
-			}else {
-				$this->_setParam('poi_type', 'Things');
-			}
-			$request->setParam("poi_web_site", $this->checkParamValid($request->getParam('website')));
-			$request->setParam("poi_contact_detail", $this->checkParamValid($request->getParam('place_phone')));
-			$request->setParam("poi_city", $this->checkParamValid($request->getParam('locality')));
-			$request->setParam("poi_area", $this->checkParamValid($request->getParam('poititle')));
-			
-			$request->setParam("poi_lat", $this->checkParamValid($request->getParam('lat')));
-			$request->setParam("poi_lon", $this->checkParamValid($request->getParam('lon')));
-		}
-		
-		$this->_forward ( 'generalinfo' );
-	}
 	public function quickviewAction() {
 		$this->_helper->layout->disableLayout ();
 		$request = $this->getRequest ();
@@ -563,7 +737,7 @@ public function listajaxAction()
 	}
 	private function checkParamValid ($str) {
 		$str = trim($str);
-		if($str == "" || $str == 'undefined') {
+		if($str == "" || $str == 'undefined' || $str == 'none' ) {
 			return "";
 		}else {
 			return $str;

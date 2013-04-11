@@ -19,7 +19,7 @@ recoverPassword:
   defaults:
     module: users
     controller: login
-    action: recover-password
+    action: recoverpassword
 
 cancelPasswordRecoveryAction:
   type: Zend_Controller_Router_Route

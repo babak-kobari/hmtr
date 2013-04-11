@@ -49,7 +49,17 @@ class Exp_Model_Expdays_Table extends Core_Db_Table_Abstract
 	    return $this->fetchRow($select);
 	}
 	
+	public function deleteexpdaysbyexpId($exp_id)
+	{
+	    $this->delete('exp_id = '.$exp_id);
+	}
 	
+	public function expchangestatusbyexpId($exp_id,$status)
+	{
+	    $data = array('exp_status'=> $status);
+	    $where = 'exp_id = '.$exp_id;
+	    $this->update($data,$where);
+	}
 	
 	
 }

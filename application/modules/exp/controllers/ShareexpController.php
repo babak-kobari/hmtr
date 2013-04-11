@@ -21,8 +21,11 @@ class Exp_ShareexpController extends Core_Controller_Action
         
 	    $this->_expmodel = new Exp_Model_Exp_Manager();
         $this->_poimodel = new Poi_Model_Poi_Manager();
-        $this->_parammodel = new Users_Model_Param_Table();
-        $this->_identity = Zend_Auth::getInstance()->getIdentity()->id;
+        $this->_parammodel = new Params_Model_Params_Manager();
+        if (isset(Zend_Auth::getInstance()->getIdentity()->id))
+            $this->_identity = Zend_Auth::getInstance()->getIdentity()->id;
+        else
+            return ;
         
 	    	     
 	}
@@ -32,27 +35,10 @@ class Exp_ShareexpController extends Core_Controller_Action
         try {
             $filterArray= array();
             $user_id=$this->_identity;
-            $temp_array = array();
-            $temp_array= $this->_parammodel->getParamList('Gen','Country')->toArray();
-            $countris=$temp_array;
-            foreach ($temp_array as $key=>$value)
-            {
-                $countris_array[$value['param_id']]=$value['param_category_desc'];
-            }
-            unset($temp_array);
-            $temp_array= $this->_parammodel->getParamList('Gen','Travel_Objective')->toArray();
-            foreach ($temp_array as $key=>$value)
-            {
-                $travel_objective[$value['param_id']]=$value['param_category_desc'];
-            }
-            
-            unset($temp_array);
-            $temp_array= $this->_parammodel->getParamList('Gen','Travel_With')->toArray();
-            foreach ($temp_array as $key=>$value)
-            {
-                $travel_with[$value['param_id']]=$value['param_category_desc'];
-            }
-            
+
+            $countris= $this->_parammodel->getcountryList()->toArray();
+            $travel_objective= $this->_parammodel->getTravelOpjectiveAll()->toArray();
+            $travel_with = $this->_parammodel->getTravelwithAll()->toArray();
             $user_countries=$this->_expmodel->getexpcountriesbyuser($user_id,$countris);
             
             
@@ -61,7 +47,7 @@ class Exp_ShareexpController extends Core_Controller_Action
         	$this->view->travel_with = $travel_with;
         	$this->view->travel_objectives = $travel_objective;
         	$this->view->totalWIP = $this->_expmodel->gettotalWIP($user_id);
-        	$this->view->resultSet = $this->_expmodel->getexpdetail($user_id,$filterArray,$countris_array,$travel_with,$travel_objective);
+        	$this->view->resultSet = $this->_expmodel->getexpdetail($user_id,$filterArray,$countris,$travel_with,$travel_objective);
         	//echo "<pre>";print_r($this->view->resultSet);exit;
         	$this->view->headLink()->appendStylesheet('/css/default/jquery-ui-1.9.1.css');
         	$this->view->headScript()->appendFile('/js/gridview.js');
@@ -77,25 +63,13 @@ class Exp_ShareexpController extends Core_Controller_Action
     	$request = $this->getRequest();
     	if ($request->isXmlHttpRequest()) {
     	    $user_id=$this->_identity;
-    	    $temp_array = array();
-    	    $temp_array= $this->_parammodel->getParamList('Gen','Country')->toArray();
-    	    foreach ($temp_array as $key=>$value)
-    	    {
-    	        $countris[$value['param_id']]=$value['param_category_desc'];
-    	    }
-    	    unset($temp_array);
-    	    $temp_array= $this->_parammodel->getParamList('Gen','Travel_Objective')->toArray();
-    	    foreach ($temp_array as $key=>$value)
-    	    {
-    	        $travel_objective[$value['param_id']]=$value['param_category_desc'];
-    	    }
+
+    	    $countris= $this->_parammodel->getcountryList()->toArray();
+    	    $travel_objective= $this->_parammodel->getTravelOpjectiveAll()->toArray();
+    	    $travel_with = $this->_parammodel->getTravelwithAll()->toArray();
+    	    $user_countries=$this->_expmodel->getexpcountriesbyuser($user_id,$countris);
+    	    	
     	    
-    	    unset($temp_array);
-    	    $temp_array= $this->_parammodel->getParamList('Gen','Travel_With')->toArray();
-    	    foreach ($temp_array as $key=>$value)
-    	    {
-    	        $travel_with[$value['param_id']]=$value['param_category_desc'];
-    	    }
     	    	
     	    $resultSet = $this->_expmodel->getexpdetail($user_id,$request->getParams(),$countris,$travel_with,$travel_objective);
     		$responseString = "<tr><td colspan='17' align='center'>No Data Found !!!!</td></tr>";
@@ -110,16 +84,26 @@ class Exp_ShareexpController extends Core_Controller_Action
 	  				
 	  				$responseString .= "<td>".($result['exp_days'])."</td>";
 	  				
-	  				$responseString .= "<td>".($result['travel_With'])."</td>";
-	  				$responseString .= "<td>".($result['travel_Objective'])."</td>";
+	  				$responseString .= "<td>".($result['travel_with'])."</td>";
+	  				$responseString .= "<td>".($result['travel_objective'])."</td>";
 	  				$responseString .= "<td>".($result['exp_total_cost'])."</td>";
 	  				$responseString .= "<td>".($result['exp_status'])."</td>";
 	  				$responseString .= "<td>";
-	  				if ($result['exp_status'] == 'WIP'){
-	  					
-	  						$responseString.= "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Delete\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
-	  							
-	  				}	  				$responseString.= "<a  class = 'deleterec' href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+
+    			    if ($result['exp_status'] == 'WIP')
+	  				{
+	  				$responseString .= "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Delete\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
+	  			    $responseString .= "<a  class = 'tempdeleterec' id = "."'TD_".$result['exp_id']."'"."><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+	  			    
+	  				}
+	  				if ($result['exp_status'] == 'Published' or  $result['exp_status'] == 'Completed')
+	  				    $responseString .= "<a  class = 'makewiprec' id = "."'MW_".$result['exp_id']."'"."><img src=\"/images/redo.png\" alt=\"Convert to WIP\" title = 'Make it WIP' height=\"20px\"width=\"20px\"  /></a>";
+	  				if ($result['exp_status'] == 'Deleted')
+	  				{
+	  				    $responseString .= "<a  class = 'deleterec' id = "."'PD_".$result['exp_id']."'"."><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+	  				    $responseString .= "<a  class = 'makewiprec' id = "."'MW_".$result['exp_id']."'"."><img src=\"/images/redo.png\" alt=\"Convert to WIP\" title = 'Make it WIP' height=\"20px\"width=\"20px\"  /></a>";
+	  				}
+	  					  					
 	  				$responseString .="</td>";
 	  				
 	  			$responseString .= "</tr>";
@@ -136,6 +120,7 @@ class Exp_ShareexpController extends Core_Controller_Action
     	}
     	
     }
+
     function gettitlesAction () {
     	$this->_helper->layout()->disableLayout();
     	$this->_helper->viewRenderer->setNoRender(true);
@@ -157,7 +142,94 @@ class Exp_ShareexpController extends Core_Controller_Action
     	
     }
 
+    public function changestatusAction()
+    {
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $identity = $this->_identity;
+        $exp_id=$this->_getParam('exp_id');
+        $status=$this->_getParam('status');
+        $request = $this->getRequest();
+        
+        $exp_row = $this->_expmodel->getexpheadbyId($exp_id);
+        if (isset($exp_row))
+        {
+            $exp_row=$exp_row->toArray();
+            $user_id=$exp_row['exp_user_id'];
+        }
+        else $user_id=-1;
+        if ($identity!=$user_id)
+        {
+            return false;
+        }
+        if ($status=='PD')
+        {
+            $exp_row = $this->_expmodel->deletepermanentexpbyexpId($exp_id);
+        }
+        else
+        {
+            $this->_expmodel->expchangestatus($exp_id, $status);
+        }
+        
+// ---------- apply the filter and resend it back
+        if ($request->isXmlHttpRequest()) {
+            $user_id=$this->_identity;
+            $countris= $this->_parammodel->getcountryList()->toArray();
+            $travel_objective= $this->_parammodel->getTravelOpjectiveAll()->toArray();
+            $travel_with = $this->_parammodel->getTravelwithAll()->toArray();
+            $user_countries=$this->_expmodel->getexpcountriesbyuser($user_id,$countris);
+            
+            $resultSet = $this->_expmodel->getexpdetail($user_id,$request->getParams(),$countris,$travel_with,$travel_objective);
+            $responseString = "<tr><td colspan='17' align='center'>No Data Found !!!!</td></tr>";
+            if(count($resultSet) > 0 ) {
+                $responseString ="";
+                $slno = 1;
+                foreach ($resultSet as $result) {
+                    $responseString .= "<tr>";
+                    $responseString .= "<td>".($result['exp_title'])."</td>";
+                    $responseString .= "<td>".($result['country_name'])."</td>";
+                    $responseString .= "<td>".($result['exp_mount'])."</td>";
+                    	
+                    $responseString .= "<td>".($result['exp_days'])."</td>";
+                    	
+                    $responseString .= "<td>".($result['travel_with'])."</td>";
+                    $responseString .= "<td>".($result['travel_objective'])."</td>";
+                    $responseString .= "<td>".($result['exp_total_cost'])."</td>";
+                    $responseString .= "<td>".($result['exp_status'])."</td>";
+                    $responseString .= "<td>";
 
+                	if ($result['exp_status'] == 'WIP')
+	  				{
+	  				$responseString .= "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Delete\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
+	  			    $responseString .= "<a  class = 'tempdeleterec' id = "."'TD_".$result['exp_id']."'"."><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+	  			    
+	  				}
+	  				if ($result['exp_status'] == 'Published' or  $result['exp_status'] == 'Completed')
+	  				    $responseString .= "<a  class = 'makewiprec' id = "."'MW_".$result['exp_id']."'"."><img src=\"/images/redo.png\" alt=\"Convert to WIP\" title = 'Make it WIP' height=\"20px\"width=\"20px\"  /></a>";
+	  				if ($result['exp_status'] == 'Deleted')
+	  				{
+	  				    $responseString .= "<a  class = 'deleterec' id = "."'PD_".$result['exp_id']."'"."><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+	  				    $responseString .= "<a  class = 'makewiprec' id = "."'MW_".$result['exp_id']."'"."><img src=\"/images/redo.png\" alt=\"Convert to WIP\" title = 'Make it WIP' height=\"20px\"width=\"20px\"  /></a>";
+	  				}
+                                                
+                    $responseString .="</td>";
+                    	
+                    $responseString .= "</tr>";
+                     
+        
+                }
+        
+        
+            }
+        
+            echo $responseString;
+        }else {
+        
+        }
+         
+        
+        
+    }
 	public function tripsummaryAction()
     {
         $identity = $this->_identity;
@@ -199,10 +271,46 @@ class Exp_ShareexpController extends Core_Controller_Action
        $intro_param = $this->_getParam('intro_param');
        $exp_id = $this->_getParam('exp_id');
        $exp_user_id = $this->_getParam('exp_user_id');
+       $request = $this->getRequest();
         
-       $staylist=$this->_poimodel->getPoiListbyType('Stay')->toArray();
-       $eatlist=$this->_poimodel->getPoiListbyType('Eat')->toArray();
-       $thingslist=$this->_poimodel->getPoiListbyType('Things')->toArray();
+
+       $poicriteri['poi_country']=$intro_param['exp_country'];
+       
+       $poicriteri['poi_type']='Stay';
+       $staypage = $request->getParam ('Staypage', 0 )+1;
+       $staylist=$this->_poimodel->getPoiList($poicriteri,$staypage ,true)->toArray();
+       $StaytotalCount = $this->_poimodel->getTotalPois($poicriteri)->toArray();
+
+       $poicriteri['poi_type']='Eat';
+       $Eatpage = $request->getParam ('Eatpage', 0 )+1;
+       $eatlist=$this->_poimodel->getPoiList($poicriteri, $Eatpage,true)->toArray();
+       $EattotalCount = $this->_poimodel->getTotalPois($poicriteri)->toArray();
+
+       $poicriteri['poi_type']='Things';
+       $Thingspage = $request->getParam ('Thingspage', 0 )+1;
+       $thingslist=$this->_poimodel->getPoiList($poicriteri, $Thingspage,true)->toArray();
+       $ThingstotalCount = $this->_poimodel->getTotalPois($poicriteri)->toArray();
+        
+       
+       $this->_StaytotalRecords= $StaytotalCount[0]['totalRecods'];
+       $this->_EattotalRecords= $EattotalCount[0]['totalRecods'];
+       $this->_ThingstotalRecords= $ThingstotalCount[0]['totalRecods'];
+       
+       $this->_StaylastPage   = ceil($this->_StaytotalRecords/10);
+       $this->_EatlastPage    = ceil($this->_EattotalRecords/10);
+       $this->_ThingslastPage = ceil($this->_ThingstotalRecords/10);
+
+       $this->view->StaylastPage = $this->_StaylastPage;
+       $this->view->EatlastPage = $this->_EatlastPage;
+       $this->view->ThingslastPage = $this->_ThiongslastPage;
+       //$this->_currentPage++;
+       $this->view->Staypageno = $this->_StaycurrentPage = $staypage;
+       $this->view->Eatpageno = $this->_EatcurrentPage =  $Eatpage;
+       $this->view->Thingspageno = $this->_ThingscurrentPage =  $Thingspage;
+        
+        
+       
+       
        $days=$this->_expmodel->getexpdaysbyhead($exp_id);
        $daysummary=$this->_expmodel->getexpdaysummaryIdandDayNo($exp_id, 1);
        if (is_null($days))
@@ -235,6 +343,156 @@ class Exp_ShareexpController extends Core_Controller_Action
        $this->view->headScript()->appendFile('/js/jquery.rateit.js');
         
    }
+   
+   public function liststayajaxAction()
+   {
+       $this->_helper->layout()->disableLayout();
+       $this->_helper->viewRenderer->setNoRender(true);
+       $request = $this->getRequest();
+       $exp_country= $request->getParam('country');
+        
+       //echo "<pre>";print_r($request->getParams());exit;
+       $criteria = array ('filterval' => $request->getParam ('filterval'));
+       $criteria['poi_country']=$exp_country;
+       $criteria['poi_type']='Stay';
+        
+       $StaytotalCount = $this->_poimodel->getTotalPois($criteria)->toArray();
+   
+       $this->_StaytotalRecords= $StaytotalCount[0]['totalRecods'];
+       $this->_StaylastPage = ceil($this->_StaytotalRecords/10);
+   
+       $this->view->StaylastPage = $this->_StaylastPage;
+       $Staypage = $request->getParam ('Staypage', 0 )+1;
+       $this->view->Staypageno = $this->_StaycurrentPage =  $Staypage;
+       $staylist=$this->_poimodel->getPoiList($criteria, $Staypage,true);
+       if (isset($staylist))
+           $staylist = $staylist->toArray();
+       if (count($staylist) > 0 ) {
+           $str = "";
+           foreach ($staylist as $stay) {
+               $str .= "<li id=".$stay['poi_id']." class="."'"."ui-widget-content ui-corner-tr"."'";
+               $str .= "data-lat=".$stay['poi_lat']." data-lon =".$stay['poi_lon'];
+               $str .= "data-poitype=".$stay['poi_type']. "style="."'"."cursor:move;"."'>";
+               $str .= "<h4>".$stay['poi_name']."</h4>";
+               $str .= "<a title="."'"."View the POI"."'"."class="."'"."ui-icon ui-icon-zoomin"."'".">View the POI</a>";
+               $str .= "<a id = "."'"."poilist-icon"."'"."title="."'"."Push to Related POI"."'"."class="."'"."ui-icon ui-icon-arrowreturnthick-1-s"."'".">Push to Related POI</a>";
+               $str .= "</li>";
+           }
+           $data = array();
+           $data['error'] = 'false';
+           $data['Staycurrentpage'] = $this->_StaycurrentPage;
+           $data['Staylastpage'] = $this->_StaylastPage;
+           $data['data'] = $str;
+           echo json_encode($data);exit;
+       }else {
+           $data = array();
+           $data['error'] = 'true';
+           $data['Staycurrentpage'] = $this->_StaycurrentPage;
+           $data['Staylastpage'] = $this->_StaylastPage;
+           echo json_encode($data);exit;
+       }
+   }
+    
+   public function listeatajaxAction()
+   {
+       $this->_helper->layout()->disableLayout();
+       $this->_helper->viewRenderer->setNoRender(true);
+       $request = $this->getRequest();
+       $exp_country= $request->getParam('country');
+   
+       //echo "<pre>";print_r($request->getParams());exit;
+       $criteria = array ('filterval' => $request->getParam ('filterval'));
+       $criteria['poi_country']=$exp_country;
+       $criteria['poi_type']='Eat';
+   
+       $EattotalCount = $this->_poimodel->getTotalPois($criteria)->toArray();
+        
+       $this->_EattotalRecords= $EattotalCount[0]['totalRecods'];
+       $this->_EatlastPage = ceil($this->_EattotalRecords/10);
+        
+       $this->view->EatlastPage = $this->_EatlastPage;
+       $Eatpage = $request->getParam ('Eatpage', 0 )+1;
+       $this->view->Eatpageno = $this->_EatcurrentPage =  $Eatpage;
+       $eatlist=$this->_poimodel->getPoiList($criteria, $Eatpage,true);
+       if (isset($eatlist))
+           $eatlist = $eatlist->toArray();
+       if (count($eatlist) > 0 ) {
+           $str = "";
+           foreach ($eatlist as $eat) {
+               $str .= "<li id=".$eat['poi_id']." class="."'"."ui-widget-content ui-corner-tr"."'";
+               $str .= "data-lat=".$eat['poi_lat']." data-lon =".$eat['poi_lon'];
+               $str .= "data-poitype=".$eat['poi_type']. "style="."'"."cursor:move;"."'>";
+               $str .= "<h4>".$eat['poi_name']."</h4>";
+               $str .= "<a title="."'"."View the POI"."'"."class="."'"."ui-icon ui-icon-zoomin"."'".">View the POI</a>";
+               $str .= "<a id = "."'"."poilist-icon"."'"."title="."'"."Push to Related POI"."'"."class="."'"."ui-icon ui-icon-arrowreturnthick-1-s"."'".">Push to Related POI</a>";
+               $str .= "</li>";
+           }
+           $data = array();
+           $data['error'] = 'false';
+           $data['Eatcurrentpage'] = $this->_EatcurrentPage;
+           $data['Eatlastpage'] = $this->_EatlastPage;
+           $data['data'] = $str;
+           echo json_encode($data);exit;
+       }else {
+           $data = array();
+           $data['error'] = 'true';
+           $data['Eatcurrentpage'] = $this->_EatcurrentPage;
+           $data['Eatlastpage'] = $this->_EatlastPage;
+           echo json_encode($data);exit;
+       }
+   }
+   
+  //---------------------------------------
+  public function listthingsajaxAction()
+  {
+      $this->_helper->layout()->disableLayout();
+      $this->_helper->viewRenderer->setNoRender(true);
+      $request = $this->getRequest();
+      $exp_country= $request->getParam('country');
+  
+      //echo "<pre>";print_r($request->getParams());exit;
+      $criteria = array ('filterval' => $request->getParam ('filterval'));
+      $criteria['poi_country']=$exp_country;
+      $criteria['poi_type']='Things';
+  
+      $ThingstotalCount = $this->_poimodel->getTotalPois($criteria)->toArray();
+       
+      $this->_ThingstotalRecords= $ThingstotalCount[0]['totalRecods'];
+      $this->_ThingslastPage = ceil($this->_ThingstotalRecords/10);
+       
+      $this->view->ThingslastPage = $this->_ThingslastPage;
+      $Thingspage = $request->getParam ('Thingspage', 0 )+1;
+      $this->view->Thingspageno = $this->_ThingscurrentPage =  $Thingspage;
+      $thingslist=$this->_poimodel->getPoiList($criteria, $Thingspage,true);
+      if (isset($thingslist))
+          $thingslist = $thingslist->toArray();
+      if (count($thingslist) > 0 ) {
+          $str = "";
+          foreach ($thingslist as $things) {
+              $str .= "<li id=".$things['poi_id']." class="."'"."ui-widget-content ui-corner-tr"."'";
+              $str .= "data-lat=".$things['poi_lat']." data-lon =".$things['poi_lon'];
+              $str .= "data-poitype=".$things['poi_type']. "style="."'"."cursor:move;"."'>";
+              $str .= "<h4>".$things['poi_name']."</h4>";
+              $str .= "<a title="."'"."View the POI"."'"."class="."'"."ui-icon ui-icon-zoomin"."'".">View the POI</a>";
+              $str .= "<a id = "."'"."poilist-icon"."'"."title="."'"."Push to Related POI"."'"."class="."'"."ui-icon ui-icon-arrowreturnthick-1-s"."'".">Push to Related POI</a>";
+              $str .= "</li>";
+          }
+          $data = array();
+          $data['error'] = 'false';
+          $data['Thingscurrentpage'] = $this->_ThingscurrentPage;
+          $data['Thingslastpage'] = $this->_ThingslastPage;
+          $data['data'] = $str;
+          echo json_encode($data);exit;
+      }else {
+          $data = array();
+          $data['error'] = 'true';
+          $data['Thingscurrentpage'] = $this->_ThingscurrentPage;
+          $data['Thingslastpage'] = $this->_ThingslastPage;
+          echo json_encode($data);exit;
+      }
+  }
+  
+  
 // ----------------------------
    public function savesumndfeedAction()
    {
@@ -383,7 +641,7 @@ class Exp_ShareexpController extends Core_Controller_Action
        // ----------------- Get Params Filled in
         
            $poi_row = $this->_poimodel->getPoibyId ( $poi_id );
-           $row = $this->_expmodel->getpoiexpbyId($exp_id, $poi_id);
+           $row = $this->_expmodel->getpoiexpbyexoIdandpoiId($exp_id, $poi_id);
            $poi_type=$poi_row['poi_type'];
            if (isset($row))
            {
@@ -405,17 +663,17 @@ class Exp_ShareexpController extends Core_Controller_Action
 
            if ($poi_type=='Stay')
            {
-               $poi_params['Amenities']=$poi_row->getFacl('Amenities');
+               $poi_params['Amenities']=$this->_poimodel->getpoifact($poi_id, 'Amenities');
            }
            if ($poi_type=='Eat')
            {
-               $poi_params['Dining_Options']=$poi_row->getFacl('Dining_Options');
-               $poi_params['Cuisine']=$poi_row->getFacl('Cuisine');
+               $poi_params['Dining_Options']=$this->_poimodel->getpoifact($poi_id, 'Dining_Options');
+               $poi_params['Cuisine']=$this->_poimodel->getpoifact($poi_id, 'Cuisine');
            }
            if ($poi_type=='Things')
            {
-               $poi_params['Things_options']=$poi_row->getFacl('Things_options');
-               $poi_params['Things_activity']=$poi_row->getFacl('Things_activity');
+               $poi_params['Things_options']=$this->_poimodel->getpoifact($poi_id, 'Things_options');
+               $poi_params['Things_activity']=$this->_poimodel->getpoifact($poi_id, 'Things_activity');
            }
                     
            foreach ($poi_params as $key=>$value)
@@ -424,8 +682,8 @@ class Exp_ShareexpController extends Core_Controller_Action
                foreach ($value as $key2 => $value2)
                {
                   $final_params[$key][$key2]['exp_poi_param_id']=$value2['poifcl_param_id'];
-                  $final_params[$key][$key2]['poifcl_param_category_id']=$value2['poifcl_param_category_id'];
-                  $final_params[$key][$key2]['poifcl_param_category_desc']=$value2['param_category_desc'];
+                  $final_params[$key][$key2]['poifcl_param_category_id']=$value2['poifcl_param_id'];
+                  $final_params[$key][$key2]['poifcl_param_category_desc']=$value2['param_desc'];
                   $final_params[$key][$key2]['exp_poi_param_rate']=0;
                   $final_params[$key][$key2]['exp_poi_param_comment']=null;
                   foreach ($params[$key] as $key3=>$value3)
@@ -488,93 +746,11 @@ class Exp_ShareexpController extends Core_Controller_Action
             
        }
    
-   }      /*    * @author Subash    * @function deleteexp    * @use   Delete record from  share experience grid    * @date 19 March 2013    */      public function deleteexpAction () {   		$this->_helper->viewRenderer->setNoRender(true);   		$request = $this->getRequest();   		if ($request->isXmlHttpRequest()) {   			$user_id=$this->_identity;
-   			
-   			$temp_array = array();
-   			
-   			$temp_array= $this->_parammodel->getParamList('Gen','Country')->toArray();
-   			
-   			foreach ($temp_array as $key=>$value)
-   			
-   			{
-   			
-   				$countris[$value['param_id']]=$value['param_category_desc'];
-   			
-   			}
-   			
-   			unset($temp_array);
-   			
-   			$temp_array= $this->_parammodel->getParamList('Gen','Travel_Objective')->toArray();
-   			
-   			foreach ($temp_array as $key=>$value)
-   			
-   			{
-   			
-   				$travel_objective[$value['param_id']]=$value['param_category_desc'];
-   			
-   			}
-   			
-   			
-   			unset($temp_array);
-   			
-   			$temp_array= $this->_parammodel->getParamList('Gen','Travel_With')->toArray();
-   			
-   			foreach ($temp_array as $key=>$value)
-   			
-   			{
-   			
-   				$travel_with[$value['param_id']]=$value['param_category_desc'];
-   			
-   			}
-   			
-   			
-   			
-   			$resultSet = $this->_expmodel->getexpdetail($user_id,$request->getParams(),$countris,$travel_with,$travel_objective);
-   			
-   			$responseString = "<tr><td colspan='17' align='center'>No Data Found !!!!</td></tr>";
-   			
-   			if(count($resultSet) > 0 ) {
-   			
-   				$responseString ="";
-   			
-   				$slno = 1;
-   			
-   				foreach ($resultSet as $result) {
-   			
-   					$responseString .= "<tr>";
-   			
-   					$responseString .= "<td>".($result['exp_title'])."</td>";
-   			
-   					$responseString .= "<td>".($result['country_name'])."</td>";
-   			
-   					$responseString .= "<td>".($result['exp_mount'])."</td>";
-   			
-   					$responseString .= "<td>".($result['exp_days'])."</td>";
-   			
-   					$responseString .= "<td>".($result['travel_With'])."</td>";
-   			
-   					$responseString .= "<td>".($result['travel_Objective'])."</td>";
-   			
-   					$responseString .= "<td>".($result['exp_total_cost'])."</td>";
-   			
-   					$responseString .= "<td>".($result['exp_status'])."</td>";
-   			
-   					$responseString .= "<td>";
-   			
-   					if ($result['exp_status'] == 'WIP'){
-   			
-   						$responseString.= "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Delete\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
-   			
-   					}
-   					$responseString.= "<a  class = 'deleterec' href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
-   			
-   					$responseString .="</td>";
-   			
-   					$responseString .= "</tr>";
-   			
-   				}
-   			}
-   			echo $responseString;   		}else {   			
-   			   		}   		   	   }   
-   
+   }      
+   /*    
+    * * @author Subash    
+    * * @function deleteexp    
+    * * @use   Delete record from  share experience grid    
+    * * @date 19 March 2013    
+    * */      
 }

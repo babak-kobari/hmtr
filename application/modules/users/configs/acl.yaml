@@ -9,13 +9,10 @@ mvc:
       index:
         allow: guest
         deny: user
-      recoverPassword:
-        allow: user
-        deny: guest
       logout:
         allow: user
         deny: guest
-      recoverpassword:
+      recover-password:
         allow: guest
         deny: user
     profile:

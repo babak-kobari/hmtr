@@ -31,13 +31,51 @@ class Exp_Model_Exppoihead_Table extends Core_Db_Table_Abstract
 	        'Exp_Model_Exppoidetail_Table');
 	
 	
-	public function getpoiexpbyId($exp_id,$poi_id)
+	public function getpoiexpbyexoIdandpoiId($exp_id,$poi_id)
 	{
 	    $select = $this->select ()->where ( 'exp_id = ?',$exp_id )
 	                              ->where('exp_poi_id= ?', $poi_id);
 	    $row=$this->fetchRow($select);
 	    return $row;
 	}
+
+	public function getpoiheadbyexpId($exp_id)
+	{
+	    $select = $this->select ()->where ( 'exp_id = ?',$exp_id );
+	    $row=$this->fetchAll($select);
+	    return $row;
+	}
 	
+	public function deletexppodetailbyexpId($exp_id)
+	{
+	    $exppoihead_rows= $this->getpoiheadbyexpId($exp_id);
+	    $exppoidetail = new Exp_Model_Exppoidetail_Table();
+	    if (isset($exppoihead_rows))
+	    {
+	        $exppoihead_rows=$exppoihead_rows->toArray();
+	        foreach ($exppoihead_rows as $exppoihead_row)
+	        {
+	            $exppoidetail->deleteexppoidetailbyheadId($exppoihead_row['exp_poi_head_id']);
+	        }
+	    }
+	    $this->delete('exp_id = '.$exp_id);
+	}
+	
+	public function expchangestatusbyexpId($exp_id,$status)
+	{
+	    $exppoihead_rows= $this->getpoiheadbyexpId($exp_id);
+	    $exppoidetail = new Exp_Model_Exppoidetail_Table();
+	    if (isset($exppoihead_rows))
+	    {
+	        $exppoihead_rows=$exppoihead_rows->toArray();
+	        foreach ($exppoihead_rows as $exppoihead_row)
+	        {
+	            $exppoidetail->expchangestatusbyexpId($exppoihead_row['exp_poi_head_id'], $status);
+	        }
+	    }
+	    $data = array('exp_status'=> $status);
+	    $where = 'exp_id = '.$exp_id;
+	    $this->update($data,$where);
+	}
 	
 }

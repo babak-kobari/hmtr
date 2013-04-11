@@ -33,6 +33,17 @@ class Exp_Model_Exppoidetail_Table extends Core_Db_Table_Abstract
 	    return $row;
 	}
 	
+	public function deleteexppoidetailbyheadId($exp_poi_head_id)
+	{
+	    $this->delete('exp_poi_head_id = '.$exp_poi_head_id);
+	}
+	
+	public function expchangestatusbyexpId($exp_poi_head_id,$status)
+	{
+	    $data = array('exp_status'=> $status);
+	    $where = 'exp_poi_head_id = '.$exp_poi_head_id;
+	    $this->update($data,$where);
+	}
 	
 	
 }

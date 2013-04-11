@@ -14,7 +14,7 @@ class Params_Model_Params_Manager extends Core_Model_Manager
 	    $table=new Params_Model_Countries_Table();
 		return $table->getcountryId($country_id);
 	}
-	public function getcountryList($searchstring) {
+	public function getcountryList($searchstring = null) {
 	    $table=new Params_Model_Countries_Table();
 		return 	$table->getcountryList($searchstring);
 	}
@@ -42,6 +42,12 @@ class Params_Model_Params_Manager extends Core_Model_Manager
 	    return $table->getparamListbytype($type);
 	}
 
+	public function getPoiParambydesc($desc)
+	{
+	    $table = new Params_Model_Poitype_Table();
+	    return $table->getparambydesc($desc);
+	}
+	
 	public function getPoiParambygroup($group_id)
 	{
 	    $table = new Params_Model_Poitype_Table();
@@ -85,10 +91,10 @@ class Params_Model_Params_Manager extends Core_Model_Manager
 	    $table = new Params_Model_Stayclassification_Table();
 	    return $table->getStayClassificationAll();
 	}
-	public function getPoiOptionTypes($option_type)
+	public function getPoiOptionTypes($option_type,$poi_sub_type=null)
 	{
 	    $table = new Params_Model_Poioptions_Table();
-	    return $table->getparamListbyType($option_type);
+	    return $table->getparamListbyType($option_type,$poi_sub_type);
 	}
 	public function gethotelchainAll()
 	{
@@ -99,6 +105,10 @@ class Params_Model_Params_Manager extends Core_Model_Manager
 	{
 	    $table = new Params_Model_Hotelchain_Table();
 	    return $table->getparambyId($param_id)->toArray();
+	}
+	public function gettypebygooglecode($google_place_type) {
+	    $table=new Params_Model_Googleplacetypes_Table();
+	    return 	$table->gettypebygooglecode($google_place_type);
 	}
 	
 }

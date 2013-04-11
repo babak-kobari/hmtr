@@ -32,28 +32,9 @@
    
    <li class="fields">
     <div class="field ">
-		    <label for="poi_things_type">Type of Restaurant</label>
+		    <label for="poi_sub_type">Type of Things To Do</label>
             <div class="input-box">
-        <?php if (isset($poi_id) and !is_null($poi_id))
-        {
-            $listNameOptions = 
-                $form->getElement('poi_things_type')->getMultiOptions();
-            foreach ($listNameOptions as $key)
-            {
-                foreach ($key as $value=>$lable)
-                {
-                    if ($value == $form->getValue('poi_things_type'))
-                    {?>
-                        <input type="text" name="poi_things_type" id="poi_things_type" value="<?php echo $lable;?>" size="35" maxlength="200" class="input-text disabled" disabled>
-                        
-                       <?php  break;
-                    }
-                }
-            }
-                
-//                echo $form->getValue('poi_things_type');
-        } else
-		        echo $form->getElement('poi_things_type');?>
+		        <?php echo $form->getElement('poi_sub_type');?>
                     </div>
     </div>
    </li>
