@@ -220,6 +220,7 @@ public function listajaxAction()
 		
 		$request = $this->getRequest();
 		$criteria = array ();
+		$addnew_staysearch = $request->getParam('addnew_staysearch');
 		$totalCount = $this->_poimodel->getTotalPois($criteria);
 		$totalCount = $totalCount->toArray();
 
@@ -305,76 +306,84 @@ public function listajaxAction()
 
         public function addnewAction () {
             $request = $this->getRequest();
+            $param = $this->checkParamValid($request->getParam('cookie'));
+            if (isset($param) and !is_null($param) and $param!="")
+                {
+                   $request->setParam("cookie", $this->checkParamValid($request->getParam('cookie')));
+                   $request->setParam("cookie_path", $this->checkParamValid($request->getParam('cookie_path')));
+                }
+                unset($param);
             $param = $this->checkParamValid($request->getParam('place_name'));
             if (isset($param) and !is_null($param) and $param!="")
-            {
-               $request->setParam("poi_name", $this->checkParamValid($request->getParam('place_name')));
-            }
-            unset($param);
-            $param = $this->checkParamValid($request->getParam('website'));
-            if (isset($param) and !is_null($param) and $param!="")
-                        {
+                {
+                   $request->setParam("poi_name", $this->checkParamValid($request->getParam('place_name')));
+                }
+                unset($param);
+                $param = $this->checkParamValid($request->getParam('website'));
+                if (isset($param) and !is_null($param) and $param!="")
+                {
+                    $request->setParam("poi_web_site", $this->checkParamValid($request->getParam('website')));
+                }
+                unset($param);
+                $param = $this->checkParamValid($request->getParam('place_phone'));
+                if (isset($param) and !is_null($param) and $param!="")
                 
-                $request->setParam("poi_web_site", $this->checkParamValid($request->getParam('website')));
-            }
-            unset($param);
-            $param = $this->checkParamValid($request->getParam('place_phone'));
-            if (isset($param) and !is_null($param) and $param!="")
+                   {
+                    $request->setParam("poi_contact_detail", $this->checkParamValid($request->getParam('place_phone')));
+                   }                    
+                unset($param);
+                $param = $this->checkParamValid($request->getParam('country'));
+                if (isset($param) and !is_null($param) and $param!="")
+                {
+                    $poi_country_code = $this->checkParamValid($request->getParam('country'));
+                    $poi_country_id = $this->_parammodel->getcountrybyCode($poi_country_code);
+                    if (isset($poi_country_id ))
+                        $poi_country_id = $poi_country_id->toArray();
+                    $request->setParam("poi_country",$poi_country_id['country_id'] );
+                }
+                unset($param);
+                $param = $this->checkParamValid($request->getParam('locality'));
+                if (isset($param) and !is_null($param) and $param!="")
+                            {
+                    $request->setParam("poi_city", $this->checkParamValid($request->getParam('locality')));
+                }
+                unset($param);
+                $param = $this->checkParamValid($request->getParam('poititle'));
+                if (isset($param) and !is_null($param) and $param!="")
             
-               {
-                $request->setParam("poi_contact_detail", $this->checkParamValid($request->getParam('place_phone')));
-               }                    
-            unset($param);
-            $param = $this->checkParamValid($request->getParam('country'));
-            if (isset($param) and !is_null($param) and $param!="")
-            {
-                $poi_country_code = $this->checkParamValid($request->getParam('country'));
-                $poi_country_id = $this->_parammodel->getcountrybyCode($poi_country_code)->toArray();
-                $request->setParam("poi_country",$poi_country_id['country_id'] );
-            }
-            unset($param);
-            $param = $this->checkParamValid($request->getParam('locality'));
-            if (isset($param) and !is_null($param) and $param!="")
-                        {
-                $request->setParam("poi_city", $this->checkParamValid($request->getParam('locality')));
-            }
-            unset($param);
-            $param = $this->checkParamValid($request->getParam('poititle'));
-            if (isset($param) and !is_null($param) and $param!="")
+                {
+                    $request->setParam("poi_area", $this->checkParamValid($request->getParam('poititle')));
+                }
+                unset($param);
+                $param = $this->checkParamValid($request->getParam('lat'));
+                if (isset($param) and !is_null($param) and $param!="")
             
-            {
-                $request->setParam("poi_area", $this->checkParamValid($request->getParam('poititle')));
-            }
-            unset($param);
-            $param = $this->checkParamValid($request->getParam('lat'));
-            if (isset($param) and !is_null($param) and $param!="")
+                {
+                    $request->setParam("poi_lat", $this->checkParamValid($request->getParam('lat')));
+                }
+                unset($param);
+                $param = $this->checkParamValid($request->getParam('lon'));
+                if (isset($param) and !is_null($param) and $param!="")
+                
+                {
+                    $request->setParam("poi_lon", $this->checkParamValid($request->getParam('lon')));
+                }
+                unset($param);
+                $param = $this->checkParamValid($request->getParam('type'));
+                if (isset($param) and !is_null($param) and $param!="")
             
-            {
-                $request->setParam("poi_lat", $this->checkParamValid($request->getParam('lat')));
-            }
-            unset($param);
-            $param = $this->checkParamValid($request->getParam('lon'));
-            if (isset($param) and !is_null($param) and $param!="")
+                {
+                    $request->setParam("poi_type", $this->checkParamValid($request->getParam('type')));
+                }
+                unset($param);
+                $param = $this->checkParamValid($request->getParam('poi_sub_type'));
+                if (isset($param) and !is_null($param) and $param!="")
             
-            {
-                $request->setParam("poi_lon", $this->checkParamValid($request->getParam('lon')));
-            }
-            unset($param);
-            $param = $this->checkParamValid($request->getParam('type'));
-            if (isset($param) and !is_null($param) and $param!="")
-            
-            {
-                $request->setParam("poi_type", $this->checkParamValid($request->getParam('type')));
-            }
-            unset($param);
-            $param = $this->checkParamValid($request->getParam('poi_sub_type'));
-            if (isset($param) and !is_null($param) and $param!="")
-            
-            {
-                $request->setParam("poi_sub_type", $this->checkParamValid($request->getParam('poi_sub_type')));
-            }
-            $this->_forward ( 'generalinfo' );
-        	}
+                {
+                    $request->setParam("poi_sub_type", $this->checkParamValid($request->getParam('poi_sub_type')));
+                }
+                $this->_forward ( 'generalinfo' );
+        }
         	 
         	
 	public function generalinfoAction() 
@@ -390,6 +399,11 @@ public function listajaxAction()
 		$images=array();
 		$thingsparam = array();
 		$thingsparam['param_category_desc']='';
+		if (isset($data['cookie']))
+		{
+		    $cookie = 1;
+		    $cookie_path = $data['cookie_path'];
+		}
 		
 		
 	   	if (isset($data['locality']) and $poi_id == 0)
@@ -523,6 +537,8 @@ public function listajaxAction()
 	    $this->view->poi_id = $poi_id;
 	    $this->view->poi_type=$poi_type;
 	    $this->view->images=$images;
+	    $this->view->cookie = $cookie;
+	    $this->view->cookie_path = $cookie_path;
 	     
 	    
 	    
@@ -555,8 +571,12 @@ public function listajaxAction()
 //            if ($save_new)
 //	            $this->render('addnew');
 //            else 
-               $this->render('generalinfo');
-                
+               if (isset($cookie) and $cookie == 1) {
+                   $this->_redirect($cookie_path);
+               }     
+               else {
+                   $this->render('generalinfo');
+               }
 	    }
 	     
 	}

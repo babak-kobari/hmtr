@@ -1,0 +1,133 @@
+<h3><?php echo $this->expDetails['title']?></h3>
+<br/>
+<b>Overal Rating : </b>
+<div data-rateit-readonly="true" class="rateit"  data-rateit-step="1"    data-rateit-value="
+    <?php echo $this->expDetails['exp_overall_rate']?>"></div>
+
+    <hr/>
+<p><b>Visited  : </b><?php echo $this->expDetails['city_visted']."(".$this->expDetails['country_name'].")";?></p>
+<p><b>Visited Month : </b><?php echo $this->expDetails['visited_month']?></p>
+<p><b>Total Cost : </b><?php echo $this->expDetails['total_cost']?></p>
+<p><b>Travel with : </b><?php echo $this->expDetails['travelwith']?></p>
+<p><b>Travel Objective : </b><?php echo $this->expDetails['travelobjective']?></p>
+
+<p><b>Number of days Spent : </b><?php echo $this->expDetails['totaldays']?></p>
+
+<p><b>Number of Adults: </b><?php echo $this->expDetails['adults']?></p>
+
+<p><b>Number of Children : </b><?php echo $this->expDetails['childs']?></p>
+
+<hr/>
+<div style="clear: both"></div>
+
+	<div style="float:left;width:325px;border:1px dotted green;">
+	<h4>Days Summary</h4>
+	<hr/>
+	<!-- DAYS SUMMARY STARTS-->
+	<?php if(count($this->dayDetails) > 0 ) {?>
+		<?php foreach ($this->dayDetails as $dayno=>$poiDetails) {?>
+			<?php echo "<h5 style='color:green;font-weight:bold;'>Day ".$dayno."</h5>";?>
+			
+			<?php if(count($poiDetails) > 0) {?>
+			<?php //echo "<pre>";print_r($poiDetails);exit;?>
+				<?php foreach ($poiDetails['daydetails'] as  $poi){?>
+					<?php echo "<p>".$poi['poi_name']." (".$poi['poi_type'].")</p>";?>
+					<br/>
+				<?php }?>
+				
+				<?php foreach ($poiDetails['daysummary'] as  $day){?>
+					<?php
+						$ttype = "";
+						switch ($day['transportationtype']) {
+							case '1':
+								$ttype = "Taxi";break;
+							case '2':
+								$ttype = "Public Transport";break;
+							case '3':
+								$ttype = "Tour (as defined in the day detail)";break;
+						}
+					?>
+					<p>Transportaion Type : <?php echo $ttype;?></p>
+					<p>Transportaion Cost : <?php echo $day['tranportationcost'];?></p>
+					<p> <?php echo $day['comment'];?></p>
+					<p><b>Total Day Cost : <?php echo $day['daycost'];?></b></p>
+					<br/>
+				<?php }?>
+				
+				
+			<?php }?>
+		<?php }?>
+	<?php }?>
+	<!-- DAYS SUMMARY ENDS-->
+	</div>
+	<div style="float:right;width:400px;border:1px dotted green;">
+	<h4>POI Details</h4>
+	<hr/>
+	<?php if(count($this->poidetails) > 0 ) {?>
+		<?php foreach ($this->poidetails as  $poidetails){?>
+			<?php echo "<p><b>".$poidetails['exp_poi_title']."</b></p>"?>
+			<div data-rateit-readonly="true" class="rateit"  data-rateit-step="1"    data-rateit-value="<?php echo $poidetails['exp_poi_overal_rating']?>"></div>
+			<?php echo "<p><b>".$poidetails['poi_name']."(".$poidetails['poi_type'].")</b></p>"?>
+			<?php $feedback = $poidetails['feedback'];?>
+			<?php if(count($feedback) > 0 ) {?>
+				<?php foreach ($feedback as  $f){?>
+				<p style="padding-left: 50px;"> <?php echo $f['facility'];?></p>
+					<div style="padding-left: 50px;" data-rateit-readonly="true" class="rateit"  data-rateit-step="1"    data-rateit-value="<?php echo $f['facilityrating'];?>"></div>
+					<p style="padding-left: 50px;"> <?php echo $f['facilitycomment'];?></p>
+					<?php }?>
+			<?php }?>
+			<br/><hr/><br/>
+		<?php }?>
+		
+	<?php }?>
+	</div>
+<?php if ($this->expDetails['exp_status']=='WIP') {?>
+    <input type="button" id="completed" value="Completed">
+    <input type="button" id="published" value="published" style="display: none;">
+    <?php } 
+    if ($this->expDetails['exp_status'] == 'Completed') {?>
+        <input type="button" id="completed" value="Completed" style="display: none;">
+        <input type="button" id="published" value="published">
+    <?php }?>
+<script type="text/javascript">
+    
+$(document).ready(function (){
+    $("#completed").live("click",function (){
+		if( confirm("Are you sure to change the status to Completed ?")) {
+			$.ajax({
+				url : "/exp/shareexp/changestatus/"+<?php echo $this->exp_id;?>+'/Completed',
+				type : "post",
+		        dataType :'json',
+				data : "exp_id="+<?php echo $this->exp_id;?>+"&status=Completed",
+				success:function (data){
+					if(data.error == 'true') {
+					    $("#completed").hide();
+					    $("#published").show();
+				
+					}}
+			    });
+		}else {
+			return false;
+		}
+    
+        });
+    
+    $("#published").live("click",function (){
+		if(confirm("Are you sure to change the status to Published ?")) {
+			$.ajax({
+				url : "/exp/shareexp/changestatus/"+<?php echo $this->exp_id;?>+'/Published',
+				type : "post",
+		        dataType :'json',
+				data : "exp_id="+<?php echo $this->exp_id;?>+"&status=Published",
+				success:function (data){
+					if(data.error == 'true') {
+					    $("#published").hide();}}
+			    });
+				}else {
+			return false;
+		}
+    
+        });
+});
+
+</script>

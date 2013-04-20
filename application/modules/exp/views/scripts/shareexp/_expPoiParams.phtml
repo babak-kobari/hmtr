@@ -6,15 +6,19 @@ $datas = $this->params;
 <div class="box-info">
 <?php 
 foreach ( $datas as $key => $value ) {
-    $title=true;
-        foreach ($value as $key2=>$value2)
+    $title=true; ?>
+<div class="box-head ">
+    <a href="#" id='<?php echo $key;?>'class='facl_add_new' style="float:right">Add New</a>
+</div> <?php 
+    foreach ($value as $key2=>$value2)
     {
 
 if ($title)
 {?>
 <div class="box-head ">
     <h2><?php echo $key?></h2>
-</div><?php 
+</div>
+<?php 
     $title=false;
 }        
         ?>
@@ -56,4 +60,4 @@ if ($title)
 	
     <br>
   <?php }}?>
-    </div>
+    </div><div id="addnewfacl" class="tooltip" title="Add Option to POI"></div><input type='hidden' id='cur_poi_id' value='<?php echo $this->poi_id?>'/>

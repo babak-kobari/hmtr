@@ -127,7 +127,7 @@ select {
 	  <?php if(count($this->resultSet) > 0 ) { ?>
 	  		<?php $slno = 1;?>
 	  		<?php foreach ($this->resultSet as $result) {?>
-	  			<tr>
+	  			<tr id='<?php echo $this->escape($result['exp_id']);?>' class='exp_hover'>
 	  				<td><?php echo $this->escape($result['exp_title']);?></td>
 	  				<td><?php echo $this->escape($result['country_name']);?></td>
 	  				<td><?php echo $this->escape($result['exp_mount']);?></td>
@@ -153,8 +153,9 @@ select {
 	  					        echo "<a  class = 'deleterec' id = "."'PD_".$result['exp_id']."'"."><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
                                 echo "<a  class = 'makewiprec' id = "."'MW_".$result['exp_id']."'"."><img src=\"/images/redo.png\" alt=\"Convert to WIP\" title = 'Make it WIP' height=\"20px\"width=\"20px\"  /></a>";
                               }
-                                                                    
+                              echo "<a href='exp/shareexp/expdetails/e/".$result['exp_id']."'><img src=\"/images/view_detail.png\" alt=\"View\" title = 'View Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
 	  					?>
+	  					
 	  				</td>
 	  				
 	  			</tr>
@@ -164,4 +165,13 @@ select {
 	  </tbody>
   <thead>
 </table>
+<script type="text/javascript">
+	$(document).ready(function (){
+		$(".exp_hover").live("click",function (){
+			var a = '/exp/shareexp/expdetails/e/'+this.id;
+			//self.location = a;
+			});
+		 
+	});
+</script>
 

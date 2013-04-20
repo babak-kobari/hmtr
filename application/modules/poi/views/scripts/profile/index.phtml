@@ -25,7 +25,18 @@
 
 </script>
 <form method="post" action="/poi/profile/addnew">
-<input type="text" name="poititle" id="poititle" size="20" class = "input-text required-entry" placeholder="Enter a location" autocomplete="on"/>
+<?php if (isset($_COOKIE['iamfrom'])){?>
+	<a href="<?php echo $_COOKIE['iamfrom'];?>" >Back to Trip Summary</a>
+    <input type="hidden" name="cookie" id="cookie" size="20" value = "true"/>
+	<input type="hidden" name="cookie_path" id="cookie_path" size="20" value = "<?php echo $_COOKIE['iamfrom']; ?>"/>
+	<br/>
+<?php }?>
+<?php if (isset($_COOKIE['staysearchkey'])){?>
+    <input type="text" name="poititle" id="poititle" size="20" class = "input-text required-entry" placeholder="Enter a location" autocomplete="on" value = "<?php echo $_COOKIE['staysearchkey'];?>"/>
+    
+<?php } else {?>
+    <input type="text" name="poititle" id="poititle" size="20" class = "input-text required-entry" placeholder="Enter a location" autocomplete="on" value = ""/>
+<?php }?>
 <input type="hidden" name="place_name" id="place_name" size="20" value = "none"/>
 <input type="hidden" name="country" id="country" size="20" value = "none"/>
 <input type="hidden" name="locality" id="locality" size="20" value = "none"/>
@@ -35,7 +46,7 @@
 <input type="hidden" name="website" id="website" size="20" value = "none"/>
 <input type="hidden" name="types" id="types" size="20" value = "none"/>
 <input type="hidden" name="poi_sub_type" id="poi_sub_type" size="20" value = "none"/>
-<select name="type" id="type" class="field select medium">
+    <select name="type" id="type" class="field select medium">
     <option value="Select">Please Select</option>
     <option value="Stay">Stay</option>
     <option value="Eat">Eat</option>
@@ -43,7 +54,7 @@
 </select>
 <br/>
 <div id="newbut" style="display:none">
-	<input type="submit" name='addnewstay' value="Add"/>
+	<input type="submit" name='addnewpoi' id='addnewpoi' value="Add"/>
 </div>
 </form>
 <?php 
@@ -93,6 +104,7 @@ $imagePath = '/uploads/';
 <script type="text/javascript">
 var found = false;
 var relative = false;
+
 var component_form = {
 	    'locality': 'long_name',
 	    'country': 'long_name',
@@ -181,23 +193,23 @@ function initialize()
 google.maps.event.addDomListener(window, 'load', initialize);
 
 $(document).ready(function (){
+		
 	$("#poititle").keyup(function (){
         place_type = $("#types").val ();
 		loc_name = $("#poititle").val ();
-		
-});
-		$("#poititle").keyup(function (){
-			filterval = $("#poititle").val ();
-			if(filterval != '') {
-				$("#newbut").show ();
-				}
+		page=0;
+		$("#pageno").val (page);
+		filterval = $("#poititle").val ();
+//			if(filterval != '') {
+//				$("#newbut").show ();
+//				}
 			//alert(filterval);
 			$.ajax({
 				url : "/poi/profile/listajax",
 				type : "post",
 				dataType :'json',
 				async : false,
-				data : "filterval="+filterval,
+				data : "filterval="+filterval+"&page="+page,
 				beforeSend : function (xhr) {
 					$("#listcontainer").html ("<span class='loading'><img src='/images/loading.gif' alt='Loading......'/></span>");
 				},
@@ -205,12 +217,15 @@ $(document).ready(function (){
 					if(data.error == 'true') {
 						$("#showmore").hide ();
 						$("#listcontainer").html ("");
-					}else {
+						$("#newbut").show ();
+					    }else {
 						$("#newbut").hide ();
 						if(data.currentpage < data.lastpage) {
-							$("#showmore").hide ();
+						$("#newbut").hide();
+						$("#showmore").show();
 						}else{
-							$("#showmore").show ();
+							$("#newbut").show ();
+								$("#showmore").hide ();
 							found = true;
 						}
 						
@@ -254,7 +269,8 @@ $(document).ready(function (){
 			selectval = $("#type").val ();
 			page = $("#pageno").val ();
 			if(selectval == 'Select') {
-				return false;
+				 $("#newbut").hide();
+				 return false;
 			}else {
 				$.ajax({
 					url : "/poi/profile/listajax",

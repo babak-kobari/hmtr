@@ -27,6 +27,16 @@ class Exp_ShareexpController extends Core_Controller_Action
         else
             return ;
         
+        $this->view->headLink()->appendStylesheet('/css/default/mb.scrollable.css');
+        $this->view->headLink()->appendStylesheet('/css/default/mbExtruder.css');
+        $this->view->headLink()->appendStylesheet('/css/default/rateit.css');
+        
+        $this->view->headLink()->appendStylesheet('/css/default/jquery-ui-1.9.1.css');
+        $this->view->headScript()->appendFile('/js/mbExtruder.js');
+        $this->view->headScript()->appendFile('/js/jquery.rateit.js');
+        
+        setcookie("iamfrom", "", time()-3600);
+        
 	    	     
 	}
 
@@ -103,7 +113,8 @@ class Exp_ShareexpController extends Core_Controller_Action
 	  				    $responseString .= "<a  class = 'deleterec' id = "."'PD_".$result['exp_id']."'"."><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
 	  				    $responseString .= "<a  class = 'makewiprec' id = "."'MW_".$result['exp_id']."'"."><img src=\"/images/redo.png\" alt=\"Convert to WIP\" title = 'Make it WIP' height=\"20px\"width=\"20px\"  /></a>";
 	  				}
-	  					  					
+	  				$responseString .= "<a href='exp/shareexp/expdetails/e/".$result['exp_id']."'><img src=\"/images/view_detail.png\" alt=\"View\" title = 'View Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
+	  					
 	  				$responseString .="</td>";
 	  				
 	  			$responseString .= "</tr>";
@@ -150,7 +161,7 @@ class Exp_ShareexpController extends Core_Controller_Action
         $exp_id=$this->_getParam('exp_id');
         $status=$this->_getParam('status');
         $request = $this->getRequest();
-        
+            
         $exp_row = $this->_expmodel->getexpheadbyId($exp_id);
         if (isset($exp_row))
         {
@@ -170,7 +181,12 @@ class Exp_ShareexpController extends Core_Controller_Action
         {
             $this->_expmodel->expchangestatus($exp_id, $status);
         }
-        
+        if ($status=='Completed' or $status=='Published')
+        {
+            $data['error'] = 'true';
+            echo json_encode($data);exit;
+            
+        }
 // ---------- apply the filter and resend it back
         if ($request->isXmlHttpRequest()) {
             $user_id=$this->_identity;
@@ -211,7 +227,8 @@ class Exp_ShareexpController extends Core_Controller_Action
 	  				    $responseString .= "<a  class = 'deleterec' id = "."'PD_".$result['exp_id']."'"."><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
 	  				    $responseString .= "<a  class = 'makewiprec' id = "."'MW_".$result['exp_id']."'"."><img src=\"/images/redo.png\" alt=\"Convert to WIP\" title = 'Make it WIP' height=\"20px\"width=\"20px\"  /></a>";
 	  				}
-                                                
+	  				$responseString .= "<a href='exp/shareexp/expdetails/e/".$result['exp_id']."'><img src=\"/images/view_detail.png\" alt=\"View\" title = 'View Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
+	  					
                     $responseString .="</td>";
                     	
                     $responseString .= "</tr>";
@@ -233,7 +250,9 @@ class Exp_ShareexpController extends Core_Controller_Action
 	public function tripsummaryAction()
     {
         $identity = $this->_identity;
-	    $exp_id=$this->_getParam('exp_id');
+	   	$request = $this->getRequest();
+        $data=$request->getPost();
+        $exp_id=$this->_getParam('exp_id');
         $this->view->title='Let Share your Travel';
         $form = new Exp_Form_Exp_Intro(array('exp_user_id'=>$identity));        
         $this->exp_id=$exp_id;		$this->view->exp_id = $exp_id;		$this->view->exp_user_id = $identity;
@@ -264,7 +283,7 @@ class Exp_ShareexpController extends Core_Controller_Action
             
             $this->_forward('shareexp');
             
-        }		
+        }
     }
    public function shareexpAction()
    {
@@ -302,7 +321,7 @@ class Exp_ShareexpController extends Core_Controller_Action
 
        $this->view->StaylastPage = $this->_StaylastPage;
        $this->view->EatlastPage = $this->_EatlastPage;
-       $this->view->ThingslastPage = $this->_ThiongslastPage;
+       $this->view->ThingslastPage = $this->_ThingslastPage;
        //$this->_currentPage++;
        $this->view->Staypageno = $this->_StaycurrentPage = $staypage;
        $this->view->Eatpageno = $this->_EatcurrentPage =  $Eatpage;
@@ -374,8 +393,8 @@ class Exp_ShareexpController extends Core_Controller_Action
                $str .= "data-lat=".$stay['poi_lat']." data-lon =".$stay['poi_lon'];
                $str .= "data-poitype=".$stay['poi_type']. "style="."'"."cursor:move;"."'>";
                $str .= "<h4>".$stay['poi_name']."</h4>";
-               $str .= "<a title="."'"."View the POI"."'"."class="."'"."ui-icon ui-icon-zoomin"."'".">View the POI</a>";
-               $str .= "<a id = "."'"."poilist-icon"."'"."title="."'"."Push to Related POI"."'"."class="."'"."ui-icon ui-icon-arrowreturnthick-1-s"."'".">Push to Related POI</a>";
+               $str .= "<a title="."'"."View the POI"."'"."href="."'"."'"."class="."'"."ui-icon ui-icon-zoomin"."'".">View the POI</a>";
+               $str .= "<a id = "."'"."poilist-icon"."'"."href="."'"."'"."title="."'"."Push to Related POI"."'"."class="."'"."ui-icon ui-icon-arrowreturnthick-1-s"."'".">Push to Related POI</a>";
                $str .= "</li>";
            }
            $data = array();
@@ -578,14 +597,11 @@ class Exp_ShareexpController extends Core_Controller_Action
    }
     
    
-   
-   
-   
-   
-   
    public function savepoiAction()
    {
-        if ($this->_request->isPost())
+       $this->_helper->viewRenderer->setNoRender(true);
+       $this->_helper->layout->disableLayout();
+       if ($this->_request->isPost())
         {
              
             $request = $this->getRequest ();
@@ -625,7 +641,7 @@ class Exp_ShareexpController extends Core_Controller_Action
                'General_1'=>array(),
                'General_2'=>array());
         
-       $final_params=array(
+/*       $final_params=array(
                'Amenities'=>array(),
                'Dining_Options'=>array(),
                'Cuisine'=>array(),
@@ -633,7 +649,7 @@ class Exp_ShareexpController extends Core_Controller_Action
                'Things_activity'=>array(),
                'General_1'=>array(),
                'General_2'=>array());
-        
+*/        
        $images=array();
        $thingsparam = array();
        $thingsparam['param_category_desc']='';
@@ -642,6 +658,7 @@ class Exp_ShareexpController extends Core_Controller_Action
         
            $poi_row = $this->_poimodel->getPoibyId ( $poi_id );
            $row = $this->_expmodel->getpoiexpbyexoIdandpoiId($exp_id, $poi_id);
+          // var_dump($row);exit;
            $poi_type=$poi_row['poi_type'];
            if (isset($row))
            {
@@ -753,4 +770,158 @@ class Exp_ShareexpController extends Core_Controller_Action
     * * @use   Delete record from  share experience grid    
     * * @date 19 March 2013    
     * */      
+   
+   
+   
+   public function expdetailsAction (){
+   	//$this->_helper->layout->disableLayout ();
+   
+   	$request = $this->getRequest ();
+   	$expid = $request->getParam('e');
+   
+   	$expModel = new Exp_Model_Experience();
+   
+   	$expDetails = $expModel->getExpDetailHead($expid);
+   	//echo "<pre>";print_r($expDetails);exit;
+   	if (isset($expDetails[0])){
+   		$this->view->expDetails = $expDetails[0];
+   		$days = $expModel->getTotalExpDays($expid);
+   		$this->view->totalDays = count($days);
+   		$daysArray = array();
+   		if(count($days) > 0) {
+   			foreach ($days as $day){
+   				$daysArray [$day['dayno']]['daydetails']= $expModel->getPOIDaydeatails($expid, $day['dayno']);
+   				$daysArray [$day['dayno']]['daysummary']= $expModel->getPOITranportationDetails($expid, $day['dayno']);
+   					
+   			}
+   
+   		}
+   		$this->view->dayDetails = $daysArray;
+   		$poiDeails = $expModel->getPOIDetails($expid);
+   		$this->view->poidetails = $poiDeails;
+   		$this->view->exp_id = $expid;
+   		//echo "<pre>";print_r($daysArray);exit;
+   	}
+
+   
+   }
+    
+   
+   public function deleteexpAction () {
+   	$this->_helper->viewRenderer->setNoRender(true);   		$request = $this->getRequest();   		if ($request->isXmlHttpRequest()) {
+   		$user_id=$this->_identity;
+   
+   		$temp_array = array();
+   
+   		$temp_array= $this->_parammodel->getParamList('Gen','Country')->toArray();
+   
+   		foreach ($temp_array as $key=>$value)
+   
+   		{
+   
+   			$countris[$value['param_id']]=$value['param_category_desc'];
+   
+   		}
+   
+   		unset($temp_array);
+   
+   		$temp_array= $this->_parammodel->getParamList('Gen','Travel_Objective')->toArray();
+   
+   		foreach ($temp_array as $key=>$value)
+   
+   		{
+   
+   			$travel_objective[$value['param_id']]=$value['param_category_desc'];
+   
+   		}
+   
+   
+   		unset($temp_array);
+   
+   		$temp_array= $this->_parammodel->getParamList('Gen','Travel_With')->toArray();
+   
+   		foreach ($temp_array as $key=>$value)
+   
+   		{
+   
+   			$travel_with[$value['param_id']]=$value['param_category_desc'];
+   
+   		}
+   
+   
+   
+   		$resultSet = $this->_expmodel->getexpdetail($user_id,$request->getParams(),$countris,$travel_with,$travel_objective);
+   
+   		$responseString = "<tr><td colspan='17' align='center'>No Data Found !!!!</td></tr>";
+   
+   		if(count($resultSet) > 0 ) {
+   
+   			$responseString ="";
+   
+   			$slno = 1;
+   
+   			foreach ($resultSet as $result) {
+   
+   				$responseString .= "<tr>";
+   
+   				$responseString .= "<td>".($result['exp_title'])."</td>";
+   
+   				$responseString .= "<td>".($result['country_name'])."</td>";
+   
+   				$responseString .= "<td>".($result['exp_mount'])."</td>";
+   
+   				$responseString .= "<td>".($result['exp_days'])."</td>";
+   
+   				$responseString .= "<td>".($result['travel_With'])."</td>";
+   
+   				$responseString .= "<td>".($result['travel_Objective'])."</td>";
+   
+   				$responseString .= "<td>".($result['exp_total_cost'])."</td>";
+   
+   				$responseString .= "<td>".($result['exp_status'])."</td>";
+   
+   				$responseString .= "<td>";
+   
+   				if ($result['exp_status'] == 'WIP'){
+   
+   					$responseString.= "<a href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/edit.png\" alt=\"Delete\" title = 'Edit Record' height=\"20px\"width=\"20px\"  /></a>&nbsp;";
+   
+   				}
+   				$responseString.= "<a  class = 'deleterec' href='shareexp/tripsummary/".$result['exp_id']."'><img src=\"/images/delete.png\" alt=\"Delete\" title = 'Delete Record' height=\"20px\"width=\"20px\"  /></a>";
+   
+   				$responseString .="</td>";
+   
+   				$responseString .= "</tr>";
+   
+   			}
+   		}
+   		echo $responseString;
+   	}else {
+   	}
+   }
+    
+   
+   public function getfaclAction () {
+   	$this->_helper->layout()->disableLayout();
+   	$this->_helper->viewRenderer->setNoRender(true);
+   	$request = $this->getRequest ();
+   	$type = $request->getParam('t');
+   	$poi = $request->getParam('p');
+   	$expModel = new Exp_Model_Experience();
+   	 
+   	$options = $expModel->getOptions($type,$poi);
+   	echo json_encode($options);
+   }
+   public function addfaclAction () {
+   	$this->_helper->layout()->disableLayout();
+   	$this->_helper->viewRenderer->setNoRender(true);
+   	$request = $this->getRequest ();
+   	$type = $request->getParam('t');
+   	$poiid = $request->getParam('p');
+   	$options = $request->getParam('chk_opt');
+   	$expModel = new Exp_Model_Experience();
+   	$expModel->addOptions($type, $poiid, $options);
+   	
+   	
+   }
 }
